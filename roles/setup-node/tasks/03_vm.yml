@@ -1,0 +1,10 @@
+- name: VM KVM | Ensure guest agent for KVM based VMs are installed.
+  ansible.builtin.apt:
+    name:
+      - qemu-guest-agent
+    state: present
+  when: ansible_virtualization_type == 'kvm' and ansible_virtualization_role == 'guest'
+  notify: qemu-guest-agent restart
+  tags:
+    - step3
+    - vm

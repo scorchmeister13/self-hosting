@@ -1,0 +1,13 @@
+- name: 00_docker.yml
+  ansible.builtin.include_tasks: "00_docker.yml"
+
+- name: 01_traefik.yml
+  ansible.builtin.include_tasks: "01_traefik.yml"
+  when: application_target == "traefik"
+
+- name: XX_docker_deploy.yml
+  ansible.builtin.include_tasks: "xx_docker_deploy.yml"
+
+- name: Homepage Configuration
+  ansible.builtin.include_tasks: "homepage_config.yml"
+  when: application_target == "homepage"

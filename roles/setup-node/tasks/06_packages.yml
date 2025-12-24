@@ -1,0 +1,11 @@
+- name: Packages | Installing basic Packages
+  ansible.builtin.apt:
+    update_cache: true
+    name:
+      - git
+      - python3-pip
+      - python3-docker
+      - parted
+  tags:
+    - step6
+    - packages

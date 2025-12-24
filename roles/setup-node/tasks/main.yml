@@ -1,0 +1,42 @@
+- name: Step 1 | Standardize
+  ansible.builtin.include_tasks: 01_standardize.yml
+  tags:
+    - step1
+    - standardize
+
+- name: Step 2 | Users
+  ansible.builtin.include_tasks: 02_users.yml
+  tags:
+    - step2
+    - users
+
+- name: Step 3 | VM
+  ansible.builtin.include_tasks: 03_vm.yml
+  tags:
+    - step3
+    - vm
+
+- name: Step 4 | Time
+  ansible.builtin.include_tasks: 04_time.yml
+  tags:
+    - step4
+    - time
+
+- name: Step 5 | ssh
+  ansible.builtin.include_tasks: 05_ssh.yml
+  tags:
+    - step5
+    - ssh
+
+- name: Step 6 | Packages
+  ansible.builtin.include_tasks: 06_packages.yml
+  tags:
+    - step6
+    - packages
+
+- name: Step 7 | Tailscale
+  ansible.builtin.include_tasks: 07_tailscale.yml
+  when: setup_tailscale is true
+  tags:
+    - step7
+    - tailscale

@@ -1,0 +1,8 @@
+domain: scorch.awk
+
+console_timeout: 28800 # 8 hours
+timezone: "Asia/Tokyo"
+ssh_port: 22
+
+apt_key_path: /usr/share/keyrings
+apt_sources_path: /etc/apt/sources.list.d/

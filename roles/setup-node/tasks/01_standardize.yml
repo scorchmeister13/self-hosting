@@ -1,0 +1,96 @@
+---
+- name: Standardize | Check OS version
+  ansible.builtin.debug:
+    msg: INFO - This host is runnning {{ ansible_distribution_release }}
+  when: ansible_distribution == 'Debian'
+  tags:
+    - step1
+    - standardize
+
+- name: Standardize | Check OS version
+  ansible.builtin.debug:
+    msg:
+      - This host is runnning {{ ansible_distribution_release }} an end of life OS
+      - UPGRADE ASAP!
+  when: ansible_distribution == 'Debian' and ansible_distribution_major_version | int <= 10
+  tags:
+    - step1
+    - standardize
+
+- name: Standardize | Ensure consle timeout is set
+  ansible.builtin.blockinfile:
+    create: true
+    path: /etc/profile.d/auto_logout.sh
+    block: |
+      TMOUT={{ console_timeout }}
+      readonly TMOUT
+      export TMOUT
+    mode: '0644'
+  tags:
+    - step1
+    - standardize
+
+- name: Standardize | ensure bash history is supercharged
+  ansible.builtin.template:
+    src: etc/bash_history.j2
+    dest: /etc/profile.d/bash_history.sh
+    mode: '0644'
+  tags:
+    - step1
+    - standardize
+
+- name: Standardize | ensure reboot checker is in place
+  ansible.builtin.template:
+    src: etc/pending_reboot_check.sh.j2
+    dest: /etc/profile.d/pending_reboot_check.sh
+    mode: '0644'
+  tags:
+    - step1
+    - standardize
+
+- name: Standardize | Deploy /etc/motd template
+  ansible.builtin.template:
+    src: etc/motd.j2
+    dest: /etc/motd
+    owner: root
+    group: root
+    mode: "0644"
+  when: "'Debian' in ansible_distribution"
+  tags:
+    - step1
+    - standardize
+
+- name: Standardize | Deploy /etc/update-motd.d/10-system-summary template
+  ansible.builtin.template:
+    src: etc/system_summary.sh.j2
+    dest: /etc/update-motd.d/10-system-summary
+    owner: root
+    group: root
+    mode: "0755"
+  when: "'Debian' in ansible_distribution"
+  tags:
+    - step1
+    - standardize
+
+- name: Standardize | Remove /etc/update-motd.d/10-uname
+  ansible.builtin.file:
+    path: /etc/update-motd.d/10-uname
+    state: absent
+  when: "'Debian' in ansible_distribution"
+  tags:
+    - step1
+    - standardize
+
+- name: Standardize | Standardize | Add host diagnostic script for Debian
+  ansible.builtin.template:
+    src: etc/diag.sh
+    dest: /usr/local/bin/diag.sh
+    owner: root
+    group: root
+    mode: "0744"
+  when:
+    - ansible_distribution == 'Debian'
+    - ansible_virtualization_role == "host"
+  tags:
+    - step1
+    - standardize

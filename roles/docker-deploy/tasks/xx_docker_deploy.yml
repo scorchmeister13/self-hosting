@@ -1,0 +1,26 @@
+- name: Docker Deploy | Check if docker-compose.yaml exists
+  ansible.builtin.stat:
+    path: files/docker/{{ application_target }}/docker-compose.yaml
+  register: result
+  failed_when: not result.stat.exists
+  become: false
+  delegate_to: localhost
+
+- name: Docker Deploy | Ensure folder exists
+  ansible.builtin.file:
+    path: /opt/stacks/{{ application_target }}/
+    state: directory
+    mode: '0755'
+
+- name: Docker Deploy | Copying docker-compose file to {{ inventory_hostname }}
+  ansible.builtin.template:
+    src: "files/docker/{{ application_target }}/docker-compose.yaml"
+    dest: "/opt/stacks/{{ application_target }}/docker-compose.yaml"
+    mode: '0644'
+    owner: root
+    group: root
+
+- name: Docker Deploy | Running docker-compose up
+  community.docker.docker_compose_v2:
+    project_src: /opt/stacks/{{ application_target }}/
+    state: present

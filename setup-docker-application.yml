@@ -1,0 +1,10 @@
+- name: Deploy Docker
+  hosts: all
+  gather_facts: true
+  become: true
+  vars_prompt:
+    - name: application_target
+      prompt: Enter the application to install
+      private: false
+  roles:
+    - docker-deploy

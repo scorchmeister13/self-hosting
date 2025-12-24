@@ -1,0 +1,39 @@
+# {{ ansible_managed }}
+
+#----------------------------------
+# Path:  /etc/profile.d/bash_history.sh
+#----------------------------------
+MY_BASH_BLUE="\033[0;34m" #Blue
+MY_BASH_GREEN="\033[38;5;10m" # Green
+MY_BASH_TEAL="\033[38;5;14m" # Teal
+MY_BASH_NOCOLOR="\033[0m"
+
+# Save 5,000 lines of history in memory
+HISTSIZE=10000
+
+# Save 2,000,000 lines of history to disk (will have to grep ~/.bash_history for full listing)
+HISTFILESIZE=2000000
+
+# Ignore recording the following commands to history
+HISTIGNORE='ls:ll:ls -alh:pwd:clear:history'
+
+# Set time format
+HISTTIMEFORMAT=`echo -e [${MY_BASH_GREEN}%F ${MY_BASH_TEAL}%T${MY_BASH_NOCOLOR}] $MY_BASH_NOCOLOR `
+
+# Do not store a duplicate of the last entered command
+HISTCONTROL=ignoredups
+
+# Append to history instead of overwrite
+shopt -s histappend
+
+# Multiple commands on one line show up as a single line
+shopt -s cmdhist
+
+# After each command, append to the history file and reread it
+export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$"\n"}history -a; history -c; history -r"
+
+# Notes:
+# history -a: Append to the history file
+# history -c: Clear the history (of the current shell)
+# history -r: Read the history file and append its contents to the history list
+

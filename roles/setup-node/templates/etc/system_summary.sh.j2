@@ -1,0 +1,35 @@
+#!/bin/bash
+
+KERNEL_VERSION=$(uname -r)
+HOSTNAME=$(hostname)
+IP_ADDRESS=$(hostname -I | awk '{print $1}')
+UPTIME=$(uptime -p | sed 's/^up //')
+MEMORY=$(free -m | awk 'NR==2{printf "%s MB (Total) | %s MB (Free)", $2, $4}')
+DISK_SPACE=$(df -h --total | awk 'END{printf "%s (Total) | %s (Free)", $2, $4}')
+DEBIAN_VERSION=$(grep '^VERSION=' /etc/os-release | cut -d '"' -f 2)
+LOAD_AVG=$(uptime | awk -F'load average:' '{ print $2 }')
+
+{% if ansible_virtualization_role == "host" %}
+MANUFACTURER=$(sudo dmidecode -s system-manufacturer)
+MODEL=$(sudo dmidecode -s system-product-name)
+SERIAL=$(sudo dmidecode -s system-serial-number)
+PROC=$(sudo dmidecode -s processor-version | head -n 1)
+{% endif %}
+
+cat << EOF
+
+  Debain ${DEBIAN_VERSION}
+
+{% if ansible_virtualization_role == "host" %}
+  🔹Server      : $MANUFACTURER $MODEL ($SERIAL)
+  🔹Processor   : $PROC
+{% endif %}
+  🔹Hostname    : $HOSTNAME
+  🔹Kernel      : $KERNEL_VERSION
+  🔹Uptime      : $UPTIME
+  🔹IP Address  : $IP_ADDRESS
+  🔹Memory      : $MEMORY
+  🔹Disk Space  : $DISK_SPACE
+  🔹Load Avg    : $LOAD_AVG
+
+EOF

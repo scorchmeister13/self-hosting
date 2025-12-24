@@ -1,0 +1,38 @@
+- name: Docker Install | Add Docker GPG key
+  ansible.builtin.get_url:
+    url: https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg
+    dest: /usr/share/keyrings/docker.gpg
+    mode: '0644'
+  when:
+    - ansible_facts["distribution"] == "Debian"
+
+- name: Docker Install | Add Docker Repository (deb822 style)
+  ansible.builtin.deb822_repository:
+    name: docker
+    types: [deb]
+    uris: "https://download.docker.com/linux/{{ ansible_distribution | lower }}"
+    signed_by: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
+    suites: ["{{ ansible_distribution_release | lower }}"]
+    components: [stable]
+    state: present
+    enabled: true
+  when:
+    - ansible_facts["distribution"] == "Debian"
+
+- name: Docker Install | Install Required Packages
+  ansible.builtin.apt:
+    name:
+      - python3-pip
+      - python3-docker
+      - docker-ce
+      - docker-ce-cli
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    state: present
+    update_cache: true
+
+- name: Docker Install | Create Symbolic link for Docker Compose V2
+  ansible.builtin.file:
+    src: /usr/libexec/docker/cli-plugins/docker-compose
+    dest: /usr/local/bin/docker-compose
+    state: link

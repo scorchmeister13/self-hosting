@@ -1,0 +1,28 @@
+- name: SSH Server Config | Ensure ssh keys are present
+  ansible.posix.authorized_key:
+    user: scorch
+    key: "{{ lookup('file', item) }}"
+    state: present
+    exclusive: false
+  with_fileglob:
+    - public_keys/*.pub
+  tags:
+    - step5
+    - ssh
+
+- name: SSH Server Config | Hardening
+  ansible.builtin.template:
+    src: etc/sshd_config.j2
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: "0644"
+  tags:
+    - step5
+    - ssh
+
+- name: SSH Server Config | Reload sshd.service
+  ansible.builtin.service:
+    name: ssh
+    state: reloaded
+  become: true

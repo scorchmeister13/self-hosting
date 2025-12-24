@@ -1,0 +1,56 @@
+---
+- name: Ensure scorch user is present
+  ansible.builtin.user:
+    name: scorch
+    shell: /bin/bash
+    state: present
+    create_home: true
+  tags:
+    - step2
+    - users
+
+- name: Ensure user scorch can sudo
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers.d/scorch
+    line: "scorch ALL=(ALL) NOPASSWD: ALL"
+    state: present
+    mode: "0440"
+    create: true
+    validate: visudo -cf %s
+  tags:
+    - step2
+    - users
+
+- name: Ensure the user scorch is part of the adm group
+  ansible.builtin.user:
+    name: scorch
+    groups: adm
+    append: true
+    state: present
+  tags:
+    - step2
+    - users
+
+- name: Copy template to sudo user's profile path
+  ansible.builtin.template:
+    src: etc/bash.rc.j2
+    dest: /home/{{ (ansible_env.SUDO_USER is not defined) | ternary('scorch', ansible_env.SUDO_USER) }}/.bashrc
+    owner: "{{ (ansible_env.SUDO_USER is not defined) | ternary('scorch', ansible_env.SUDO_USER) }}"
+    group: "{{ (ansible_env.SUDO_USER is not defined) | ternary('scorch', ansible_env.SUDO_USER) }}"
+    mode: "0644"
+  when: "'Debian' in ansible_distribution"
+  tags:
+    - step2
+    - users
+
+- name: Copy template to root user's profile path
+  ansible.builtin.template:
+    src: etc/bash.rc.j2
+    dest: /root/.bashrc
+    owner: root
+    group: root
+    mode: "0644"
+  when: "'Debian' in ansible_distribution"
+  tags:
+    - step2
+    - users

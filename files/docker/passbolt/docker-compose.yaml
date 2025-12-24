@@ -1,0 +1,51 @@
+services:
+  mariadb:
+    image: mariadb:10.11
+    restart: unless-stopped
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "true"
+      MYSQL_DATABASE: "passbolt"
+      MYSQL_USER: "passbolt"
+      MYSQL_PASSWORD: "{{ passbolt_db_pass }}"
+    volumes:
+      - ./mariadb:/var/lib/mysql
+
+  passbolt:
+    image: passbolt/passbolt:latest-ce
+    restart: unless-stopped
+    depends_on:
+      - mariadb
+    environment:
+      APP_FULL_BASE_URL: https://vault.scorch.com
+      DATASOURCES_DEFAULT_HOST: "mariadb"
+      DATASOURCES_DEFAULT_USERNAME: "passbolt"
+      DATASOURCES_DEFAULT_PASSWORD: "{{ passbolt_db_pass }}"
+      DATASOURCES_DEFAULT_DATABASE: "passbolt"
+    volumes:
+      - ./passbolt-gpg:/etc/passbolt/gpg
+      - ./passbolt-jwt:/etc/passbolt/jwt
+    command:
+      [
+        "/usr/bin/wait-for.sh",
+        "-t",
+        "0",
+        "mariadb:3306",
+        "--",
+        "/docker-entrypoint.sh",
+      ]
+    labels:
+      # Traefik
+      - "traefik.docker.network=proxy"
+      - "traefik.enable=true"
+      - "traefik.http.routers.passbolt.entrypoints=web"
+      - "traefik.http.routers.passbolt.rule=Host(`vault.{{ public_domain }}`)"
+      - "traefik.http.routers.passbolt.service=passbolt"
+      - "traefik.http.services.passbolt.loadbalancer.server.port=80"
+    networks:
+      - proxy
+      - default
+
+networks:
+  proxy:
+    external: true
+

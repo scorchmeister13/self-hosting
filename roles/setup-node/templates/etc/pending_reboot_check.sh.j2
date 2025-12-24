@@ -1,0 +1,12 @@
+# {{ ansible_managed }}
+
+if [ -f /var/run/reboot-required ]
+then
+    echo ----------------------------------------------------
+    echo "Recently installed packages requires a reboot."
+    if [ -f /var/run/reboot-required.pkgs ]
+    then
+        cat  /var/run/reboot-required.pkgs
+    fi
+    echo ----------------------------------------------------
+fi

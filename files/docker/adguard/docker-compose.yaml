@@ -1,0 +1,25 @@
+services:
+  adguardhome:
+    image: adguard/adguardhome
+    ports:
+      - 53:53/tcp # plain dns over tcp
+      - 53:53/udp # plain dns over udp
+      # - 3001:80/tcp # http web interface
+      - 3000:3000/tcp # initial setup web interface
+    volumes:
+      - ./adguard/config:/opt/adguardhome/conf # app configuration
+      - ./adguard/work:/opt/adguardhome/work # app working directory
+    labels:
+      # Traefik
+      - "traefik.docker.network=proxy"
+      - "traefik.enable=true"
+      - "traefik.http.routers.adguard.entrypoints=web"
+      - "traefik.http.routers.adguard.rule=Host(`dns01.{{ public_domain }}`)"
+      - "traefik.http.routers.adguard.service=adguard"
+      - "traefik.http.services.adguard.loadbalancer.server.port=80"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true

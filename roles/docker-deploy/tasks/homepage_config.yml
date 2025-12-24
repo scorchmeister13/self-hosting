@@ -1,0 +1,31 @@
+- name: Homepage Configuration | Configuring docker.yaml
+  ansible.builtin.template:
+    src: "homepage/homepage_docker.yaml.j2"
+    dest: "/data/config/homepage/docker.yaml"
+    mode: '0644'
+    owner: root
+    group: root
+
+- name: Homepage Configuration | Configuring settings.yaml
+  ansible.builtin.template:
+    src: "homepage/homepage_settings.yaml.j2"
+    dest: "/data/config/homepage/settings.yaml"
+    mode: '0644'
+    owner: root
+    group: root
+
+- name: Homepage Configuration | Configuring services.yaml
+  ansible.builtin.template:
+    src: "homepage/homepage_services.yaml.j2"
+    dest: "/data/config/homepage/services.yaml"
+    mode: '0644'
+    owner: root
+    group: root
+
+- name: Homepage Configuration | Configuring widgets.yaml
+  ansible.builtin.template:
+    src: "homepage/homepage_widgets.yaml.j2"
+    dest: "/data/config/homepage/widgets.yaml"
+    mode: '0644'
+    owner: root
+    group: root
