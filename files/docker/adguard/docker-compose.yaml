@@ -14,7 +14,7 @@ services:
       - "traefik.docker.network=proxy"
       - "traefik.enable=true"
       - "traefik.http.routers.adguard.entrypoints=web"
-      - "traefik.http.routers.adguard.rule=Host(`dns01.{{ public_domain }}`)"
+      - "traefik.http.routers.adguard.rule=Host(`dns01.{{ domain }}`)"
       - "traefik.http.routers.adguard.service=adguard"
       - "traefik.http.services.adguard.loadbalancer.server.port=80"
     networks:

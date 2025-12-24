@@ -20,6 +20,11 @@
     owner: root
     group: root
 
+- name: Docker Deploy | Create external docker network
+  community.docker.docker_network:
+    name: proxy
+    state: present
+
 - name: Docker Deploy | Running docker-compose up
   community.docker.docker_compose_v2:
     project_src: /opt/stacks/{{ application_target }}/
