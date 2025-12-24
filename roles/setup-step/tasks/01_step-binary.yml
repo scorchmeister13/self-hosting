@@ -1,0 +1,5 @@
+- name: Install step-cli and step-ca
+  ansible.builtin.apt:
+    name:
+      - step-cli
+    state: present

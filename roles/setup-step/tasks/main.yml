@@ -1,0 +1,16 @@
+- name: Step 0 | Step Commons
+  ansible.builtin.include_tasks: 00_common.yml
+  tags:
+    - always
+
+- name: Step 1 | Step CLI
+  ansible.builtin.include_tasks: 01_step-binary.yml
+  tags:
+    - step1
+    - step-binary
+
+- name: Step 2 | Step CA Server
+  ansible.builtin.include_tasks: 02_step-server.yml
+  tags:
+    - step2
+    - step-server
