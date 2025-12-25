@@ -24,3 +24,19 @@ all done!
 
 Your PKI is ready to go.
 ```
+
+Run your certificate authority and pass it the configuration file you just generated.
+```
+$ step-ca $(step path)/config/ca.json
+
+Please enter the password to decrypt /Users/bob/.step/secrets/intermediate_ca_key: abc123
+
+2019/02/18 13:28:58 Serving HTTPS on 127.0.0.1:8443 ...
+```
+
+To configure step to access your CA from a new machine, run:
+```
+$ step ca bootstrap --ca-url [CA URL] --fingerprint [CA fingerprint]
+The root certificate has been saved in /home/alice/.step/certs/root_ca.crt.
+Your configuration has been saved in /home/alice/.step/config/defaults.json.
+```
