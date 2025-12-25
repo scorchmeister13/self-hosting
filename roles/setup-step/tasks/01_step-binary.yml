@@ -1,4 +1,4 @@
-- name: Install step-cli and step-ca
+- name: Install step-cli
   ansible.builtin.apt:
     name:
       - step-cli
