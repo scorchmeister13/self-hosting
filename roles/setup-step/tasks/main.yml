@@ -14,3 +14,4 @@
   tags:
     - step2
     - step-server
+  when: step_is_server is true
