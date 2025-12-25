@@ -3,3 +3,6 @@
     name:
       - step-ca
     state: present
+  tags:
+    - step-ca-cli
+    - step-server

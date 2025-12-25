@@ -6,12 +6,18 @@
 - name: Step 1 | Step CLI
   ansible.builtin.include_tasks: 01_step-binary.yml
   tags:
-    - step1
+    - step-ca-cli
     - step-binary
 
 - name: Step 2 | Step CA Server
   ansible.builtin.include_tasks: 02_step-server.yml
   tags:
-    - step2
+    - step-ca-cli
     - step-server
   when: step_is_server is true
+
+- name: Step 3 | Step Bootstrap
+  ansible.builtin.include_tasks: 03_step-bootstrap.yml
+  tags:
+    - step-ca-cli
+    - step-bootstrap

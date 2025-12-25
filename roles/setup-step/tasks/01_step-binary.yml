@@ -3,3 +3,6 @@
     name:
       - step-cli
     state: present
+  tags:
+    - step-ca-cli
+    - step-binary

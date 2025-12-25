@@ -2,6 +2,8 @@
   ansible.builtin.apt:
     update_cache: true
     cache_valid_time: 3600
+  tags:
+    - always
 
 - name: Install required packages
   ansible.builtin.apt:
@@ -12,19 +14,27 @@
       - ca-certificates
     state: present
     install_recommends: false
+  tags:
+    - always
 
 - name: Download Smallstep GPG key
   ansible.builtin.get_url:
     url: https://packages.smallstep.com/keys/apt/repo-signing-key.gpg
     dest: /etc/apt/trusted.gpg.d/smallstep.asc
     mode: '0644'
+  tags:
+    - always
 
 - name: Add Smallstep APT repository
   ansible.builtin.copy:
     dest: /etc/apt/sources.list.d/smallstep.list
     content: "deb [signed-by=/etc/apt/trusted.gpg.d/smallstep.asc] https://packages.smallstep.com/stable/debian debs main\n"
     mode: '0644'
+  tags:
+    - always
 
 - name: Update apt cache after adding Smallstep repo
   ansible.builtin.apt:
     update_cache: true
+  tags:
+    - always

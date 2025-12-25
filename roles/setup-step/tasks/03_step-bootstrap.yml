@@ -1,0 +1,7 @@
+- name: Bootstrap host with Step CA
+  ansible.builtin.command: step-cli ca bootstrap --ca-url {{ step_ca_url }} --fingerprint {{ step_fingerprint }}
+  args:
+    creates: /root/.step/certs/root_ca.crt
+  tags:
+    - step3
+    - step-bootstrap
