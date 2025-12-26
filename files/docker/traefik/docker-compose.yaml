@@ -20,7 +20,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock
-      - /root/step-ca-root.crt:/usr/local/share/ca-certificates/step-ca-root.crt:ro
+      - /root/.step/certs/root_ca.crt:/usr/local/share/ca-certificates/step-ca-root.crt:ro
       - ./traefik:/etc/traefik
       - ./acme:/acme
     environment:

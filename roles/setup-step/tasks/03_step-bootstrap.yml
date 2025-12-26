@@ -3,5 +3,5 @@
   args:
     creates: /root/.step/certs/root_ca.crt
   tags:
-    - step3
+    - step-ca-cli
     - step-bootstrap
