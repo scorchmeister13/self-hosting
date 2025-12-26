@@ -1,6 +1,7 @@
 services:
   adguardhome:
     image: adguard/adguardhome
+    restart: always
     ports:
       - 53:53/tcp
       - 53:53/udp
