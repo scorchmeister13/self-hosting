@@ -1,23 +1,41 @@
 services:
   traefik:
-    # The official v2 Traefik docker image
     image: traefik:v2.11
     restart: always
-    # Enables the web UI and tells Traefik to listen to docker
-    command: 
-      - "--api.insecure=true"
-      - "--providers.docker=true"
-      - "--entrypoints.web.address=:80"
-      - "--providers.docker.network=proxy"
     ports:
-      # The HTTP port
       - "80:80"
       - "443:443"
-      # The Web UI (enabled by --api.insecure=true)
-      - "8080:8080"
+    command: 
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.network=proxy"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.stepca.acme.caserver={{ step_ca_url }}/acme/traefik/directory"
+      - "--certificatesresolvers.stepca.acme.email={{ default_email }}"
+      - "--certificatesresolvers.stepca.acme.storage=/acme/acme.json"
+      - "--certificatesresolvers.stepca.acme.httpchallenge=true"
+      - "--certificatesresolvers.stepca.acme.httpchallenge.entrypoint=web"
+      - "--api.dashboard=true"
     volumes:
-      # So that Traefik can listen to the Docker events
+      - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock
+      - /root/step-ca-root.crt:/usr/local/share/ca-certificates/step-ca-root.crt:ro
+      - ./traefik:/etc/traefik
+      - ./acme:/acme
+    environment:
+      - SSL_CERT_FILE=/usr/local/share/ca-certificates/step-ca-root.crt
+    labels:
+      - "traefik.enable=true"
+      # Dashboard Router
+      - "traefik.http.routers.traefik.rule=Host(`traefik-{{ inventory_hostname_short }}.{{ domain }}`)"
+      - "traefik.http.routers.traefik.entrypoints=websecure"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.routers.traefik.tls=true"
+      - "traefik.http.routers.traefik.tls.certresolver=stepca"
+      # Auth Middleware
+      - "traefik.http.middlewares.auth.basicauth.users={{ traefik_auth }}"
+      - "traefik.http.routers.traefik.middlewares=auth"
     networks:
       - proxy
 
