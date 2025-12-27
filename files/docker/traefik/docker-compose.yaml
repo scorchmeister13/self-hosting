@@ -24,7 +24,8 @@ services:
       - ./traefik:/etc/traefik
       - ./acme:/acme
     environment:
-      - SSL_CERT_FILE=/usr/local/share/ca-certificates/step-ca-root.crt
+      SSL_CERT_FILE: "/usr/local/share/ca-certificates/step-ca-root.crt"
+      TZ: "{{ timezone }}"
     labels:
       - "traefik.enable=true"
       # Dashboard Router

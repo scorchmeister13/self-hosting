@@ -7,6 +7,8 @@ services:
       - 53:53/udp
       # - 3001:80/tcp # http web interface
       - 3000:3000/tcp
+    environment:
+      TZ: "{{ timezone }}"
     volumes:
       - ./adguard/config:/opt/adguardhome/conf # app configuration
       - ./adguard/work:/opt/adguardhome/work # app working directory
