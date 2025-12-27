@@ -26,10 +26,7 @@
 
 - name: Tailscale | Join Tailnet
   ansible.builtin.command: >
-    tailscale login
+    tailscale login {{ ts_extra_options | default('') }}
     --ssh
-    {% if ts_expose_subnet %}
-    --advertise-routes={{ subnets | join(',') }}
-    {% endif %}
     --authkey={{ ts_key }}
   changed_when: false
