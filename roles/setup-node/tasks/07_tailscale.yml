@@ -4,6 +4,9 @@
     dest: "{{ apt_key_path }}/tailscale-archive-keyring.gpg"
     mode: "0644"
     owner: root
+  tags:
+    - step7
+    - tailscale
 
 - name: Tailscale | Add specified repository into sources list
   ansible.builtin.uri:
@@ -11,18 +14,27 @@
     dest: "{{ apt_sources_path }}/tailscale.list"
     mode: "0644"
     owner: root
+  tags:
+    - step7
+    - tailscale
 
 - name: Tailscale | Install Tailscale
   ansible.builtin.apt:
     update_cache: true
     name: tailscale
     state: present
+  tags:
+    - step7
+    - tailscale
 
 - name: Tailscale | Checking auth-key expiration
   ansible.builtin.command: date +"%Y-%m-%d"
   register: today_date
   changed_when: false
   failed_when: ts_expire < today_date.stdout
+  tags:
+    - step7
+    - tailscale
 
 - name: Tailscale | Join Tailnet
   ansible.builtin.command: >
@@ -30,3 +42,6 @@
     --ssh
     --authkey={{ ts_key }}
   changed_when: false
+  tags:
+    - step7
+    - tailscale

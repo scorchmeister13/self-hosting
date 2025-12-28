@@ -40,3 +40,12 @@
   tags:
     - step7
     - tailscale
+
+- name: Step 8 | Drives
+  ansible.builtin.include_tasks: 08_drives.yml
+  when:
+    - mount_name is defined
+    - mount_drive is defined
+  tags:
+    - step8
+    - drives

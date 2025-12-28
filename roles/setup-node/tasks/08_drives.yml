@@ -1,0 +1,46 @@
+- name: Creating mount directory
+  ansible.builtin.file:
+    path: "/mnt/{{ mount_name }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  tags:
+    - step8
+    - drives
+
+- name: Checking if partition is already mounted
+  ansible.builtin.command: grep {{ item }} /etc/fstab
+  with_items: "{{ mount_drive }}"
+  register: check_mount
+  failed_when: false
+  changed_when: false
+  tags:
+    - step8
+    - drives
+
+- name: Creating ext4 filesystem
+  community.general.filesystem:
+    fstype: ext4
+    dev: "/dev/disk/by-id/{{ item.item }}"
+    force: true
+  with_items: "{{ check_mount.results }}"
+  when: item.stdout == "" # RUN WHEN DRIVE IS NOT MOUNTED
+  tags:
+    - step8
+    - drives
+
+- name: Mounting drives
+  ansible.posix.mount:
+    name: "/mnt/{{ mount_name }}/disk-{{ index }}"
+    src: "/dev/disk/by-id/{{ item.item }}"
+    fstype: ext4
+    opts: defaults,nofail
+    state: mounted
+  loop: "{{ check_mount.results }}"
+  loop_control:
+    index_var: index
+  when: item.stdout == "" # RUN WHEN DRIVE IS NOT MOUNTED
+  tags:
+    - step8
+    - drives

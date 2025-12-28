@@ -26,3 +26,6 @@
     name: ssh
     state: reloaded
   become: true
+  tags:
+    - step5
+    - ssh

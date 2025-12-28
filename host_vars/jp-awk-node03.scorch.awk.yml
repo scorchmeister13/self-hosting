@@ -1,0 +1,3 @@
+mount_name: immich
+mount_drive:
+  - scsi-0QEMU_QEMU_HARDDISK_drive-scsi1
