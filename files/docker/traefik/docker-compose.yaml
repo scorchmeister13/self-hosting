@@ -21,6 +21,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock
       - /root/.step/certs/root_ca.crt:/usr/local/share/ca-certificates/step-ca-root.crt:ro
+      - /root/.step/certs/intermediate_ca.crt.crt:/usr/local/share/ca-certificates/intermediate_ca.crt:ro
       - ./traefik:/etc/traefik
       - ./acme:/acme
     environment:
@@ -28,6 +29,7 @@ services:
       TZ: "{{ timezone }}"
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
       # Dashboard Router
       - "traefik.http.routers.traefik.rule=Host(`traefik-{{ inventory_hostname_short }}.{{ domain }}`)"
       - "traefik.http.routers.traefik.entrypoints=websecure"
@@ -37,8 +39,7 @@ services:
       # Auth Middleware
       - "traefik.http.middlewares.auth.basicauth.users={{ traefik_auth }}"
       - "traefik.http.routers.traefik.middlewares=auth"
-    networks:
-      - proxy
+    network_mode: "host"
 
 networks:
   proxy:
