@@ -39,7 +39,12 @@ services:
       # Auth Middleware
       - "traefik.http.middlewares.auth.basicauth.users={{ traefik_auth }}"
       - "traefik.http.routers.traefik.middlewares=auth"
+{% if step_is_server %}
     network_mode: "host"
+{% else %}
+    networks:
+      - proxy
+{% endif %}
 
 networks:
   proxy:

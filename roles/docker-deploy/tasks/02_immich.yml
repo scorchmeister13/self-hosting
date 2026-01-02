@@ -1,0 +1,13 @@
+- name: Ensure Immich folder exists
+  ansible.builtin.file:
+    path: /opt/stacks/{{ application_target }}/
+    state: directory
+    mode: '0755'
+
+- name: Copy over Immich .env file
+  ansible.builtin.template:
+    src: "files/docker/{{ application_target }}/.env.j2"
+    dest: "/opt/stacks/{{ application_target }}/.env"
+    mode: '0644'
+    owner: root
+    group: root

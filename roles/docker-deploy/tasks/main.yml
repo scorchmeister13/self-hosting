@@ -5,6 +5,10 @@
   ansible.builtin.include_tasks: "01_traefik.yml"
   when: application_target == "traefik"
 
+- name: 02_immich.yml
+  ansible.builtin.include_tasks: "02_immich.yml"
+  when: application_target == "immich"
+
 - name: XX_docker_deploy.yml
   ansible.builtin.include_tasks: "xx_docker_deploy.yml"
 

@@ -1,13 +1,80 @@
-- name: Packages | Installing basic Packages
+- name: APT | Ensure Debian repositories include non-free-firmware
+  ansible.builtin.deb822_repository:
+    name: debian
+    types: [deb, deb-src]
+    uris:
+      - https://deb.debian.org/debian
+    suites:
+      - trixie
+      - trixie-updates
+      - trixie-backports
+    components:
+      - main
+      - contrib
+      - non-free
+      - non-free-firmware
+    signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
+    state: present
+  when:
+    - ansible_distribution == "Debian"
+    - ansible_distribution_major_version | int >= 12
+  tags:
+    - step6
+    - packages
+
+- name: APT | Ensure Debian security repository includes non-free-firmware
+  ansible.builtin.deb822_repository:
+    name: debian-security
+    types: [deb, deb-src]
+    uris:
+      - https://deb.debian.org/debian-security
+    suites:
+      - trixie-security
+    components:
+      - main
+      - contrib
+      - non-free
+      - non-free-firmware
+    signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
+    state: present
+  when:
+    - ansible_distribution == "Debian"
+    - ansible_distribution_major_version | int >= 12
+  tags:
+    - step6
+    - packages
+
+- name: APT | Update package cache
+  ansible.builtin.apt:
+    update_cache: true
+  when:
+    - ansible_distribution == "Debian"
+    - ansible_distribution_major_version | int >= 12
+  tags:
+    - step6
+    - packages
+
+- name: Packages | Installing Basic Packages
   ansible.builtin.apt:
     update_cache: true
     name:
+      - apache2-utils
       - git
+      - htop
+      - hwinfo
+      - parted
       - python3-pip
       - python3-docker
-      - parted
-      - apache2-utils
-      - htop
+  tags:
+    - step6
+    - packages
+
+- name: Packages | Installing Additional Packages
+  ansible.builtin.apt:
+    update_cache: true
+    name: "{{ additional_packages }}"
+    state: present
+  when: additional_packages is defined
   tags:
     - step6
     - packages
