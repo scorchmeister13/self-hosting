@@ -16,7 +16,7 @@ services:
       # Traefik
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
-      - "traefik.http.routers.adguard.rule=Host(`dns01.{{ domain }}`)"
+      - "traefik.http.routers.adguard.rule=Host(`{{ adguard_dns }}.{{ domain }}`)"
       - "traefik.http.routers.adguard.entrypoints=websecure"
       - "traefik.http.routers.adguard.tls=true"
       - "traefik.http.routers.adguard.tls.certresolver=stepca"
