@@ -1,3 +1,9 @@
+- name: Step 0 | DNS
+  ansible.builtin.include_tasks: 00_dns.yml
+  tags:
+    - step0
+    - dns
+
 - name: Step 1 | Standardize
   ansible.builtin.include_tasks: 01_standardize.yml
   tags:

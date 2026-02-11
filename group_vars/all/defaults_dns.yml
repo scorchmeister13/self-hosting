@@ -1,0 +1,6 @@
+dns1: 192.168.1.149
+dns3: 192.168.1.52
+
+dns_domain: scorch.awk
+dns_search: scorch.awk scorch.com
+dns_search_netplan: "scorch.awk scorch.com"

@@ -1,0 +1,171 @@
+# ----------------------------------------------------------------------------------
+# DNS Handling for PVE Debian Cloud Template (netplan)
+# ----------------------------------------------------------------------------------
+- name: Check if /etc/netplan/50-cloud-init.yaml exists (PVE Debian Cloud Template)
+  ansible.builtin.stat:
+    path: /etc/netplan/50-cloud-init.yaml
+  register: cloud_init_netplan
+  tags:
+    - step0
+    - dns
+
+- name: Check if cloud-init network config is disabled
+  ansible.builtin.stat:
+    path: /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg
+  register: cloud_init_network_disabled
+  tags:
+    - step0
+    - dns
+
+- name: Read cloud-init network config disable file if it exists
+  ansible.builtin.slurp:
+    src: /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg
+  register: network_disable_content
+  when:
+    - cloud_init_network_disabled.stat.exists | default(false)
+  tags:
+    - step0
+    - dns
+
+- name: Set fact for network config status
+  ansible.builtin.set_fact:
+    network_config_disabled: "{{ ((network_disable_content.content | b64decode | from_yaml).network.config == 'disabled') if (network_disable_content is defined and network_disable_content.content is defined) else false }}"
+  when:
+    - cloud_init_network_disabled.stat.exists | default(false)
+  tags:
+    - step0
+    - dns
+
+- name: Read current netplan configuration
+  ansible.builtin.slurp:
+    src: /etc/netplan/50-cloud-init.yaml
+  register: netplan_content
+  when: 
+    - cloud_init_netplan.stat.exists | default(false)
+    - not (network_config_disabled | default(false))
+  become: true
+  tags:
+    - step0
+    - dns
+
+- name: Parse netplan configuration
+  ansible.builtin.set_fact:
+    netplan_yaml: "{{ (netplan_content.content | b64decode | from_yaml) }}"
+  when:
+    - cloud_init_netplan.stat.exists | default(false)
+    - netplan_content is defined
+    - not (network_config_disabled | default(false))
+  tags:
+    - step0
+    - dns
+
+- name: Check if any interface uses DHCP
+  ansible.builtin.set_fact:
+    has_dhcp: "{{ netplan_yaml.network.ethernets.values() | selectattr('dhcp4', 'defined') | selectattr('dhcp4') | list | length > 0 }}"
+  when:
+    - cloud_init_netplan.stat.exists | default(false)
+    - netplan_content is defined
+    - netplan_yaml is defined
+    - not (network_config_disabled | default(false))
+  tags:
+    - step0
+    - dns
+
+- name: Add nameservers to each interface
+  vars:
+    nameserver_config:
+      nameservers:
+        addresses: "{{ [dns1, dns2, dns3] }}"
+        search: "{{ dns_search_netplan.split(',') }}"
+  ansible.builtin.set_fact:
+    netplan_yaml: "{{ netplan_yaml | combine({'network': {'ethernets': {item.key: item.value | combine(nameserver_config, recursive=True)}}}, recursive=True) }}"
+  loop: "{{ netplan_yaml.network.ethernets | default({}) | dict2items }}"
+  when:
+    - cloud_init_netplan.stat.exists | default(false)
+    - netplan_content is defined
+    - not (has_dhcp | default(false))
+    - not (item.value.dhcp4 | default(false))
+    - not (network_config_disabled | default(false))
+  tags:
+    - step0
+    - dns
+
+- name: Write updated netplan configuration
+  ansible.builtin.copy:
+    content: "{{ netplan_yaml | to_nice_yaml(indent=2) }}"
+    dest: /etc/netplan/50-cloud-init.yaml
+    mode: '0600'
+    backup: true
+  when:
+    - cloud_init_netplan.stat.exists | default(false)
+    - netplan_content is defined
+    - not (has_dhcp | default(false))
+    - not (network_config_disabled | default(false))
+  become: true
+  register: netplan_update
+  tags:
+    - step0
+    - dns
+
+- name: Apply netplan configuration if changed
+  ansible.builtin.command: netplan apply
+  when: 
+    - cloud_init_netplan.stat is defined
+    - cloud_init_netplan.stat.exists | default(false)
+    - netplan_update.changed | default(false)
+    - not (has_dhcp | default(false))
+    - not (network_config_disabled | default(false))
+  become: true
+  tags:
+    - step0
+    - dns
+
+# - name: Disable IPv6 (default)
+#   ansible.posix.sysctl:
+#     name: net.ipv6.conf.default.disable_ipv6
+#     value: "1"
+#     state: present
+#     reload: true
+#   tags:
+#     - step0
+#     - dns
+
+# - name: Disable IPv6 (all)
+#   ansible.posix.sysctl:
+#     name: net.ipv6.conf.all.disable_ipv6
+#     value: "1"
+#     state: present
+#     reload: true
+#   tags:
+#     - step0
+#     - dns
+
+- name: Enable IPv4 forwarding
+  ansible.posix.sysctl:
+    name: net.ipv4.ip_forward
+    value: "1"
+    state: present
+    reload: true
+  tags:
+    - step0
+    - dns
+
+- name: Enable IPv6 forwarding
+  ansible.posix.sysctl:
+    name: net.ipv6.conf.all.forwarding
+    value: "1"
+    state: present
+    reload: true
+  tags:
+    - step0
+    - dns
+
+- name: Enable IPv6 router advertisements
+  ansible.posix.sysctl:
+    name: net.ipv6.conf.all.accept_ra
+    value: "2"
+    state: present
+    reload: true
+  tags:
+    - step0
+    - dns

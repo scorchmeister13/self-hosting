@@ -31,7 +31,7 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
       # Dashboard Router
-      - "traefik.http.routers.traefik.rule=Host(`traefik-{{ inventory_hostname_short }}.{{ domain }}`)"
+      - "traefik.http.routers.traefik.rule=Host(`traefik-{{ inventory_hostname_short.split('-')[-1] }}.{{ domain }}`)"
       - "traefik.http.routers.traefik.entrypoints=websecure"
       - "traefik.http.routers.traefik.service=api@internal"
       - "traefik.http.routers.traefik.tls=true"
