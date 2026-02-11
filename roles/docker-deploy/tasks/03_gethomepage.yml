@@ -1,0 +1,7 @@
+- name: Copy services.yaml file
+  ansible.builtin.copy:
+    src: "files/docker/gethomepage/homepage_services.yaml"
+    dest: "/opt/stacks/homepage/config/services.yaml"
+    mode: '0644'
+    owner: root
+    group: root

@@ -1,0 +1,27 @@
+services:  
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    volumes:
+      - ./config:/app/config
+      - ./images:/app/public/images
+      - ./data:/data
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    restart: always
+    environment:
+      - TZ={{ timezone }}
+      - HOMEPAGE_ALLOWED_HOSTS=home.{{ domain }}
+    labels:
+      # Traefik
+      - "traefik.docker.network=proxy"
+      - "traefik.enable=true"
+      - "traefik.http.routers.homepage.entrypoints=websecure"
+      - "traefik.http.routers.homepage.rule=Host(`home.{{ domain }}`)"
+      - "traefik.http.routers.homepage.tls=true"
+      - "traefik.http.routers.homepage.tls.certresolver=stepca"
+      - "traefik.http.services.homepage.loadbalancer.server.port=3000"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
