@@ -36,3 +36,36 @@
     src: /usr/libexec/docker/cli-plugins/docker-compose
     dest: /usr/local/bin/docker-compose
     state: link
+
+- name: Docker Install | Copy daemon.json
+  ansible.builtin.template:
+    src: "files/docker/expose_daemon.json"
+    dest: "/etc/docker/daemon.json"
+    mode: '0644'
+    owner: root
+    group: root
+  register: copy_docker_daemon
+
+- name: Docker Install | Ensure /etc/systemd/system/docker.service.d/ exists
+  ansible.builtin.file:
+    path: /etc/systemd/system/docker.service.d/
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+
+- name: Docker Install | Copy docker_override.conf
+  ansible.builtin.template:
+    src: "files/docker/docker_override.conf"
+    dest: "/etc/systemd/system/docker.service.d/docker_override.conf"
+    mode: '0644'
+    owner: root
+    group: root
+  register: copy_docker_override
+
+- name: Docker Install | Restart Docker Service
+  ansible.builtin.systemd:
+    name: docker
+    state: restarted
+    daemon_reload: true
+  when: copy_docker_daemon.changed or copy_docker_override.changed

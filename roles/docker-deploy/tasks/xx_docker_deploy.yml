@@ -1,6 +1,6 @@
 - name: Docker Deploy | Check if docker-compose.yaml exists
   ansible.builtin.stat:
-    path: files/docker/{{ application_target }}/docker-compose.yaml
+    path: files/docker-compose/{{ application_target }}/docker-compose.yaml
   register: result
   failed_when: not result.stat.exists
   become: false
@@ -14,7 +14,7 @@
 
 - name: Docker Deploy | Copying docker-compose file to {{ inventory_hostname }}
   ansible.builtin.template:
-    src: "files/docker/{{ application_target }}/docker-compose.yaml"
+    src: "files/docker-compose/{{ application_target }}/docker-compose.yaml"
     dest: "/opt/stacks/{{ application_target }}/docker-compose.yaml"
     mode: '0644'
     owner: root

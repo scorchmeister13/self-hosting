@@ -1,7 +1,39 @@
 - name: Copy services.yaml file
+  ansible.builtin.template:
+    src: "files/docker-compose/{{ application_target }}/homepage_services.yaml"
+    dest: "/opt/stacks/{{ application_target }}/config/services.yaml"
+    mode: '0644'
+    owner: root
+    group: root
+
+- name: Copy docker.yaml file
+  ansible.builtin.template:
+    src: "files/docker-compose/{{ application_target }}/homepage_docker.yaml"
+    dest: "/opt/stacks/{{ application_target }}/config/docker.yaml"
+    mode: '0644'
+    owner: root
+    group: root
+
+- name: Copy settings.yaml file
+  ansible.builtin.template:
+    src: "files/docker-compose/{{ application_target }}/homepage_settings.yaml"
+    dest: "/opt/stacks/{{ application_target }}/config/settings.yaml"
+    mode: '0644'
+    owner: root
+    group: root
+
+- name: Copy widgets.yaml file
+  ansible.builtin.template:
+    src: "files/docker-compose/{{ application_target }}/homepage_widgets.yaml"
+    dest: "/opt/stacks/{{ application_target }}/config/widgets.yaml"
+    mode: '0644'
+    owner: root
+    group: root
+
+- name: Copy background images
   ansible.builtin.copy:
-    src: "files/docker/gethomepage/homepage_services.yaml"
-    dest: "/opt/stacks/homepage/config/services.yaml"
+    src: "files/docker-compose/{{ application_target }}/images/"
+    dest: "/opt/stacks/{{ application_target }}/images/"
     mode: '0644'
     owner: root
     group: root

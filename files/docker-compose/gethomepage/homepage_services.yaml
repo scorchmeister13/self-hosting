@@ -1,0 +1,54 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/latest/configs/services
+
+- Information:
+  - Calendar:
+      widget:
+        type: calendar
+        firstDayInWeek: monday
+        view: monthly
+        maxEvents: 10
+        showTime: true
+        timezone: {{ timezone }}
+
+- Node02:
+  - Traefik:
+      weight: 0
+      icon: si-traefikproxy.svg
+      server: docker-node02
+      container: traefik-traefik-1
+      href: https://traefik-node02.{{ domain }}
+      widget:
+        type: traefik
+        url: https://traefik-node02.{{ domain }}
+        username: admin
+        password: {{ traefik_pass }}
+  - Vaultwarden:
+      weight: 1
+      icon: si-vaultwarden.svg
+      server: docker-node02
+      container: vaultwarden-vaultwarden-1
+      href: https://vault.{{ domain }}
+  - GetHomePage:
+      weight: 2
+      icon: si-homepage.svg
+      server: docker-node02
+      container: gethomepage-homepage-1
+      href: https://home.{{ domain }}
+  - AdGuardHome:
+      weight: 3
+      icon: si-adguard.svg
+      server: docker-node02
+      container: adguard-adguardhome-1
+      href: https://dns02.{{ domain }}
+      widget:
+        type: adguard
+        url: https://dns02.{{ domain }}
+        username: admin
+        password: {{ adguard_pass }}
+
+#   - Node03:
+#       icon: mdi-server
+#       server: docker-node03
+#       container: 

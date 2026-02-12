@@ -1,0 +1,31 @@
+# For configuration options and examples, please see:
+# https://gethomepage.dev/latest/configs/settings
+
+title: Ammar's Home Lab
+headerStyle: underlined
+background:
+  image: images/synthwave-01.jpg
+#  blur: sm
+  brightness: 75
+theme: dark
+cardBlur: sm
+hideVersion: true
+statusStyle: dot
+layout:
+  - Information:
+  - Node02:
+      style: column
+      rows: 4
+  # Downloads: 
+  #   style: row
+  #   columns: 3
+  #   useEqualHeights: true
+  # Applications:
+  #   style: row
+  #   columns: 3
+  #   useEqualHeights: true
+  # Tools:
+  #   style: row
+  #   columns: 2
+  #   disableCollapse: true
+  #   useEqualHeights: true
