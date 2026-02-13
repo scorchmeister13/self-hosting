@@ -1,6 +1,7 @@
 mount_name: media
 mount_drive:
   - scsi-0QEMU_QEMU_HARDDISK_drive-scsi1
+  - scsi-0QEMU_QEMU_HARDDISK_drive-scsi2
 
 additional_packages:
   # GPU drivers and VAAPI

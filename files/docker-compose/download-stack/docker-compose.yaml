@@ -32,8 +32,55 @@ services:
       # Treafik
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
+      # Gluetun Built-in HTTP control server (API Endpoint)
+      - "traefik.http.routers.gluetun.entrypoints=websecure"
+      - "traefik.http.routers.gluetun.rule=Host(`gluetun.{{ domain }}`)"
+      - "traefik.http.routers.gluetun.service=gluetun"
+      - "traefik.http.routers.gluetun.tls=true"
+      - "traefik.http.routers.gluetun.tls.certresolver=stepca"
+      - "traefik.http.services.gluetun.loadbalancer.server.port=8000"
+      # QUI
+      - "traefik.http.routers.qui.entrypoints=websecure"
+      - "traefik.http.routers.qui.rule=Host(`qui.{{ domain }}`)"
+      - "traefik.http.routers.qui.service=qui"
+      - "traefik.http.routers.qui.tls=true"
+      - "traefik.http.routers.qui.tls.certresolver=stepca"
+      - "traefik.http.services.qui.loadbalancer.server.port=7476"
+      # QBITTORRENT
+      - "traefik.http.routers.qbittorrent.entrypoints=websecure"
+      - "traefik.http.routers.qbittorrent.rule=Host(`qbittorrent.{{ domain }}`)"
+      - "traefik.http.routers.qbittorrent.service=qbittorrent"
+      - "traefik.http.routers.qbittorrent.tls=true"
+      - "traefik.http.routers.qbittorrent.tls.certresolver=stepca"
+      - "traefik.http.services.qbittorrent.loadbalancer.server.port=8081"
     networks:
       - proxy
+
+  # 🔹🔹 QUI  🔹🔹
+  # UI for Qbittorrent
+  qui:
+    image: ghcr.io/autobrr/qui:latest
+    network_mode: "service:gluetun"
+    restart: unless-stopped
+    environment:
+      - TZ={{ timezone }}
+    volumes:
+      - ./qui:/config
+
+   # 🔹🔹 QBITTORRENT  🔹🔹
+  # Torrent client
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    network_mode: "service:gluetun"
+    restart: unless-stopped
+    environment:
+      - TZ={{ timezone }}
+      - WEBUI_PORT=8081
+    volumes:
+      - ./qbittorrent:/config
+      - /mnt/media/disk-1/downloads:/downloads
+
 
 networks:
   proxy:
