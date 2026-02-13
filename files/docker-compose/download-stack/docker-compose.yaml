@@ -18,6 +18,9 @@ services:
       - UPDATER_PERIOD=24h
       # WIREGUARD CONFIG
       - VPN_SERVICE_PROVIDER=protonvpn
+      - VPN_PORT_FORWARDING=on
+      - VPN_PORT_FORWARDING_PROVIDER=protonvpn
+      # - VPN_ENDPOINT_PORT=38038
       - VPN_TYPE=wireguard
       - WIREGUARD_PUBLIC_KEY={{ gluetun_wireguard_public_key }}
       - WIREGUARD_PRIVATE_KEY={{ gluetun_wireguard_private_key }}
@@ -53,6 +56,41 @@ services:
       - "traefik.http.routers.qbittorrent.tls=true"
       - "traefik.http.routers.qbittorrent.tls.certresolver=stepca"
       - "traefik.http.services.qbittorrent.loadbalancer.server.port=8081"
+      # PROWLARR
+      - "traefik.http.routers.prowlarr.entrypoints=websecure"
+      - "traefik.http.routers.prowlarr.rule=Host(`prowlarr.{{ domain }}`)"
+      - "traefik.http.routers.prowlarr.service=prowlarr"
+      - "traefik.http.routers.prowlarr.tls=true"
+      - "traefik.http.routers.prowlarr.tls.certresolver=stepca"
+      - "traefik.http.services.prowlarr.loadbalancer.server.port=9696"
+      # SONARR
+      - "traefik.http.routers.sonarr.entrypoints=websecure"
+      - "traefik.http.routers.sonarr.rule=Host(`sonarr.{{ domain }}`)"
+      - "traefik.http.routers.sonarr.service=sonarr"
+      - "traefik.http.routers.sonarr.tls=true"
+      - "traefik.http.routers.sonarr.tls.certresolver=stepca"
+      - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
+      # RADARR
+      - "traefik.http.routers.radarr.entrypoints=websecure"
+      - "traefik.http.routers.radarr.rule=Host(`radarr.{{ domain }}`)"
+      - "traefik.http.routers.radarr.service=radarr"
+      - "traefik.http.routers.radarr.tls=true"
+      - "traefik.http.routers.radarr.tls.certresolver=stepca"
+      - "traefik.http.services.radarr.loadbalancer.server.port=7878"
+      # BAZARR
+      - "traefik.http.routers.bazarr.entrypoints=websecure"
+      - "traefik.http.routers.bazarr.rule=Host(`bazarr.{{ domain }}`)"
+      - "traefik.http.routers.bazarr.service=bazarr"
+      - "traefik.http.routers.bazarr.tls=true"
+      - "traefik.http.routers.bazarr.tls.certresolver=stepca"
+      - "traefik.http.services.bazarr.loadbalancer.server.port=6767"
+      # PINCHFLAT
+      - "traefik.http.routers.pinch.entrypoints=websecure"
+      - "traefik.http.routers.pinch.rule=Host(`youtube.{{ domain }}`)"
+      - "traefik.http.routers.pinch.service=pinch"
+      - "traefik.http.routers.pinch.tls=true"
+      - "traefik.http.routers.pinch.tls.certresolver=stepca"
+      - "traefik.http.services.pinch.loadbalancer.server.port=8945"
     networks:
       - proxy
 
@@ -63,6 +101,8 @@ services:
     network_mode: "service:gluetun"
     restart: unless-stopped
     environment:
+      - PGID=0
+      - PUID=0
       - TZ={{ timezone }}
     volumes:
       - ./qui:/config
@@ -75,13 +115,92 @@ services:
     network_mode: "service:gluetun"
     restart: unless-stopped
     environment:
+      - PGID=0
+      - PUID=0
       - TZ={{ timezone }}
       - WEBUI_PORT=8081
     volumes:
       - ./qbittorrent:/config
       - /mnt/media/disk-1/downloads:/downloads
 
+  # 🔹🔹 PROWLARR  🔹🔹
+  # With Prowlarr, the user gets Indexer Sync and seamless integration support with various PVR apps. In addition, with Prowlarr, the user can manage all Torrent trackers and Usenet Indexers from one place while providing support for automation with the search for and download content, irrespective of the content type.
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    network_mode: "service:gluetun"
+    restart: unless-stopped
+    environment:
+      - PGID=0
+      - PUID=0
+      - TZ={{ timezone }}
+    volumes:
+      - ./prowlarr:/config
 
+  # 🔹🔹 SONARR  🔹🔹
+  # Sonarr is a PVR for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new episodes of your favorite shows and will grab, sort and rename them.
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    network_mode: "service:gluetun"
+    restart: unless-stopped
+    environment:
+      - PGID=0
+      - PUID=0
+      - TZ={{ timezone }}
+    volumes:
+      - ./sonarr:/config
+      - /mnt/media/disk-0/tv:/tv
+      - /mnt/media/disk-1/downloads:/downloads
+
+  # 🔹🔹 RADARR  🔹🔹
+  # Radarr is similar to Sonarr but grabs movies instead of TV shows.
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    network_mode: "service:gluetun"
+    restart: unless-stopped
+    environment:
+      - PGID=0
+      - PUID=0
+      - TZ={{ timezone }}
+    volumes:
+      - ./radarr:/config
+      - /mnt/media/disk-0/movies:/movies
+      - /mnt/media/disk-1/downloads:/downloads
+
+  # 🔹🔹 BAZARR  🔹🔹
+  # Bazarr is a companion application to Sonarr and Radarr that manages and downloads subtitles based on your requirements.
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    network_mode: "service:gluetun"
+    restart: unless-stopped
+    environment:
+      - UMASK_SET # Control permissions of files and directories created by Bazarr
+      - PGID=0
+      - PUID=0
+      - TZ={{ timezone }}
+    volumes:
+      - ./bazarr:/config
+      - /mnt/media/disk-0/tv:/tv
+      - /mnt/media/disk-0/movies:/movies
+      - /mnt/media/disk-1/downloads:/downloads
+
+  # 🔹🔹 PINCHFLAT  🔹🔹
+  # Pinchflat is for tracking/downloading youtube videos
+  pinchflat:
+    image: ghcr.io/kieraneglin/pinchflat:latest
+    container_name: pinchflat
+    network_mode: "service:gluetun"
+    restart: always
+    environment:
+      - PGID=0
+      - PUID=0
+      - TZ={{ timezone }}
+    volumes:
+      - ./pinchflat:/config
+      - /mnt/media/disk-0/youtube:/youtube
 
 networks:
   proxy:
