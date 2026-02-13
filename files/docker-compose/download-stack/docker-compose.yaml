@@ -1,0 +1,40 @@
+---
+services:
+  gluetun:
+    image: qmcgaw/gluetun:v3
+    container_name: gluetun
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      - BLOCK_ADS=on
+      - BLOCK_MALICIOUS=on 
+      - BLOCK_SURVEILLANCE=on
+      - DNS_UPDATE_PERIOD=24h
+      - FREE_ONLY=off
+      - TZ={{ timezone }}
+      - UPDATER_PERIOD=24h
+      # WIREGUARD CONFIG
+      - VPN_SERVICE_PROVIDER=protonvpn
+      - VPN_TYPE=wireguard
+      - WIREGUARD_PUBLIC_KEY={{ gluetun_wireguard_public_key }}
+      - WIREGUARD_PRIVATE_KEY={{ gluetun_wireguard_private_key }}
+      - WIREGUARD_ENDPOINT_IP={{ gluetun_wireguard_endpoint_ip }}
+    # ports:
+    #   - 8888:8888/tcp # HTTP proxy
+    #   - 8388:8388/tcp # Shadowsocks
+    #   - 8388:8388/udp # Shadowsocks
+    volumes:
+      - ./gluetun:/gluetun
+    labels:
+      # Treafik
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
