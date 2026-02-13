@@ -1,3 +1,1 @@
 step_is_server: true
-
-ts_extra_options: "--accept-routes"

@@ -23,6 +23,7 @@
     update_cache: true
     name: tailscale
     state: present
+  register: tailscale_install
   tags:
     - step7
     - tailscale
@@ -41,8 +42,18 @@
     tailscale login {{ ts_extra_options | default('') }}
     --ssh
     --authkey={{ ts_key }}
-    --reset
   changed_when: false
+  when: tailscale_install.changed
+  tags:
+    - step7
+    - tailscale
+
+- name: Tailscale | Join Tailnet
+  ansible.builtin.command: >
+    tailscale up {{ ts_extra_options | default('') }}
+    --ssh
+    --reset
+  when: tailscale_install.changed == false
   tags:
     - step7
     - tailscale

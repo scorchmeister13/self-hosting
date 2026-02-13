@@ -120,26 +120,6 @@
     - step0
     - dns
 
-# - name: Disable IPv6 (default)
-#   ansible.posix.sysctl:
-#     name: net.ipv6.conf.default.disable_ipv6
-#     value: "1"
-#     state: present
-#     reload: true
-#   tags:
-#     - step0
-#     - dns
-
-# - name: Disable IPv6 (all)
-#   ansible.posix.sysctl:
-#     name: net.ipv6.conf.all.disable_ipv6
-#     value: "1"
-#     state: present
-#     reload: true
-#   tags:
-#     - step0
-#     - dns
-
 - name: Enable IPv4 forwarding
   ansible.posix.sysctl:
     name: net.ipv4.ip_forward
@@ -166,6 +146,32 @@
     value: "2"
     state: present
     reload: true
+  tags:
+    - step0
+    - dns
+
+- name: Check if tailscale package is installed
+  ansible.builtin.command: dpkg -l | grep tailscale
+  register: tailscale_package
+  tags:
+    - step0
+    - dns
+
+- name: Stop and Disable systemd-resolved
+  ansible.builtin.systemd_service:
+    name: systemd-resolved
+    state: stopped
+    enabled: false
+    daemon_reload: true
+  tags:
+    - step0
+    - dns
+
+- name: Copy resolv.conf
+  ansible.builtin.copy:
+    src: files/dns/resolv.conf
+    dest: /etc/resolv.conf
+    mode: '0644'
   tags:
     - step0
     - dns
