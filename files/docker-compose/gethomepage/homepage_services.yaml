@@ -104,7 +104,53 @@
         type: glances
         url: http://glances-node03.{{ domain }}:80
         version: 4
-        metric: fs:/mnt/immich/disk-0
+        metric: fs:/rootfs/mnt/immich/disk-0
+
+- Node04:
+  - Traefik:
+      weight: 0
+      icon: si-traefikproxy.svg
+      server: docker-node04
+      container: traefik-traefik-1
+      href: https://traefik-node04.{{ domain }}
+      widget:
+        type: traefik
+        url: https://traefik-node04.{{ domain }}
+        username: admin
+        password: {{ traefik_pass }}
+  - CPU:
+      weight: 1
+      icon: si-glance.svg
+      server: docker-node04
+      container: glances-glances-1
+      href: http://glances-node04.{{ domain }}
+      widget:
+        type: glances
+        url: http://glances-node04.{{ domain }}:80
+        version: 4
+        metric: cpu
+  - Memory:
+      weight: 2
+      icon: si-glance.svg
+      server: docker-node04
+      container: glances-glances-1
+      href: http://glances-node04.{{ domain }}
+      widget:
+        type: glances
+        url: http://glances-node04.{{ domain }}:80
+        version: 4
+        metric: memory
+  - Media_Disk_0:
+      weight: 3
+      icon: si-glance.svg
+      server: docker-node04
+      container: glances-glances-1
+      href: http://glances-node04.{{ domain }}
+      widget:
+        type: glances
+        url: http://glances-node04.{{ domain }}:80
+        version: 4
+        metric: fs:/rootfs/mnt/media/disk-0
 
 - Services:
   - Immich:
