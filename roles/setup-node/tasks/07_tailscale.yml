@@ -41,6 +41,7 @@
     tailscale login {{ ts_extra_options | default('') }}
     --ssh
     --authkey={{ ts_key }}
+    --reset
   changed_when: false
   tags:
     - step7

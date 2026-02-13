@@ -1,1 +1,3 @@
 adguard_dns: dns02
+
+ts_extra_options: "--accept-routes"

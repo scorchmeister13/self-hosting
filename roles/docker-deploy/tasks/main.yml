@@ -9,6 +9,10 @@
   ansible.builtin.include_tasks: "02_immich.yml"
   when: application_target == "immich"
 
+- name: 03_gethomepage.yml
+  ansible.builtin.include_tasks: "03_gethomepage.yml"
+  when: application_target == "gethomepage"
+
 - name: XX_docker_deploy.yml
   ansible.builtin.include_tasks: "xx_docker_deploy.yml"
 

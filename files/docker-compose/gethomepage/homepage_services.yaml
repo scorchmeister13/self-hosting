@@ -1,0 +1,79 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/latest/configs/services
+# Icons: https://simpleicons.org/
+
+- Information:
+  - Calendar:
+      widget:
+        type: calendar
+        firstDayInWeek: monday
+        view: monthly
+        maxEvents: 10
+        showTime: true
+        timezone: {{ timezone }}
+
+- Node02:
+  - Traefik:
+      weight: 0
+      icon: si-traefikproxy.svg
+      server: docker-node02
+      container: traefik-traefik-1
+      href: https://traefik-node02.{{ domain }}
+      widget:
+        type: traefik
+        url: https://traefik-node02.{{ domain }}
+        username: admin
+        password: {{ traefik_pass }}
+
+  - AdGuardHome:
+      weight: 3
+      icon: si-adguard.svg
+      server: docker-node02
+      container: adguard-adguardhome-1
+      href: https://dns02.{{ domain }}
+      widget:
+        type: adguard
+        url: https://dns02.{{ domain }}
+        username: admin
+        password: {{ adguard_pass }}
+
+- Node03:
+  - Traefik:
+      weight: 0
+      icon: si-traefikproxy.svg
+      server: docker-node03
+      container: traefik-traefik-1
+      href: https://traefik-node03.{{ domain }}
+      widget:
+        type: traefik
+        url: https://traefik-node03.{{ domain }}
+        username: admin
+        password: {{ traefik_pass }}
+
+- Services:
+  - Immich:
+      weight: 0
+      icon: si-immich.svg
+      server: docker-node03
+      container: immich_server
+      href: https://immich.{{ domain }}
+      widget:
+        type: immich
+        url: https://immich.{{ domain }}
+        key: {{ immich_api_key }}
+        version: 2
+  - Vaultwarden:
+      weight: 50
+      icon: si-vaultwarden.svg
+      server: docker-node02
+      container: vaultwarden-vaultwarden-1
+      href: https://vault.{{ domain }}
+      showStats: true
+  - GetHomePage:
+      weight: 51
+      icon: si-homepage.svg
+      server: docker-node02
+      container: gethomepage-homepage-1
+      href: https://home.{{ domain }}
+      showStats: true
