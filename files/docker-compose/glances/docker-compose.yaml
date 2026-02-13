@@ -1,0 +1,45 @@
+services:
+  glances:
+    image: nicolargo/glances:latest-full
+    restart: always
+    environment:
+      - TZ={{ timezone }}
+      - GLANCES_OPT=-C /glances/conf/glances.conf -w --enable-plugin smart
+      - PYTHONPYCACHEPREFIX=/tmp/py_caches
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "https://glances-{{ inventory_hostname_short.split('-')[-1] }}.{{ domain }}/api/4/status"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 3
+    #   start_period: 40s
+    pid: "host"
+    # network_mode: "host"
+    read_only: true
+    privileged: false
+    cap_add:
+      - SYS_ADMIN
+    devices:
+      - "/dev/sda"
+    volumes:
+      - "/:/rootfs:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/run/user/1000/podman/podman.sock:/run/user/1000/podman/podman.sock:ro"
+      - "./config:/glances/conf"
+      - "/etc/os-release:/etc/os-release:ro"
+    tmpfs:
+      - /tmp
+    labels:
+      # TRAEFIK
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.glances.rule=Host(`glances-{{ inventory_hostname_short.split('-')[-1] }}.{{ domain }}`)"
+      - "traefik.http.routers.glances.entrypoints=web"
+      # - "traefik.http.routers.glances.tls=true"
+      # - "traefik.http.routers.glances.tls.certresolver=stepca"
+      - "traefik.http.services.glances.loadbalancer.server.port=61208"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true

@@ -14,7 +14,7 @@ statusStyle: dot
 layout:
   - Information:
       style: row
-      columns: 1
+      columns: 2
   - Node02:
       style: column
       rows: 4
