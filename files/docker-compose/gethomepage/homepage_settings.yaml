@@ -5,28 +5,31 @@ title: Ammar's Home Lab
 headerStyle: underlined
 background:
   image: images/synthwave-01.jpg
-#  blur: sm
+  # blur: sm
   brightness: 10
 theme: dark
-cardBlur: sm
+cardBlur: md
 hideVersion: true
 statusStyle: dot
 layout:
   - Information:
       style: row
       columns: 2
+  - Media:
+      style: row
+      columns: 4
   - Virtual_Machines:
-    style: row
-    columns: 3
-    Node02:
-      style: column
-      rows: 4
-    Node03:
-      style: column
-      rows: 4
-    Node04:
-      style: column
-      rows: 4
+      style: row
+      columns: 3
+      Node02:
+        style: column
+        rows: 4
+      Node03:
+        style: column
+        rows: 4
+      Node04:
+        style: column
+        rows: 4
   - Services:
       style: row
       columns: 4

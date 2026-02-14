@@ -13,6 +13,15 @@
         maxEvents: 10
         showTime: true
         timezone: {{ timezone }}
+        integrations: 
+          - type: radarr
+            service_group: Media
+            service_name: Radarr
+            color: red
+          - type: sonarr
+            service_group: Media
+            service_name: Sonarr
+            color: yellow
   - AdGuardHome:
       weight: 3
       icon: si-adguard.svg
@@ -24,6 +33,98 @@
         url: https://dns02.{{ domain }}
         username: admin
         password: {{ adguard_pass }}
+
+- Media:
+  - Jellyfin:
+      weight: 0
+      icon: si-jellyfin.svg
+      server: docker-node04
+      container: jellyfin
+      href: http://jellyfin.{{ domain }}
+      widget:
+        type: jellyfin
+        url: http://jellyfin.{{ domain }}
+        key: {{ jellyfin_api_key }}
+        enableBlocks: true
+        enableNowPlaying: true
+        enableUser: true
+        enableMediaControl: false
+        showEpisodeNumber: true
+        expandOneStreamToTwoRows: false
+  - Jellyseerr:
+      weight: 1
+      icon: jellyseerr.png
+      server: docker-node04
+      container: jellyseerr
+      href: https://media.{{ domain }}
+      widget:
+        type: jellyseerr
+        url: https://media.{{ domain }}
+        key: {{ jellyseerr_api_key }}
+  - Gluetun:
+      weight: 2
+      icon: si-protonvpn.svg
+      server: docker-node04
+      container: gluetun
+      href: https://gluetun.{{ domain }}
+      widget:
+        type: gluetun
+        url: https://gluetun.{{ domain }}
+  - Radarr:
+      weight: 3
+      icon: si-radarr.svg
+      server: docker-node04
+      container: radarr
+      href: https://radarr.{{ domain }}
+      widget:
+        type: radarr
+        url: https://radarr.{{ domain }}
+        key: {{ radarr_api_key }}
+        enableQueue: true
+  - Sonarr:
+      weight: 4
+      icon: si-sonarr.svg
+      server: docker-node04
+      container: sonarr
+      href: https://sonarr.{{ domain }}
+      widget:
+        type: sonarr
+        url: https://sonarr.{{ domain }}
+        key: {{ sonarr_api_key }}
+        enableQueue: true
+  - Prowlarr:
+      weight: 5
+      icon: prowlarr.png
+      server: docker-node04
+      container: prowlarr
+      href: https://prowlarr.{{ domain }}
+      widget:
+        type: prowlarr
+        url: https://prowlarr.{{ domain }}
+        key: {{ prowlarr_api_key }}
+  - Bazarr:
+      weight: 6
+      icon: bazarr.png
+      server: docker-node04
+      container: bazarr
+      href: https://bazarr.{{ domain }}
+      widget:
+        type: bazarr
+        url: https://bazarr.{{ domain }}
+        key: {{ bazarr_api_key }}
+  - qBittorrent:
+      weight: 7
+      icon: qbittorrent.png
+      server: docker-node04
+      container: qbittorrent
+      href: https://qbittorrent.{{ domain }}
+      widget:
+        type: qbittorrent
+        url: https://qbittorrent.{{ domain }}
+        username: admin
+        password: {{ qbittorrent_pass }}
+        enableLeechProgress: true
+        enableLeechSize: true
 
 - Node02:
   - Traefik:
@@ -189,3 +290,9 @@
       container: gethomepage-homepage-1
       href: https://home.{{ domain }}
       showStats: true
+  - QUI:
+      weight: 52
+      icon: si-qbittorrent.svg
+      server: docker-node04
+      container: download-stack-qui-1
+      href: https://qui.{{ domain }}
