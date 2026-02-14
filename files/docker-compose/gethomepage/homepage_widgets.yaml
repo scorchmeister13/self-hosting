@@ -7,6 +7,25 @@
 #     memory: true
 #     disk: /
 
+- greeting:
+    text_size: xl
+    text: Ammar's Home Lab
+
+- openmeteo:
+    label: Urayasu
+    latitude: 35.67056
+    longitude: 139.88861
+    timezone: Asia/Tokyo
+    units: metric
+    cache: 60
+
 - search:
     provider: duckduckgo
     target: _blank
+
+- datetime:
+    text_size: xl
+    locale: ja-JP
+    format:
+      timeStyle: long
+      dateStyle: long

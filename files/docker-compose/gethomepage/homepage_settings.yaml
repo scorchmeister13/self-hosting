@@ -15,9 +15,17 @@ layout:
   - Information:
       style: row
       columns: 2
+      Calendar:
+      Infrastructure:
+        style: column
+        rows: 3
   - Media:
       style: row
       columns: 4
+  - Services:
+      style: row
+      columns: 4
+      useEqualHeights: true
   - Virtual_Machines:
       style: row
       columns: 3
@@ -30,10 +38,7 @@ layout:
       Node04:
         style: column
         rows: 4
-  - Services:
-      style: row
-      columns: 4
-      useEqualHeights: true
+  
   # Downloads: 
   #   style: row
   #   columns: 3

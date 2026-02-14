@@ -5,34 +5,46 @@
 
 - Information:
   - Calendar:
-      weight: 0
-      widget:
-        type: calendar
-        firstDayInWeek: monday
-        view: monthly
-        maxEvents: 10
-        showTime: true
-        timezone: {{ timezone }}
-        integrations: 
-          - type: radarr
-            service_group: Media
-            service_name: Radarr
-            color: red
-          - type: sonarr
-            service_group: Media
-            service_name: Sonarr
-            color: yellow
-  - AdGuardHome:
-      weight: 3
-      icon: si-adguard.svg
-      server: docker-node02
-      container: adguard-adguardhome-1
-      href: https://dns02.{{ domain }}
-      widget:
-        type: adguard
-        url: https://dns02.{{ domain }}
-        username: admin
-        password: {{ adguard_pass }}
+    - Calendar:
+        weight: 0
+        widget:
+          type: calendar
+          firstDayInWeek: monday
+          view: monthly
+          maxEvents: 10
+          showTime: true
+          timezone: {{ timezone }}
+          integrations:
+            - type: radarr
+              service_group: Media
+              service_name: Radarr
+              color: orange
+            - type: sonarr
+              service_group: Media
+              service_name: Sonarr
+              color: teal
+  - Infrastructure:
+    - AdGuardHome:
+        weight: 0
+        icon: si-adguard.svg
+        server: docker-node02
+        container: adguard-adguardhome-1
+        href: https://dns02.{{ domain }}
+        widget:
+          type: adguard
+          url: https://dns02.{{ domain }}
+          username: admin
+          password: {{ adguard_pass }}
+    - JP-AWK-NAS01:
+        weight: 1
+        icon: si-proxmox.svg
+        href: https://jp-awk-nas01.{{ domain }}:8006
+        widget:
+          type: proxmox
+          url: https://jp-awk-nas01.{{ domain }}:8006
+          username: read-only@pam!gethomepage
+          password: {{ jp_awk_nas01_token }}
+          node: jp-awk-nas01
 
 - Media:
   - Jellyfin:
@@ -126,143 +138,144 @@
         enableLeechProgress: true
         enableLeechSize: true
 
-- Node02:
-  - Traefik:
-      weight: 0
-      icon: si-traefikproxy.svg
-      server: docker-node02
-      container: traefik-traefik-1
-      href: https://traefik-node02.{{ domain }}
-      widget:
-        type: traefik
-        url: https://traefik-node02.{{ domain }}
-        username: admin
-        password: {{ traefik_pass }}
-  - CPU:
-      weight: 1
-      icon: si-glance.svg
-      server: docker-node02
-      container: glances-glances-1
-      href: http://glances-node02.{{ domain }}
-      widget:
-        type: glances
-        url: http://glances-node02.{{ domain }}:80
-        version: 4
-        metric: cpu
-  - Memory:
-      weight: 2
-      icon: si-glance.svg
-      server: docker-node02
-      container: glances-glances-1
-      href: http://glances-node02.{{ domain }}
-      widget:
-        type: glances
-        url: http://glances-node02.{{ domain }}:80
-        version: 4
-        metric: memory
+- Virtual_Machines:
+  - Node02:
+    - Traefik:
+        weight: 0
+        icon: si-traefikproxy.svg
+        server: docker-node02
+        container: traefik-traefik-1
+        href: https://traefik-node02.{{ domain }}
+        widget:
+          type: traefik
+          url: https://traefik-node02.{{ domain }}
+          username: admin
+          password: {{ traefik_pass }}
+    - CPU:
+        weight: 1
+        icon: si-glance.svg
+        server: docker-node02
+        container: glances-glances-1
+        href: http://glances-node02.{{ domain }}
+        widget:
+          type: glances
+          url: http://glances-node02.{{ domain }}:80
+          version: 4
+          metric: cpu
+    - Memory:
+        weight: 2
+        icon: si-glance.svg
+        server: docker-node02
+        container: glances-glances-1
+        href: http://glances-node02.{{ domain }}
+        widget:
+          type: glances
+          url: http://glances-node02.{{ domain }}:80
+          version: 4
+          metric: memory
 
-- Node03:
-  - Traefik:
-      weight: 0
-      icon: si-traefikproxy.svg
-      server: docker-node03
-      container: traefik-traefik-1
-      href: https://traefik-node03.{{ domain }}
-      widget:
-        type: traefik
-        url: https://traefik-node03.{{ domain }}
-        username: admin
-        password: {{ traefik_pass }}
-  - CPU:
-      weight: 1
-      icon: si-glance.svg
-      server: docker-node03
-      container: glances-glances-1
-      href: http://glances-node03.{{ domain }}
-      widget:
-        type: glances
-        url: http://glances-node03.{{ domain }}:80
-        version: 4
-        metric: cpu
-  - Memory:
-      weight: 2
-      icon: si-glance.svg
-      server: docker-node03
-      container: glances-glances-1
-      href: http://glances-node03.{{ domain }}
-      widget:
-        type: glances
-        url: http://glances-node03.{{ domain }}:80
-        version: 4
-        metric: memory
-  - Immich_Disk:
-      weight: 3
-      icon: si-glance.svg
-      server: docker-node03
-      container: glances-glances-1
-      href: http://glances-node03.{{ domain }}
-      widget:
-        type: glances
-        url: http://glances-node03.{{ domain }}:80
-        version: 4
-        metric: fs:/rootfs/mnt/immich/disk-0
+  - Node03:
+    - Traefik:
+        weight: 0
+        icon: si-traefikproxy.svg
+        server: docker-node03
+        container: traefik-traefik-1
+        href: https://traefik-node03.{{ domain }}
+        widget:
+          type: traefik
+          url: https://traefik-node03.{{ domain }}
+          username: admin
+          password: {{ traefik_pass }}
+    - CPU:
+        weight: 1
+        icon: si-glance.svg
+        server: docker-node03
+        container: glances-glances-1
+        href: http://glances-node03.{{ domain }}
+        widget:
+          type: glances
+          url: http://glances-node03.{{ domain }}:80
+          version: 4
+          metric: cpu
+    - Memory:
+        weight: 2
+        icon: si-glance.svg
+        server: docker-node03
+        container: glances-glances-1
+        href: http://glances-node03.{{ domain }}
+        widget:
+          type: glances
+          url: http://glances-node03.{{ domain }}:80
+          version: 4
+          metric: memory
+    - Immich_Disk:
+        weight: 3
+        icon: si-glance.svg
+        server: docker-node03
+        container: glances-glances-1
+        href: http://glances-node03.{{ domain }}
+        widget:
+          type: glances
+          url: http://glances-node03.{{ domain }}:80
+          version: 4
+          metric: fs:/rootfs/mnt/immich/disk-0
 
-- Node04:
-  - Traefik:
-      weight: 0
-      icon: si-traefikproxy.svg
-      server: docker-node04
-      container: traefik-traefik-1
-      href: https://traefik-node04.{{ domain }}
-      widget:
-        type: traefik
-        url: https://traefik-node04.{{ domain }}
-        username: admin
-        password: {{ traefik_pass }}
-  - CPU:
-      weight: 1
-      icon: si-glance.svg
-      server: docker-node04
-      container: glances-glances-1
-      href: http://glances-node04.{{ domain }}
-      widget:
-        type: glances
-        url: http://glances-node04.{{ domain }}:80
-        version: 4
-        metric: cpu
-  - Memory:
-      weight: 2
-      icon: si-glance.svg
-      server: docker-node04
-      container: glances-glances-1
-      href: http://glances-node04.{{ domain }}
-      widget:
-        type: glances
-        url: http://glances-node04.{{ domain }}:80
-        version: 4
-        metric: memory
-  - Media_Disk_0:
-      weight: 3
-      icon: si-glance.svg
-      server: docker-node04
-      container: glances-glances-1
-      href: http://glances-node04.{{ domain }}
-      widget:
-        type: glances
-        url: http://glances-node04.{{ domain }}:80
-        version: 4
-        metric: fs:/rootfs/mnt/media/disk-0
-  - Media_Disk_1:
-      weight: 4
-      icon: si-glance.svg
-      server: docker-node04
-      container: glances-glances-1
-      href: http://glances-node04.{{ domain }}
-      widget:
-        type: glances
-        url: http://glances-node04.{{ domain }}:80
-        version: 4
-        metric: fs:/rootfs/mnt/media/disk-1
+  - Node04:
+    - Traefik:
+        weight: 0
+        icon: si-traefikproxy.svg
+        server: docker-node04
+        container: traefik-traefik-1
+        href: https://traefik-node04.{{ domain }}
+        widget:
+          type: traefik
+          url: https://traefik-node04.{{ domain }}
+          username: admin
+          password: {{ traefik_pass }}
+    - CPU:
+        weight: 1
+        icon: si-glance.svg
+        server: docker-node04
+        container: glances-glances-1
+        href: http://glances-node04.{{ domain }}
+        widget:
+          type: glances
+          url: http://glances-node04.{{ domain }}:80
+          version: 4
+          metric: cpu
+    - Memory:
+        weight: 2
+        icon: si-glance.svg
+        server: docker-node04
+        container: glances-glances-1
+        href: http://glances-node04.{{ domain }}
+        widget:
+          type: glances
+          url: http://glances-node04.{{ domain }}:80
+          version: 4
+          metric: memory
+    - Media_Disk_0:
+        weight: 3
+        icon: si-glance.svg
+        server: docker-node04
+        container: glances-glances-1
+        href: http://glances-node04.{{ domain }}
+        widget:
+          type: glances
+          url: http://glances-node04.{{ domain }}:80
+          version: 4
+          metric: fs:/rootfs/mnt/media/disk-0
+    - Media_Disk_1:
+        weight: 4
+        icon: si-glance.svg
+        server: docker-node04
+        container: glances-glances-1
+        href: http://glances-node04.{{ domain }}
+        widget:
+          type: glances
+          url: http://glances-node04.{{ domain }}:80
+          version: 4
+          metric: fs:/rootfs/mnt/media/disk-1
 
 - Services:
   - Immich:
@@ -290,9 +303,10 @@
       container: gethomepage-homepage-1
       href: https://home.{{ domain }}
       showStats: true
-  - QUI:
+  - qUI:
       weight: 52
       icon: si-qbittorrent.svg
       server: docker-node04
       container: download-stack-qui-1
       href: https://qui.{{ domain }}
+      showStats: true
