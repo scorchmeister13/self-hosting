@@ -364,3 +364,14 @@
         type: paperlessngx
         url: https://paperless.{{ domain }}:443
         key: {{ paperless_api_key }}
+  - Nextcloud:
+      weight: 54
+      icon: si-nextcloud.svg
+      server: docker-node03
+      container: nextcloud-nextcloud-1
+      href: https://nextcloud.{{ domain }}
+      widget:
+        type: nextcloud
+        url: https://nextcloud.{{ domain }}
+        username: {{ nextcloud_username }}
+        password: {{ nextcloud_password }}
