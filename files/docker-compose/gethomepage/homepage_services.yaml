@@ -241,6 +241,17 @@
           url: http://glances-node03.{{ domain }}:80
           version: 4
           metric: fs:/rootfs/mnt/immich/disk-0
+    - Services_Disk_0:
+        weight: 5
+        icon: si-glance.svg
+        server: docker-node03
+        container: glances-glances-1
+        href: http://glances-node03.{{ domain }}
+        widget:
+          type: glances
+          url: http://glances-node03.{{ domain }}:80
+          version: 4
+          metric: fs:/rootfs/mnt/services/disk-0
 
   - Node04:
     - Traefik:
@@ -343,3 +354,13 @@
       container: download-stack-qui-1
       href: https://qui.{{ domain }}
       showStats: true
+  - Paperless-ngx:
+      weight: 53
+      icon: si-paperlessngx.svg
+      server: docker-node03
+      container: paperless-paperless-1
+      href: https://paperless.{{ domain }}
+      widget:
+        type: paperlessngx
+        url: https://paperless.{{ domain }}:443
+        key: {{ paperless_api_key }}

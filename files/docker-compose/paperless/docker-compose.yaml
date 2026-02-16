@@ -1,0 +1,47 @@
+services:
+  redis:
+    image: docker.io/library/redis:8
+    restart: unless-stopped
+    volumes:
+      - /mnt/services/disk-0/paperless/redis:/data
+    networks:
+      - proxy
+
+  paperless:
+    image: ghcr.io/paperless-ngx/paperless-ngx:latest
+    restart: unless-stopped
+    depends_on:
+      - redis
+    # ports:
+    #   - "8000:8000"
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ={{ timezone }}
+      - PAPERLESS_URL=https://paperless.{{ domain }}
+      - PAPERLESS_SECRET_KEY={{ paperless_secret_key }}
+      - PAPERLESS_REDIS=redis://redis:6379
+      - PAPERLESS_TIME_ZONE={{ timezone }}
+      - PAPERLESS_OCR_LANGUAGE=eng
+      - USERMAP_UID=0
+      - USERMAP_GID=0
+    volumes:
+      - /mnt/services/disk-0/paperless/data:/usr/src/paperless/data
+      - /mnt/services/disk-0/paperless/media:/usr/src/paperless/media
+      - /mnt/services/disk-0/paperless/export:/usr/src/paperless/export
+      - /mnt/services/disk-0/paperless/consume:/usr/src/paperless/consume
+    labels:
+      # TRAEFIK
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.paperless.rule=Host(`paperless.{{ domain }}`)"
+      - "traefik.http.routers.paperless.entrypoints=websecure"
+      - "traefik.http.routers.paperless.tls=true"
+      - "traefik.http.routers.paperless.tls.certresolver=stepca"
+      - "traefik.http.services.paperless.loadbalancer.server.port=8000"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
