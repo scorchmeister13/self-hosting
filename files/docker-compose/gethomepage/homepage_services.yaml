@@ -173,6 +173,17 @@
           url: http://glances-node02.{{ domain }}:80
           version: 4
           metric: memory
+    - OS_Disk:
+        weight: 4
+        icon: si-glance.svg
+        server: docker-node02
+        container: glances-glances-1
+        href: http://glances-node02.{{ domain }}
+        widget:
+          type: glances
+          url: http://glances-node02.{{ domain }}:80
+          version: 4
+          metric: fs:/rootfs
 
   - Node03:
     - Traefik:
@@ -208,8 +219,19 @@
           url: http://glances-node03.{{ domain }}:80
           version: 4
           metric: memory
-    - Immich_Disk:
+    - OS_Disk:
         weight: 3
+        icon: si-glance.svg
+        server: docker-node03
+        container: glances-glances-1
+        href: http://glances-node03.{{ domain }}
+        widget:
+          type: glances
+          url: http://glances-node03.{{ domain }}:80
+          version: 4
+          metric: fs:/rootfs
+    - Immich_Disk_0:
+        weight: 4
         icon: si-glance.svg
         server: docker-node03
         container: glances-glances-1
@@ -254,8 +276,19 @@
           url: http://glances-node04.{{ domain }}:80
           version: 4
           metric: memory
-    - Media_Disk_0:
+    - OS_Disk:
         weight: 3
+        icon: si-glance.svg
+        server: docker-node04
+        container: glances-glances-1
+        href: http://glances-node04.{{ domain }}
+        widget:
+          type: glances
+          url: http://glances-node04.{{ domain }}:80
+          version: 4
+          metric: fs:/rootfs
+    - Media_Disk_0:
+        weight: 4
         icon: si-glance.svg
         server: docker-node04
         container: glances-glances-1
@@ -266,7 +299,7 @@
           version: 4
           metric: fs:/rootfs/mnt/media/disk-0
     - Media_Disk_1:
-        weight: 4
+        weight: 5
         icon: si-glance.svg
         server: docker-node04
         container: glances-glances-1
