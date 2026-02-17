@@ -1,12 +1,12 @@
-dns1: 192.168.1.149
-dns2: 192.168.1.1
-dns3: 192.168.1.52
+dns1: 192.168.1.51
+dns2: 192.168.1.52
+dns3: 192.168.1.1
 
 dns_domain: scorch.awk
 dns_search: scorch.awk scorch.com
 dns_search_netplan: "scorch.awk scorch.com"
 
-adguard_pass: !vault |
+dns_pass: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           64626231363062346562393161663434313231346366393161646264376534633664343466323435
           6162383830613834363365643162356237643861366538300a333563636363333133393937386235

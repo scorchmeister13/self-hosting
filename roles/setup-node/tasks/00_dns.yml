@@ -170,6 +170,8 @@
     state: stopped
     enabled: false
     daemon_reload: true
+  when:
+    - inventory_hostname in groups['dns']
   tags:
     - step0
     - dns
