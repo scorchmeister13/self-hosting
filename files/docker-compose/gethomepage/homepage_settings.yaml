@@ -29,27 +29,12 @@ layout:
       useEqualHeights: true
   - Virtual_Machines:
       style: row
-      columns: 3
+      columns: 4
+      Node01:
+        style: column
       Node02:
         style: column
-        rows: 4
       Node03:
         style: column
-        rows: 4
       Node04:
         style: column
-        rows: 4
-  
-  # Downloads: 
-  #   style: row
-  #   columns: 3
-  #   useEqualHeights: true
-  # Applications:
-  #   style: row
-  #   columns: 3
-  #   useEqualHeights: true
-  # Tools:
-  #   style: row
-  #   columns: 2
-  #   disableCollapse: true
-  #   useEqualHeights: true
