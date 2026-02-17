@@ -76,11 +76,11 @@
         enableMediaControl: false
         showEpisodeNumber: true
         expandOneStreamToTwoRows: false
-  - Jellyseerr:
+  - Seerr:
       weight: 1
       icon: jellyseerr.png
       server: docker-node04
-      container: jellyseerr
+      container: seerr
       href: https://media.{{ domain }}
       widget:
         type: jellyseerr

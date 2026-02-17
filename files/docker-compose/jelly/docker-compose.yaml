@@ -42,9 +42,10 @@ services:
 
   # 🔹🔹 JELLYSEERR  🔹🔹
   # One-stop-shop for downloading movies, shows, books instead of logging in to each individual app (Sonarr, Radarr, etc)
-  jellyseerr:
-    image: fallenbagel/jellyseerr:latest
-    container_name: jellyseerr
+  seerr:
+    image: ghcr.io/seerr-team/seerr:v3.0.1
+    init: true
+    container_name: seerr
     environment:
       - PGID=0
       - PUID=0
@@ -58,11 +59,11 @@ services:
       # Traefik
       - "traefik.docker.network=proxy"
       - "traefik.enable=true"
-      - "traefik.http.routers.jellyseerr.entrypoints=websecure"
-      - "traefik.http.routers.jellyseerr.rule=Host(`media.{{ domain }}`)"
-      - "traefik.http.routers.jellyseerr.tls=true"
-      - "traefik.http.routers.jellyseerr.tls.certresolver=stepca"
-      - "traefik.http.services.jellyseerr.loadbalancer.server.port=5055"
+      - "traefik.http.routers.seerr.entrypoints=websecure"
+      - "traefik.http.routers.seerr.rule=Host(`media.{{ domain }}`)"
+      - "traefik.http.routers.seerr.tls=true"
+      - "traefik.http.routers.seerr.tls.certresolver=stepca"
+      - "traefik.http.services.seerr.loadbalancer.server.port=5055"
     dns:
       - 8.8.8.8
       - 1.1.1.1
