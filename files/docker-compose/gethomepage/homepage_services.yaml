@@ -24,17 +24,30 @@
               service_name: Sonarr
               color: teal
   - Infrastructure:
-    - AdGuardHome:
+    - DNS-01:
         weight: 0
-        icon: si-adguard.svg
-        server: docker-node02
-        container: adguard-adguardhome-1
-        href: https://dns02.{{ domain }}
+        icon: si-nextdns.svg
+        server: docker-node01
+        container: dns-server
+        href: https://dns-node01.{{ domain }}
         widget:
-          type: adguard
-          url: https://dns02.{{ domain }}
+          type: technitium
+          url: https://dns-node01.{{ domain }}
           username: admin
-          password: {{ adguard_pass }}
+          key: {{ dns_api_key }}
+          range: LastDay
+    - DNS-02:
+        weight: 1
+        icon: si-nextdns.svg
+        server: docker-node02
+        container: dns-server
+        href: https://dns-node02.{{ domain }}
+        widget:
+          type: technitium
+          url: https://dns-node02.{{ domain }}
+          username: admin
+          key: {{ dns_api_key }}
+          range: LastDay
     - JP-AWK-NAS01:
         weight: 1
         icon: si-proxmox.svg
@@ -377,7 +390,7 @@
         password: {{ nextcloud_password }}
   - Stirling-PDF:
       weight: 55
-      icon: file-pdf-box.svg
+      icon: mdi-file-pdf-box.svg
       server: docker-node03
       container: stirling-pdf-stirling-pdf-1
       href: https://stirlingpdf.{{ domain }}

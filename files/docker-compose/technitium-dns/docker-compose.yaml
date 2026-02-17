@@ -6,8 +6,8 @@ services:
     # For DHCP deployments, use "host" network mode and remove all the port mappings, including the ports array by commenting them
     # network_mode: "host"
     ports:
-      # - "5380:5380/tcp" #DNS web console (HTTP)
-      # - "53443:53443/tcp" #DNS web console (HTTPS)
+      - "5380:5380/tcp" #DNS web console (HTTP)
+      - "53443:53443/tcp" #DNS web console (HTTPS)
       - "53:53/udp" #DNS service
       - "53:53/tcp" #DNS service
       # - "853:853/udp" #DNS-over-QUIC service
@@ -55,6 +55,10 @@ services:
       - "traefik.http.routers.dns-server.tls=true"
       - "traefik.http.routers.dns-server.tls.certresolver=stepca"
       - "traefik.http.services.dns-server.loadbalancer.server.port=5380"
+      # Router for scorch.scorch.awk
+      - "traefik.http.routers.scorch.rule=Host(`scorch.scorch.awk`)"
+      - "traefik.http.routers.scorch.entrypoints=web"
+      - "traefik.http.routers.scorch.service=dns-server"
     networks:
       - proxy
 
