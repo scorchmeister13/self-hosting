@@ -434,10 +434,10 @@
         url: https://nextcloud.{{ domain }}
         username: {{ nextcloud_username }}
         password: {{ nextcloud_password }}
-  - Stirling-PDF:
+  - Bento:
       weight: 55
       icon: mdi-file-pdf-box.svg
       server: docker-node03
-      container: stirling-pdf-stirling-pdf-1
-      href: https://stirlingpdf.{{ domain }}
+      container: bentopdf
+      href: https://bento-pdf.{{ domain }}
       showStats: true

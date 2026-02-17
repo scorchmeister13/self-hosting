@@ -1,0 +1,25 @@
+services:
+  bentopdf:
+
+    image: ghcr.io/alam00000/bentopdf-simple:latest
+    container_name: bentopdf
+    restart: unless-stopped
+    # ports:
+    #   - '8080:8080'
+    environment:
+      - DISABLE_IPV6=true
+    labels:
+      # Traefik
+      - "traefik.docker.network=proxy"
+      - "traefik.enable=true"
+      - "traefik.http.routers.bento-pdf.entrypoints=websecure"
+      - "traefik.http.routers.bento-pdf.rule=Host(`bento-pdf.{{ domain }}`)"
+      - "traefik.http.routers.bento-pdf.tls=true"
+      - "traefik.http.routers.bento-pdf.tls.certresolver=stepca"
+      - "traefik.http.services.bento-pdf.loadbalancer.server.port=8080"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
