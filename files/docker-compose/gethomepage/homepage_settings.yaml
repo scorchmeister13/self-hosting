@@ -11,6 +11,7 @@ theme: dark
 cardBlur: md
 hideVersion: true
 statusStyle: dot
+disableCollapse: true
 layout:
   - Information:
       style: row

@@ -1,0 +1,32 @@
+services:
+  stirling-pdf:
+    image: stirlingtools/stirling-pdf:latest
+    # container_name: stirling-pdf
+    # ports:
+    #   - '8080:8080'
+    volumes:
+      - /mnt/services/disk-0/stirling-pdf/stirling-data:/configs
+    restart: unless-stopped
+    labels:
+      # TRAEFIK
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      # HTTPS Router
+      - "traefik.http.routers.stirling-pdf.rule=Host(`stirlingpdf.{{ domain }}`)"
+      - "traefik.http.routers.stirling-pdf.entrypoints=websecure"
+      - "traefik.http.routers.stirling-pdf.tls=true"
+      - "traefik.http.routers.stirling-pdf.tls.certresolver=stepca"
+      # HTTP Router (redirect only)
+      - "traefik.http.routers.stirling-pdf-http.rule=Host(`stirlingpdf.{{ domain }}`)"
+      - "traefik.http.routers.stirling-pdf-http.entrypoints=web"
+      - "traefik.http.routers.stirling-pdf-http.middlewares=stirling-pdf-redirect"
+      # Redirect middleware
+      - "traefik.http.middlewares.stirling-pdf-redirect.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.stirling-pdf-redirect.redirectscheme.permanent=true"
+      - "traefik.http.services.stirling-pdf.loadbalancer.server.port=8080"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true

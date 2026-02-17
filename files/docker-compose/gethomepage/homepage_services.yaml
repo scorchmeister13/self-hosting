@@ -375,3 +375,10 @@
         url: https://nextcloud.{{ domain }}
         username: {{ nextcloud_username }}
         password: {{ nextcloud_password }}
+  - Stirling-PDF:
+      weight: 55
+      icon: file-pdf-box.svg
+      server: docker-node03
+      container: stirling-pdf-stirling-pdf-1
+      href: https://stirlingpdf.{{ domain }}
+      showStats: true
