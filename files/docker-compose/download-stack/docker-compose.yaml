@@ -200,7 +200,7 @@ services:
       - TZ={{ timezone }}
     volumes:
       - ./pinchflat:/config
-      - /mnt/media/disk-0/youtube:/youtube
+      - /mnt/media/disk-0/youtube:/downloads
 
 networks:
   proxy:

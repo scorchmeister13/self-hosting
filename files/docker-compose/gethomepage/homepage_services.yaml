@@ -58,6 +58,18 @@
           username: read-only@pam!gethomepage
           password: {{ jp_awk_nas01_token }}
           node: jp-awk-nas01
+  - Speedtest:
+    - Speedtest:
+        weight: 0
+        icon: si-speedtest.svg
+        server: docker-node01
+        container: speedtest
+        href: https://speedtest.{{ domain }}
+        widget:
+          type: speedtest
+          url: https://speedtest.{{ domain }}
+          version: 1
+          bitratePrecision: 3
 
 - Media:
   - Jellyfin:
@@ -150,6 +162,13 @@
         password: {{ qbittorrent_pass }}
         enableLeechProgress: true
         enableLeechSize: true
+  - Pinchflat:
+      weight: 8
+      icon: si-youtube.svg
+      server: docker-node04
+      container: pinchflat
+      href: https://youtube.{{ domain }}
+      showStats: true
 
 - Virtual-Machines:
   - Node01:

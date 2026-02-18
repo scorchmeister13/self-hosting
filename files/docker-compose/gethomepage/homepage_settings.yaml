@@ -21,6 +21,9 @@ layout:
       Infrastructure:
         style: column
         rows: 3
+      Speedtest:
+        style: column
+        rows: 1
   - Media:
       icon: si-vlcmediaplayer.svg
       style: row
