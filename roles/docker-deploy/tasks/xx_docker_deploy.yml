@@ -19,6 +19,7 @@
     mode: '0644'
     owner: root
     group: root
+  register: copy_docker_compose
 
 - name: Docker Deploy | Create external docker network
   community.docker.docker_network:
@@ -29,3 +30,4 @@
   community.docker.docker_compose_v2:
     project_src: /opt/stacks/{{ application_target }}/
     state: present
+  when: copy_docker_compose.changed

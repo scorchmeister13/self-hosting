@@ -1,7 +1,7 @@
 # For configuration options and examples, please see:
 # https://gethomepage.dev/latest/configs/settings
 
-title: Ammar's Home Lab
+title: Scorch's Home Lab
 headerStyle: underlined
 background:
   image: images/synthwave-01.jpg
@@ -27,7 +27,8 @@ layout:
       style: row
       columns: 4
       useEqualHeights: true
-  - Virtual_Machines:
+  - VirtualMachines:
+      icon: si-serverless.svg
       style: row
       columns: 4
       Node01:
