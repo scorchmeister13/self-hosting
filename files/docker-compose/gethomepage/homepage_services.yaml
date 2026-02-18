@@ -429,7 +429,7 @@
       weight: 52
       icon: si-qbittorrent.svg
       server: docker-node04
-      container: download-stack-qui-1
+      container: qui
       href: https://qui.{{ domain }}
       showStats: true
   - Paperless-ngx:
