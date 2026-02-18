@@ -9,11 +9,12 @@ background:
   brightness: 10
 theme: dark
 cardBlur: md
-hideVersion: true
+hideVersion: false
 statusStyle: dot
 disableCollapse: true
 layout:
   - Information:
+      icon: si-googlecalendar.svg
       style: row
       columns: 2
       Calendar:
@@ -21,13 +22,15 @@ layout:
         style: column
         rows: 3
   - Media:
+      icon: si-vlcmediaplayer.svg
       style: row
       columns: 4
   - Services:
+      icon: si-docker.svg
       style: row
       columns: 4
       useEqualHeights: true
-  - VirtualMachines:
+  - Virtual-Machines:
       icon: si-serverless.svg
       style: row
       columns: 4

@@ -30,6 +30,15 @@
     owner: root
     group: root
 
+- name: Copy custom.css file
+  ansible.builtin.copy:
+    src: "files/docker-compose/{{ application_target }}/custom.css"
+    dest: "/opt/stacks/{{ application_target }}/config/custom.css"
+    mode: '0644'
+    owner: root
+    group: root
+  when: application_target == "gethomepage"
+
 - name: Copy background images
   ansible.builtin.copy:
     src: "files/docker-compose/{{ application_target }}/images/"

@@ -151,7 +151,7 @@
         enableLeechProgress: true
         enableLeechSize: true
 
-- Virtual_Machines:
+- Virtual-Machines:
   - Node01:
     - Traefik:
         weight: 0
