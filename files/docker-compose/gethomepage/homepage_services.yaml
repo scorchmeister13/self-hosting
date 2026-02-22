@@ -90,7 +90,7 @@
         expandOneStreamToTwoRows: false
   - Seerr:
       weight: 1
-      icon: jellyseerr.png
+      icon: seerr.png
       server: docker-node04
       container: seerr
       href: https://media.{{ domain }}
@@ -129,8 +129,18 @@
         url: https://sonarr.{{ domain }}
         key: {{ sonarr_api_key }}
         enableQueue: true
-  - Prowlarr:
+  - Lidarr:
       weight: 5
+      icon: lidarr.png
+      server: docker-node04
+      container: lidarr
+      href: https://lidarr.{{ domain }}
+      widget:
+        type: lidarr
+        url: https://lidarr.{{ domain }}
+        key: {{ lidarr_api_key }}
+  - Prowlarr:
+      weight: 6
       icon: prowlarr.png
       server: docker-node04
       container: prowlarr
@@ -140,7 +150,7 @@
         url: https://prowlarr.{{ domain }}
         key: {{ prowlarr_api_key }}
   - Bazarr:
-      weight: 6
+      weight: 7
       icon: bazarr.png
       server: docker-node04
       container: bazarr
@@ -150,7 +160,7 @@
         url: https://bazarr.{{ domain }}
         key: {{ bazarr_api_key }}
   - qBittorrent:
-      weight: 7
+      weight: 8
       icon: qbittorrent.png
       server: docker-node04
       container: qbittorrent
@@ -163,7 +173,7 @@
         enableLeechProgress: true
         enableLeechSize: true
   - Pinchflat:
-      weight: 8
+      weight: 9
       icon: si-youtube.svg
       server: docker-node04
       container: pinchflat

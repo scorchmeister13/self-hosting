@@ -89,6 +89,13 @@ services:
       - "traefik.http.routers.radarr.tls=true"
       - "traefik.http.routers.radarr.tls.certresolver=stepca"
       - "traefik.http.services.radarr.loadbalancer.server.port=7878"
+      # LIDARR
+      - "traefik.http.routers.lidarr.entrypoints=websecure"
+      - "traefik.http.routers.lidarr.rule=Host(`lidarr.{{ domain }}`)"
+      - "traefik.http.routers.lidarr.service=lidarr"
+      - "traefik.http.routers.lidarr.tls=true"
+      - "traefik.http.routers.lidarr.tls.certresolver=stepca"
+      - "traefik.http.services.lidarr.loadbalancer.server.port=8686"
       # BAZARR
       - "traefik.http.routers.bazarr.entrypoints=websecure"
       - "traefik.http.routers.bazarr.rule=Host(`bazarr.{{ domain }}`)"
@@ -103,6 +110,11 @@ services:
       - "traefik.http.routers.pinch.tls=true"
       - "traefik.http.routers.pinch.tls.certresolver=stepca"
       - "traefik.http.services.pinch.loadbalancer.server.port=8945"
+      # # XTEVE
+      # - "traefik.http.routers.xteve-01.entrypoints=web"
+      # - "traefik.http.routers.xteve-01.rule=Host(`xteve-01.{{ domain }}`)"
+      # - "traefik.http.routers.xteve-01.service=xteve-01"
+      # - "traefik.http.services.xteve-01.loadbalancer.server.port=34400"
     networks:
       - proxy
 
@@ -123,6 +135,7 @@ services:
       - /mnt/media/disk-0/movies:/movies
       - /mnt/media/disk-0/tv:/tv
       - /mnt/media/disk-0/youtube:/youtube
+      - /mnt/media/disk-0/music:/music
     devices:
       - "/dev/dri:/dev/dri"
     restart: 'unless-stopped'
@@ -222,6 +235,23 @@ services:
       - /mnt/media/disk-0/movies:/movies
       - /mnt/media/disk-1/downloads:/downloads
 
+
+  # 🔹🔹 LIDARR  🔹🔹
+  # Lidarr is a music collection manager for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new albums and will grab, sort and rename them.
+  lidarr:
+    image: lscr.io/linuxserver/lidarr:latest
+    container_name: lidarr
+    network_mode: "service:gluetun"
+    restart: unless-stopped
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ={{ timezone }}
+    volumes:
+      - ./lidarr:/config
+      - /mnt/media/disk-0/music:/music
+      - /mnt/media/disk-1/downloads:/downloads
+
   # 🔹🔹 BAZARR  🔹🔹
   # Bazarr is a companion application to Sonarr and Radarr that manages and downloads subtitles based on your requirements.
   bazarr:
@@ -254,6 +284,19 @@ services:
     volumes:
       - ./pinchflat:/config
       - /mnt/media/disk-0/youtube:/downloads
+
+  # # 🔹🔹 XTEVE  🔹🔹
+  # # XTEVE is a TV streaming server that allows you to stream your media to your TV.
+  # xteve-01:
+  #   image: senexcrenshaw/xteve:latest
+  #   container_name: xteve-01
+  #   network_mode: "service:gluetun"
+  #   restart: unless-stopped
+  #   environment:
+  #     - TZ={{ timezone }}
+  #   volumes:
+  #     - ./xteve/xteve-01:/home/xteve/conf
+  #     - ./xteve/xteve-01/tmp:/tmp/xteve:rw
 
 networks:
   proxy:
