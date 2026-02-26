@@ -139,8 +139,20 @@
         type: lidarr
         url: https://lidarr.{{ domain }}
         key: {{ lidarr_api_key }}
-  - Prowlarr:
+  - Dispatcharr:
       weight: 6
+      icon: dispatcharr.png
+      server: docker-node04
+      container: dispatcharr
+      href: https://dispatcharr.{{ domain }}
+      widget:
+        type: dispatcharr
+        url: https://dispatcharr.{{ domain }}
+        username: {{ dispatcharr_username }}
+        password: {{ dispatcharr_password }}
+        enableActiveStreams: true
+  - Prowlarr:
+      weight: 7
       icon: prowlarr.png
       server: docker-node04
       container: prowlarr
@@ -150,7 +162,7 @@
         url: https://prowlarr.{{ domain }}
         key: {{ prowlarr_api_key }}
   - Bazarr:
-      weight: 7
+      weight: 8
       icon: bazarr.png
       server: docker-node04
       container: bazarr
@@ -160,7 +172,7 @@
         url: https://bazarr.{{ domain }}
         key: {{ bazarr_api_key }}
   - qBittorrent:
-      weight: 8
+      weight: 9
       icon: qbittorrent.png
       server: docker-node04
       container: qbittorrent
@@ -173,7 +185,7 @@
         enableLeechProgress: true
         enableLeechSize: true
   - Pinchflat:
-      weight: 9
+      weight: 10
       icon: si-youtube.svg
       server: docker-node04
       container: pinchflat

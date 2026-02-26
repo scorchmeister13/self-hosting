@@ -96,6 +96,13 @@ services:
       - "traefik.http.routers.lidarr.tls=true"
       - "traefik.http.routers.lidarr.tls.certresolver=stepca"
       - "traefik.http.services.lidarr.loadbalancer.server.port=8686"
+      # DISPATCHARR
+      - "traefik.http.routers.dispatcharr.entrypoints=websecure"
+      - "traefik.http.routers.dispatcharr.rule=Host(`dispatcharr.{{ domain }}`)"
+      - "traefik.http.routers.dispatcharr.service=dispatcharr"
+      - "traefik.http.routers.dispatcharr.tls=true"
+      - "traefik.http.routers.dispatcharr.tls.certresolver=stepca"
+      - "traefik.http.services.dispatcharr.loadbalancer.server.port=9191"
       # BAZARR
       - "traefik.http.routers.bazarr.entrypoints=websecure"
       - "traefik.http.routers.bazarr.rule=Host(`bazarr.{{ domain }}`)"
@@ -235,7 +242,6 @@ services:
       - /mnt/media/disk-0/movies:/movies
       - /mnt/media/disk-1/downloads:/downloads
 
-
   # 🔹🔹 LIDARR  🔹🔹
   # Lidarr is a music collection manager for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new albums and will grab, sort and rename them.
   lidarr:
@@ -251,6 +257,21 @@ services:
       - ./lidarr:/config
       - /mnt/media/disk-0/music:/music
       - /mnt/media/disk-1/downloads:/downloads
+
+  # 🔹🔹 DISPATCHARR  🔹🔹
+  # Dispatcharr is a tool for managing IPTV streams.
+  dispatcharr:
+    image: ghcr.io/dispatcharr/dispatcharr:latest
+    container_name: dispatcharr
+    network_mode: "service:gluetun"
+    restart: unless-stopped
+    volumes:
+      - ./dispatcharr:/data
+    environment:
+      - DISPATCHARR_ENV=aio
+      - REDIS_HOST=localhost
+      - CELERY_BROKER_URL=redis://localhost:6379/0
+      - DISPATCHARR_LOG_LEVEL=info
 
   # 🔹🔹 BAZARR  🔹🔹
   # Bazarr is a companion application to Sonarr and Radarr that manages and downloads subtitles based on your requirements.
