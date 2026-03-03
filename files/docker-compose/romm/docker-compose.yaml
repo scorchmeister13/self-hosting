@@ -1,0 +1,60 @@
+services:
+  romm-db:
+    image: mariadb:12
+    container_name: romm-db
+    restart: unless-stopped
+    environment:
+      - MARIADB_ROOT_PASSWORD={{ romm_db_root_password }}
+      - MARIADB_DATABASE=romm
+      - MARIADB_USER=romm-user
+      - MARIADB_PASSWORD={{ romm_db_user_password }}
+    volumes:
+      - ./romm/db:/var/lib/mysql
+    healthcheck:
+      test: [CMD, healthcheck.sh, --connect, --innodb_initialized]
+      start_period: 30s
+      start_interval: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - proxy
+  
+  romm:
+      image: rommapp/romm:4
+      container_name: romm
+      restart: unless-stopped
+      depends_on:
+        romm-db:
+          condition: service_healthy
+          restart: true
+      environment:
+        - DB_HOST=romm-db
+        - DB_NAME=romm
+        - DB_USER=romm-user
+        - DB_PASSWD={{ romm_db_user_password }}
+        - ROMM_AUTH_SECRET_KEY={{ romm_auth_secret_key }} # Generate a key with `openssl rand -hex 32`
+        - SCREENSCRAPER_USER={{ romm_screenscraper_user }}
+        - SCREENSCRAPER_PASSWORD={{ romm_screenscraper_password }}
+        - RETROACHIEVEMENTS_API_KEY={{ romm_retroachievements_api_key }}
+      volumes:
+        - /mnt/services/disk-0/romm/resources:/romm/resources # Resources fetched from IGDB (covers, screenshots, etc.)
+        - /mnt/services/disk-0/romm/library:/romm/library # Your game library. Check https://github.com/rommapp/romm?tab=readme-ov-file#folder-structure for more details.
+        - /mnt/services/disk-0/romm/assets:/romm/assets # Uploaded saves, states, etc.
+        - /mnt/services/disk-0/romm/config:/romm/config # Path where config.yml is stored
+        - ./romm/redis-data:/redis-data # Cached data for background tasks
+        - ./romm/config:/romm/config # Path where config.yml is stored
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=proxy"
+        - "traefik.http.routers.romm.rule=Host(`retro.{{ domain }}`)"
+        - "traefik.http.routers.romm.entrypoints=websecure"
+        - "traefik.http.routers.romm.tls=true"
+        - "traefik.http.routers.romm.tls.certresolver=stepca"
+        - "traefik.http.services.romm.loadbalancer.server.port=8080"
+      networks:
+        - proxy
+
+networks:
+  proxy:
+    external: true

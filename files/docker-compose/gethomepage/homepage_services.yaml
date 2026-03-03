@@ -482,3 +482,13 @@
       container: bentopdf
       href: https://bento-pdf.{{ domain }}
       showStats: true
+  - Romm:
+      weight: 56
+      icon: si-romm.svg
+      server: docker-node03
+      container: romm
+      href: https://retro.{{ domain }}
+      widget:
+        type: romm
+        url: https://retro.{{ domain }}
+        fields: ["platforms", "totalRoms", "saves", "states"]

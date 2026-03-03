@@ -1,0 +1,6 @@
+---
+extends: default
+
+rules:
+  # Disable tag validation to allow Ansible vault tags
+  yaml-tags: disable
