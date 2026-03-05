@@ -210,10 +210,10 @@
         icon: si-glance.svg
         server: docker-node01
         container: glances-glances-1
-        href: http://glances-node01.{{ domain }}
+        href: https://glances-node01.{{ domain }}
         widget:
           type: glances
-          url: http://glances-node01.{{ domain }}:80
+          url: https://glances-node01.{{ domain }}:443
           version: 4
           metric: cpu
     - Memory:
@@ -221,10 +221,10 @@
         icon: si-glance.svg
         server: docker-node01
         container: glances-glances-1
-        href: http://glances-node01.{{ domain }}
+        href: https://glances-node01.{{ domain }}
         widget:
           type: glances
-          url: http://glances-node01.{{ domain }}:80
+          url: https://glances-node01.{{ domain }}:443
           version: 4
           metric: memory
     - OS_Disk:
@@ -232,10 +232,10 @@
         icon: si-glance.svg
         server: docker-node01
         container: glances-glances-1
-        href: http://glances-node01.{{ domain }}
+        href: https://glances-node01.{{ domain }}
         widget:
           type: glances
-          url: http://glances-node01.{{ domain }}:80
+          url: https://glances-node01.{{ domain }}:443
           version: 4
           metric: fs:/rootfs
 
@@ -256,10 +256,10 @@
         icon: si-glance.svg
         server: docker-node02
         container: glances-glances-1
-        href: http://glances-node02.{{ domain }}
+        href: https://glances-node02.{{ domain }}
         widget:
           type: glances
-          url: http://glances-node02.{{ domain }}:80
+          url: https://glances-node02.{{ domain }}:443
           version: 4
           metric: cpu
     - Memory:
@@ -267,10 +267,10 @@
         icon: si-glance.svg
         server: docker-node02
         container: glances-glances-1
-        href: http://glances-node02.{{ domain }}
+        href: https://glances-node02.{{ domain }}
         widget:
           type: glances
-          url: http://glances-node02.{{ domain }}:80
+          url: https://glances-node02.{{ domain }}:443
           version: 4
           metric: memory
     - OS_Disk:
@@ -278,10 +278,10 @@
         icon: si-glance.svg
         server: docker-node02
         container: glances-glances-1
-        href: http://glances-node02.{{ domain }}
+        href: https://glances-node02.{{ domain }}
         widget:
           type: glances
-          url: http://glances-node02.{{ domain }}:80
+          url: https://glances-node02.{{ domain }}:443
           version: 4
           metric: fs:/rootfs
 
@@ -302,10 +302,10 @@
         icon: si-glance.svg
         server: docker-node03
         container: glances-glances-1
-        href: http://glances-node03.{{ domain }}
+        href: https://glances-node03.{{ domain }}
         widget:
           type: glances
-          url: http://glances-node03.{{ domain }}:80
+          url: https://glances-node03.{{ domain }}:443
           version: 4
           metric: cpu
     - Memory:
@@ -313,10 +313,10 @@
         icon: si-glance.svg
         server: docker-node03
         container: glances-glances-1
-        href: http://glances-node03.{{ domain }}
+        href: https://glances-node03.{{ domain }}
         widget:
           type: glances
-          url: http://glances-node03.{{ domain }}:80
+          url: https://glances-node03.{{ domain }}:443
           version: 4
           metric: memory
     - OS_Disk:
@@ -324,10 +324,10 @@
         icon: si-glance.svg
         server: docker-node03
         container: glances-glances-1
-        href: http://glances-node03.{{ domain }}
+        href: https://glances-node03.{{ domain }}
         widget:
           type: glances
-          url: http://glances-node03.{{ domain }}:80
+          url: https://glances-node03.{{ domain }}:443
           version: 4
           metric: fs:/rootfs
     - Immich_Disk_0:
@@ -335,10 +335,10 @@
         icon: si-glance.svg
         server: docker-node03
         container: glances-glances-1
-        href: http://glances-node03.{{ domain }}
+        href: https://glances-node03.{{ domain }}
         widget:
           type: glances
-          url: http://glances-node03.{{ domain }}:80
+          url: https://glances-node03.{{ domain }}:443
           version: 4
           metric: fs:/rootfs/mnt/immich/disk-0
     - Services_Disk_0:
@@ -346,10 +346,10 @@
         icon: si-glance.svg
         server: docker-node03
         container: glances-glances-1
-        href: http://glances-node03.{{ domain }}
+        href: https://glances-node03.{{ domain }}
         widget:
           type: glances
-          url: http://glances-node03.{{ domain }}:80
+          url: https://glances-node03.{{ domain }}:443
           version: 4
           metric: fs:/rootfs/mnt/services/disk-0
 
@@ -370,10 +370,10 @@
         icon: si-glance.svg
         server: docker-node04
         container: glances-glances-1
-        href: http://glances-node04.{{ domain }}
+        href: https://glances-node04.{{ domain }}
         widget:
           type: glances
-          url: http://glances-node04.{{ domain }}:80
+          url: https://glances-node04.{{ domain }}:443
           version: 4
           metric: cpu
     - Memory:
@@ -381,10 +381,10 @@
         icon: si-glance.svg
         server: docker-node04
         container: glances-glances-1
-        href: http://glances-node04.{{ domain }}
+        href: https://glances-node04.{{ domain }}
         widget:
           type: glances
-          url: http://glances-node04.{{ domain }}:80
+          url: https://glances-node04.{{ domain }}:443
           version: 4
           metric: memory
     - OS_Disk:
@@ -392,10 +392,10 @@
         icon: si-glance.svg
         server: docker-node04
         container: glances-glances-1
-        href: http://glances-node04.{{ domain }}
+        href: https://glances-node04.{{ domain }}
         widget:
           type: glances
-          url: http://glances-node04.{{ domain }}:80
+          url: https://glances-node04.{{ domain }}:443
           version: 4
           metric: fs:/rootfs
     - Media_Disk_0:
@@ -403,10 +403,10 @@
         icon: si-glance.svg
         server: docker-node04
         container: glances-glances-1
-        href: http://glances-node04.{{ domain }}
+        href: https://glances-node04.{{ domain }}
         widget:
           type: glances
-          url: http://glances-node04.{{ domain }}:80
+          url: https://glances-node04.{{ domain }}:443
           version: 4
           metric: fs:/rootfs/mnt/media/disk-0
     - Media_Disk_1:
@@ -414,10 +414,10 @@
         icon: si-glance.svg
         server: docker-node04
         container: glances-glances-1
-        href: http://glances-node04.{{ domain }}
+        href: https://glances-node04.{{ domain }}
         widget:
           type: glances
-          url: http://glances-node04.{{ domain }}:80
+          url: https://glances-node04.{{ domain }}:443
           version: 4
           metric: fs:/rootfs/mnt/media/disk-1
 

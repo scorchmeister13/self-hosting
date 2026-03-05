@@ -1,6 +1,6 @@
 services:
   vaultwarden:
-    image: vaultwarden/server:latest
+    image: vaultwarden/server:1.35.4
     restart: unless-stopped
     environment:
       WEBSOCKET_ENABLED: "true"
@@ -17,7 +17,7 @@ services:
       - "traefik.http.routers.vault.rule=Host(`vault.{{ domain }}`)"
       - "traefik.http.routers.vault.entrypoints=websecure"
       - "traefik.http.routers.vault.tls=true"
-      - "traefik.http.routers.vault.tls.certresolver=stepca"
+      - "traefik.http.routers.vault.tls.certresolver=letsencrypt"
       - "traefik.http.services.vault.loadbalancer.server.port=80"
     networks:
       - proxy
