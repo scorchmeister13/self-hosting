@@ -21,7 +21,7 @@ services:
             - "traefik.http.routers.speedtest.rule=Host(`speedtest.{{ domain }}`)"
             - "traefik.http.routers.speedtest.entrypoints=websecure"
             - "traefik.http.routers.speedtest.tls=true"
-            - "traefik.http.routers.speedtest.tls.certresolver=stepca"
+            - "traefik.http.routers.speedtest.tls.certresolver=letsencrypt"
             - "traefik.http.services.speedtest.loadbalancer.server.port=80"
         networks:
           - proxy
