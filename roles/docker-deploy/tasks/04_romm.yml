@@ -1,0 +1,7 @@
+- name: Copy romm config.yml file
+  ansible.builtin.copy:
+    src: "files/docker-compose/romm/config.yml"
+    dest: "/opt/stacks/romm/romm/config/config.yml"
+    mode: '0644'
+    owner: root
+    group: root

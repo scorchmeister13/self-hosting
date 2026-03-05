@@ -21,7 +21,7 @@ services:
       - proxy
   
   romm:
-      image: rommapp/romm:4
+      image: rommapp/romm:4.7.0
       container_name: romm
       restart: unless-stopped
       depends_on:
@@ -29,6 +29,7 @@ services:
           condition: service_healthy
           restart: true
       environment:
+        - TZ={{ timezone }}
         - DB_HOST=romm-db
         - DB_NAME=romm
         - DB_USER=romm-user
@@ -37,6 +38,12 @@ services:
         - SCREENSCRAPER_USER={{ romm_screenscraper_user }}
         - SCREENSCRAPER_PASSWORD={{ romm_screenscraper_password }}
         - RETROACHIEVEMENTS_API_KEY={{ romm_retroachievements_api_key }}
+        - ENABLE_RESCAN_ON_FILESYSTEM_CHANGE=false
+        - ENABLE_SCHEDULED_RESCAN=true
+        - SCHEDULED_RESCAN_CRON=0 0 * * *
+        - ENABLE_SCHEDULED_RETROACHIEVEMENTS_PROGRESS_SYNC=true
+        - SCHEDULED_RETROACHIEVEMENTS_PROGRESS_SYNC_CRON=0 12 * * *
+        - UPLOAD_TIMEOUT=600
       volumes:
         - /mnt/services/disk-0/romm/resources:/romm/resources # Resources fetched from IGDB (covers, screenshots, etc.)
         - /mnt/services/disk-0/romm/library:/romm/library # Your game library. Check https://github.com/rommapp/romm?tab=readme-ov-file#folder-structure for more details.
