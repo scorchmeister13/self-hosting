@@ -15,7 +15,7 @@ services:
       - "traefik.http.routers.bento-pdf.entrypoints=websecure"
       - "traefik.http.routers.bento-pdf.rule=Host(`bento-pdf.{{ domain }}`)"
       - "traefik.http.routers.bento-pdf.tls=true"
-      - "traefik.http.routers.bento-pdf.tls.certresolver=stepca"
+      - "traefik.http.routers.bento-pdf.tls.certresolver=letsencrypt"
       - "traefik.http.services.bento-pdf.loadbalancer.server.port=8080"
     networks:
       - proxy

@@ -6,7 +6,7 @@
 
 - name: Copy over Immich .env file
   ansible.builtin.template:
-    src: "files/docker/{{ application_target }}/.env.j2"
+    src: "files/docker-compose/{{ application_target }}/.env.j2"
     dest: "/opt/stacks/{{ application_target }}/.env"
     mode: '0644'
     owner: root
