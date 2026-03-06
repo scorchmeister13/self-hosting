@@ -1,32 +1,39 @@
 services:
   traefik:
-    image: traefik:v2.11
+    image: traefik:v3.6.9
     restart: always
     ports:
       - "80:80"
       - "443:443"
-    command: 
+    environment:
+      - TZ={{ timezone }}
+      - PORKBUN_API_KEY={{ traefik_porkbun_key }}
+      - PORKBUN_SECRET_API_KEY={{ traefik_porkbun_secret }}
+    command:
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--providers.docker.network=proxy"
       - "--entrypoints.web.address=:80"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
       - "--entrypoints.websecure.address=:443"
-      - "--certificatesresolvers.stepca.acme.caserver={{ step_ca_url }}/acme/traefik/directory"
-      - "--certificatesresolvers.stepca.acme.email={{ default_email }}"
-      - "--certificatesresolvers.stepca.acme.storage=/acme/acme.json"
-      - "--certificatesresolvers.stepca.acme.httpchallenge=true"
-      - "--certificatesresolvers.stepca.acme.httpchallenge.entrypoint=web"
+      # CERTIFICATE RESOLVER      
+      - "--certificatesresolvers.letsencrypt.acme.email={{ default_email }}"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/acme/acme.json"
+      - "--certificatesresolvers.letsencrypt.acme.dnschallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.dnschallenge.provider=porkbun"
+      - "--certificatesresolvers.letsencrypt.acme.dnschallenge.delayBeforeCheck=10"
+      - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=1.1.1.1:53,9.9.9.9:53"
+      - "--certificatesresolvers.letsencrypt.acme.keyType=EC256"
+      # DASHBOARD
       - "--api.dashboard=true"
+      # - "--log.level=DEBUG"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock
-      - /root/.step/certs/root_ca.crt:/usr/local/share/ca-certificates/step-ca-root.crt:ro
-      - /root/.step/certs/intermediate_ca.crt.crt:/usr/local/share/ca-certificates/intermediate_ca.crt:ro
       - ./traefik:/etc/traefik
       - ./acme:/acme
-    environment:
-      SSL_CERT_FILE: "/usr/local/share/ca-certificates/step-ca-root.crt"
-      TZ: "{{ timezone }}"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
@@ -35,7 +42,7 @@ services:
       - "traefik.http.routers.traefik.entrypoints=websecure"
       - "traefik.http.routers.traefik.service=api@internal"
       - "traefik.http.routers.traefik.tls=true"
-      - "traefik.http.routers.traefik.tls.certresolver=stepca"
+      - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
       # Auth Middleware
       - "traefik.http.middlewares.auth.basicauth.users={{ traefik_auth }}"
       - "traefik.http.routers.traefik.middlewares=auth"

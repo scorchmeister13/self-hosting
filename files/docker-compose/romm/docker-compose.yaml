@@ -57,7 +57,7 @@ services:
         - "traefik.http.routers.romm.rule=Host(`retro.{{ domain }}`)"
         - "traefik.http.routers.romm.entrypoints=websecure"
         - "traefik.http.routers.romm.tls=true"
-        - "traefik.http.routers.romm.tls.certresolver=stepca"
+        - "traefik.http.routers.romm.tls.certresolver=letsencrypt"
         - "traefik.http.services.romm.loadbalancer.server.port=8080"
       networks:
         - proxy

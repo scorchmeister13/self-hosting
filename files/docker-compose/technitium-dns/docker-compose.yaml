@@ -53,7 +53,7 @@ services:
       - "traefik.http.routers.dns-server.rule=Host(`dns-{{ inventory_hostname_short.split('-')[-1] }}.{{ domain }}`)"
       - "traefik.http.routers.dns-server.entrypoints=websecure"
       - "traefik.http.routers.dns-server.tls=true"
-      - "traefik.http.routers.dns-server.tls.certresolver=stepca"
+      - "traefik.http.routers.dns-server.tls.certresolver=letsencrypt"
       - "traefik.http.services.dns-server.loadbalancer.server.port=5380"
       # Router for scorch.scorch.awk
       - "traefik.http.routers.scorch.rule=Host(`scorch.scorch.awk`)"

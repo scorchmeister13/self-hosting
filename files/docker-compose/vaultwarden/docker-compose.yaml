@@ -1,13 +1,16 @@
 services:
   vaultwarden:
-    image: vaultwarden/server:latest
+    image: vaultwarden/server:1.35.4
     restart: unless-stopped
     environment:
       WEBSOCKET_ENABLED: "true"
       SIGNUPS_ALLOWED: "false"
       ADMIN_TOKEN: "{{ vault_admin_token }}"
       DOMAIN: "https://vault.{{ domain }}"
-      TZ: "{{ timezone }}"  
+      TZ: "{{ timezone }}"
+      ICON_SERVICE: "google"
+      ICON_CACHE_FOLDER: "/data/icon_cache"
+      LOG_LEVEL: "info,vaultwarden::api::icons=debug"
     volumes:
       - ./vw-data:/data
     labels:
@@ -17,7 +20,7 @@ services:
       - "traefik.http.routers.vault.rule=Host(`vault.{{ domain }}`)"
       - "traefik.http.routers.vault.entrypoints=websecure"
       - "traefik.http.routers.vault.tls=true"
-      - "traefik.http.routers.vault.tls.certresolver=stepca"
+      - "traefik.http.routers.vault.tls.certresolver=letsencrypt"
       - "traefik.http.services.vault.loadbalancer.server.port=80"
     networks:
       - proxy
