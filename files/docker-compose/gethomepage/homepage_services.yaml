@@ -484,7 +484,7 @@
       showStats: true
   - Romm:
       weight: 56
-      icon: si-romm.svg
+      icon: romm.png
       server: docker-node03
       container: romm
       href: https://retro.{{ domain }}

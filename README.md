@@ -2,6 +2,8 @@
 
 Ansible-based setup for self-hosting services on Debian nodes with Docker and Traefik.
 
+![Homepage Dashboard](images/homepage-01.png)
+
 ## Repository Structure
 
 ```
@@ -39,9 +41,6 @@ Ansible-based setup for self-hosting services on Debian nodes with Docker and Tr
    # Initial node setup (DNS, users, packages, Docker)
    ansible-playbook -i inventory.ini setup-node.yml
 
-   # Setup Step CA for SSL certificates
-   ansible-playbook -i inventory.ini setup-step.yml
-
    # Deploy applications (interactive - prompts for app name)
    ansible-playbook -i inventory.ini setup-docker-application.yml
    ```
@@ -60,13 +59,6 @@ Standardizes and configures new nodes. The `setup-node` role handles:
 - Optional: Tailscale VPN, drive mounting
 
 Run this first on any new node to get it ready for services.
-
-### `setup-step.yml`
-
-Installs and configures Step CA for automatic SSL certificate management. Sets up:
-- Step CLI tools
-- Step CA server (when `step_is_server: true`)
-- Bootstrap configuration for certificate enrollment
 
 ### `setup-docker-application.yml`
 

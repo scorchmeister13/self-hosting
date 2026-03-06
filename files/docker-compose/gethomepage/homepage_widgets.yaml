@@ -9,7 +9,7 @@
 
 - greeting:
     text_size: xl
-    text: Ammar's Home Lab
+    text: Scorch's Home Lab
 
 - openmeteo:
     label: Urayasu
