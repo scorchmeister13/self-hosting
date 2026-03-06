@@ -77,10 +77,10 @@
       icon: si-jellyfin.svg
       server: docker-node04
       container: jellyfin
-      href: http://jellyfin.{{ domain }}
+      href: https://jellyfin.{{ domain }}
       widget:
         type: jellyfin
-        url: http://jellyfin.{{ domain }}
+        url: https://jellyfin.{{ domain }}
         key: {{ jellyfin_api_key }}
         enableBlocks: true
         enableNowPlaying: true
