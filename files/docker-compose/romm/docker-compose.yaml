@@ -9,7 +9,7 @@ services:
       - MARIADB_USER=romm-user
       - MARIADB_PASSWORD={{ romm_db_user_password }}
     volumes:
-      - ./romm/db:/var/lib/mysql
+      - ./db:/var/lib/mysql
     healthcheck:
       test: [CMD, healthcheck.sh, --connect, --innodb_initialized]
       start_period: 30s
@@ -21,7 +21,7 @@ services:
       - proxy
   
   romm:
-      image: rommapp/romm:4.7.0
+      image: rommapp/romm:4.7
       container_name: romm
       restart: unless-stopped
       depends_on:
@@ -34,23 +34,28 @@ services:
         - DB_NAME=romm
         - DB_USER=romm-user
         - DB_PASSWD={{ romm_db_user_password }}
+        # AUTHENTICATION
         - ROMM_AUTH_SECRET_KEY={{ romm_auth_secret_key }} # Generate a key with `openssl rand -hex 32`
         - SCREENSCRAPER_USER={{ romm_screenscraper_user }}
         - SCREENSCRAPER_PASSWORD={{ romm_screenscraper_password }}
         - RETROACHIEVEMENTS_API_KEY={{ romm_retroachievements_api_key }}
-        - ENABLE_RESCAN_ON_FILESYSTEM_CHANGE=false
+        # ROMM APP CONFIGURATION
+        - DISABLE_EMULATOR_JS=false
+        - DISABLE_RUFFLE_RS=false
+        - ENABLE_RESCAN_ON_FILESYSTEM_CHANGE=true
         - ENABLE_SCHEDULED_RESCAN=true
         - SCHEDULED_RESCAN_CRON=0 0 * * *
         - ENABLE_SCHEDULED_RETROACHIEVEMENTS_PROGRESS_SYNC=true
         - SCHEDULED_RETROACHIEVEMENTS_PROGRESS_SYNC_CRON=0 12 * * *
         - UPLOAD_TIMEOUT=600
+        - WEB_SERVER_TIMEOUT=600
+        - WEB_SERVER_KEEPALIVE=600
       volumes:
         - /mnt/services/disk-0/romm/resources:/romm/resources # Resources fetched from IGDB (covers, screenshots, etc.)
         - /mnt/services/disk-0/romm/library:/romm/library # Your game library. Check https://github.com/rommapp/romm?tab=readme-ov-file#folder-structure for more details.
         - /mnt/services/disk-0/romm/assets:/romm/assets # Uploaded saves, states, etc.
-        - /mnt/services/disk-0/romm/config:/romm/config # Path where config.yml is stored
-        - ./romm/redis-data:/redis-data # Cached data for background tasks
-        - ./romm/config:/romm/config # Path where config.yml is stored
+        - ./redis-data:/redis-data # Cached data for background tasks
+        - ./config:/romm/config # Path where config.yml is stored
       labels:
         - "traefik.enable=true"
         - "traefik.docker.network=proxy"
@@ -58,7 +63,13 @@ services:
         - "traefik.http.routers.romm.entrypoints=websecure"
         - "traefik.http.routers.romm.tls=true"
         - "traefik.http.routers.romm.tls.certresolver=letsencrypt"
+        - "traefik.http.routers.romm.middlewares=romm-upload"
+        # Upload middleware for large files and long timeouts
+        - "traefik.http.middlewares.romm-upload.buffering.maxRequestBodyBytes=10737418240" # 10GB max body size
+        - "traefik.http.middlewares.romm-upload.buffering.maxResponseBodyBytes=10737418240" # 10GB max response size
+        - "traefik.http.middlewares.romm-upload.buffering.memRequestBodyBytes=10485760" # 10MB in-memory buffer
         - "traefik.http.services.romm.loadbalancer.server.port=8080"
+        - "traefik.http.services.romm.loadbalancer.responseForwarding.flushInterval=1s"
       networks:
         - proxy
 

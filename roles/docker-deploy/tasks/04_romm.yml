@@ -1,7 +1,15 @@
+- name: Ensure romm config folder exists
+  ansible.builtin.file:
+    path: /opt/stacks/romm/config/
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+
 - name: Copy romm config.yml file
   ansible.builtin.copy:
     src: "files/docker-compose/romm/config.yml"
-    dest: "/opt/stacks/romm/romm/config/config.yml"
+    dest: "/opt/stacks/romm/config/config.yml"
     mode: '0644'
     owner: root
     group: root
