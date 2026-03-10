@@ -74,7 +74,7 @@
 - Media:
   - Jellyfin:
       weight: 0
-      icon: si-jellyfin.svg
+      icon: jellyfin.png
       server: docker-node04
       container: jellyfin
       href: https://jellyfin.{{ domain }}
@@ -100,7 +100,7 @@
         key: {{ jellyseerr_api_key }}
   - Gluetun:
       weight: 2
-      icon: si-protonvpn.svg
+      icon: gluetun.png
       server: docker-node04
       container: gluetun
       href: https://gluetun.{{ domain }}
@@ -109,7 +109,7 @@
         url: https://gluetun.{{ domain }}
   - Radarr:
       weight: 3
-      icon: si-radarr.svg
+      icon: radarr.png
       server: docker-node04
       container: radarr
       href: https://radarr.{{ domain }}
@@ -120,7 +120,7 @@
         enableQueue: true
   - Sonarr:
       weight: 4
-      icon: si-sonarr.svg
+      icon: sonarr.png
       server: docker-node04
       container: sonarr
       href: https://sonarr.{{ domain }}
@@ -186,7 +186,7 @@
         enableLeechSize: true
   - Pinchflat:
       weight: 10
-      icon: si-youtube.svg
+      icon: pinchflat.png
       server: docker-node04
       container: pinchflat
       href: https://youtube.{{ domain }}
@@ -424,7 +424,7 @@
 - Services:
   - Immich:
       weight: 0
-      icon: si-immich.svg
+      icon: immich.png
       server: docker-node03
       container: immich_server
       href: https://immich.{{ domain }}
@@ -435,38 +435,35 @@
         version: 2
   - Vaultwarden:
       weight: 50
-      icon: si-vaultwarden.svg
+      icon: vaultwarden.png
       server: docker-node02
       container: vaultwarden-vaultwarden-1
       href: https://vault.{{ domain }}
       showStats: true
   - GetHomePage:
       weight: 51
-      icon: si-homepage.svg
+      icon: homepage.png
       server: docker-node02
       container: gethomepage-homepage-1
       href: https://home.{{ domain }}
       showStats: true
   - qUI:
       weight: 52
-      icon: si-qbittorrent.svg
+      icon: qui.png
       server: docker-node04
       container: qui
       href: https://qui.{{ domain }}
       showStats: true
-  - Paperless-ngx:
+  - Papra:
       weight: 53
-      icon: si-paperlessngx.svg
-      server: docker-node03
-      container: paperless-paperless-1
-      href: https://paperless.{{ domain }}
-      widget:
-        type: paperlessngx
-        url: https://paperless.{{ domain }}:443
-        key: {{ paperless_api_key }}
+      icon: papra.png
+      server: docker-node04
+      container: papra
+      href: https://papra.{{ domain }}
+      showStats: true
   - Nextcloud:
       weight: 54
-      icon: si-nextcloud.svg
+      icon: nextcloud.png
       server: docker-node03
       container: nextcloud-nextcloud-1
       href: https://nextcloud.{{ domain }}
@@ -477,7 +474,7 @@
         password: {{ nextcloud_password }}
   - Bento:
       weight: 55
-      icon: mdi-file-pdf-box.svg
+      icon: bentopdf.png
       server: docker-node03
       container: bentopdf
       href: https://bento-pdf.{{ domain }}
