@@ -1,0 +1,26 @@
+services:
+  papra:
+    container_name: papra
+    image: corentinth/papra:26.2.2-rootless
+    restart: unless-stopped
+    environment:
+      - TZ={{ timezone }}
+      - APP_BASE_URL=https://papra.{{ domain }}
+      - AUTH_SECRET={{ papra_auth_secret }}
+    user: 1000:1000
+    volumes:
+      - ./app-data:/app/app-data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.papra.rule=Host(`papra.{{ domain }}`)"
+      - "traefik.http.routers.papra.entrypoints=websecure"
+      - "traefik.http.routers.papra.tls=true"
+      - "traefik.http.routers.papra.tls.certresolver=letsencrypt"
+      - "traefik.http.services.papra.loadbalancer.server.port=1221"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
