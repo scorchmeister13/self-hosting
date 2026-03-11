@@ -1,0 +1,47 @@
+### 1) Docker Container Monitoring
+- name: Copy ntfy scripts to node
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "/usr/local/bin/{{ item | basename }}"
+    mode: '0755'
+  loop: "{{ query('fileglob', 'files/ntfy-scripts/*.sh') }}"
+  tags:
+    - step9
+    - ntfy
+
+- name: Install systemd service
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/ntfy-check-docker-container.service
+    mode: '0644'
+    content: |
+      [Unit]
+      Description=Docker container stop monitor -> ntfy
+      After=docker.service
+      Requires=docker.service
+
+      [Service]
+      ExecStart=/usr/local/bin/check-docker-container.sh
+      Restart=always
+      RestartSec=5
+
+      [Install]
+      WantedBy=multi-user.target
+  tags:
+    - step9
+    - ntfy
+
+- name: Reload systemd
+  ansible.builtin.systemd:
+    daemon_reload: true
+  tags:
+    - step9
+    - ntfy
+
+- name: Enable and start docker ntfy monitor
+  ansible.builtin.systemd:
+    name: ntfy-check-docker-container
+    enabled: true
+    state: restarted
+  tags:
+    - step9
+    - ntfy

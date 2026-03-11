@@ -55,3 +55,9 @@
   tags:
     - step8
     - drives
+
+- name: Step 9 | Ntfy
+  ansible.builtin.include_tasks: 09_ntfy.yml
+  tags:
+    - step9
+    - ntfy

@@ -7,5 +7,5 @@ do
     curl -H "Title: Docker Alert" \
          -H "Priority: high" \
          -d "Container $container stopped on $(hostname) at $(date)" \
-         https://ntfy.{{ domain }}/$NTFY_TOPIC
+         https://ntfy.scorch13.com/$NTFY_TOPIC
 done
