@@ -112,6 +112,13 @@ services:
       - "traefik.http.routers.bazarr.tls=true"
       - "traefik.http.routers.bazarr.tls.certresolver=letsencrypt"
       - "traefik.http.services.bazarr.loadbalancer.server.port=6767"
+      # UNPACKERR
+      - "traefik.http.routers.unpackerr.entrypoints=websecure"
+      - "traefik.http.routers.unpackerr.rule=Host(`unpackerr.{{ domain }}`)"
+      - "traefik.http.routers.unpackerr.service=unpackerr"
+      - "traefik.http.routers.unpackerr.tls=true"
+      - "traefik.http.routers.unpackerr.tls.certresolver=letsencrypt"
+      - "traefik.http.services.unpackerr.loadbalancer.server.port=5656"
       # PINCHFLAT
       - "traefik.http.routers.pinch.entrypoints=websecure"
       - "traefik.http.routers.pinch.rule=Host(`youtube.{{ domain }}`)"
@@ -119,11 +126,6 @@ services:
       - "traefik.http.routers.pinch.tls=true"
       - "traefik.http.routers.pinch.tls.certresolver=letsencrypt"
       - "traefik.http.services.pinch.loadbalancer.server.port=8945"
-      # # XTEVE
-      # - "traefik.http.routers.xteve-01.entrypoints=web"
-      # - "traefik.http.routers.xteve-01.rule=Host(`xteve-01.{{ domain }}`)"
-      # - "traefik.http.routers.xteve-01.service=xteve-01"
-      # - "traefik.http.services.xteve-01.loadbalancer.server.port=34400"
     networks:
       - proxy
 
@@ -293,6 +295,67 @@ services:
       - /mnt/media/disk-0/movies:/movies
       - /mnt/media/disk-1/downloads:/downloads
 
+  # 🔹🔹 UNPACKERR  🔹🔹
+  # Unpacks archives after *arr imports; integrates with Sonarr/Radarr/Lidarr/Readarr.
+  # 🔗 https://github.com/davidnewhall/unpackerr
+  # 🔗 https://golift.io/unpackerr
+  unpackerr:
+    image: golift/unpackerr:latest
+    container_name: unpackerr
+    network_mode: "service:gluetun"
+    environment:
+      - PGID=0
+      - PUID=0
+      - TZ={{ timezone }}
+      # General config
+      - UN_DEBUG=false
+      - UN_LOG_FILE=
+      - UN_LOG_FILES=10
+      - UN_LOG_FILE_MB=10
+      - UN_INTERVAL=2m
+      - UN_START_DELAY=1m
+      - UN_RETRY_DELAY=5m
+      - UN_MAX_RETRIES=3
+      - UN_PARALLEL=4
+      - UN_FILE_MODE=0644
+      - UN_DIR_MODE=0755
+      # Sonarr Config
+      - UN_SONARR_0_URL=http://localhost:8989
+      - UN_SONARR_0_API_KEY={{ sonarr_api_key }}
+      - UN_SONARR_0_PATHS_0=/downloads
+      - UN_SONARR_0_PROTOCOLS=torrent
+      - UN_SONARR_0_TIMEOUT=10s
+      - UN_SONARR_0_DELETE_ORIG=false
+      - UN_SONARR_0_DELETE_DELAY=5m
+      # Radarr Config
+      - UN_RADARR_0_URL=http://localhost:7878
+      - UN_RADARR_0_API_KEY={{ radarr_api_key }}
+      - UN_RADARR_0_PATHS_0=/downloads
+      - UN_RADARR_0_PROTOCOLS=torrent
+      - UN_RADARR_0_TIMEOUT=10s
+      - UN_RADARR_0_DELETE_ORIG=false
+      - UN_RADARR_0_DELETE_DELAY=5m
+      # Lidarr Config
+      - UN_LIDARR_0_URL=http://localhost:8686
+      - UN_LIDARR_0_API_KEY={{ lidarr_api_key }}
+      - UN_LIDARR_0_PATHS_0=/downloads
+      - UN_LIDARR_0_PROTOCOLS=torrent
+      - UN_LIDARR_0_TIMEOUT=10s
+      - UN_LIDARR_0_DELETE_ORIG=false
+      - UN_LIDARR_0_DELETE_DELAY=5m
+      # Web Server Config
+      - UN_WEBSERVER_METRICS=false
+      - UN_WEBSERVER_LISTEN_ADDR=0.0.0.0:5656
+      - UN_WEBSERVER_LOG_FILE=
+      - UN_WEBSERVER_LOG_FILES=10
+      - UN_WEBSERVER_LOG_FILE_MB=10
+      - UN_WEBSERVER_SSL_CERT_FILE=
+      - UN_WEBSERVER_SSL_KEY_FILE=
+      - UN_WEBSERVER_URLBASE=/
+      - UN_WEBSERVER_UPSTREAMS=
+    volumes:
+      - /mnt/media/disk-1/downloads:/downloads
+
   # 🔹🔹 PINCHFLAT  🔹🔹
   # Pinchflat is for tracking/downloading youtube videos
   pinchflat:
@@ -307,19 +370,6 @@ services:
     volumes:
       - ./pinchflat:/config
       - /mnt/media/disk-0/youtube:/downloads
-
-  # # 🔹🔹 XTEVE  🔹🔹
-  # # XTEVE is a TV streaming server that allows you to stream your media to your TV.
-  # xteve-01:
-  #   image: senexcrenshaw/xteve:latest
-  #   container_name: xteve-01
-  #   network_mode: "service:gluetun"
-  #   restart: unless-stopped
-  #   environment:
-  #     - TZ={{ timezone }}
-  #   volumes:
-  #     - ./xteve/xteve-01:/home/xteve/conf
-  #     - ./xteve/xteve-01/tmp:/tmp/xteve:rw
 
 networks:
   proxy:
