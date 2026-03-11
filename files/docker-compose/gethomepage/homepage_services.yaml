@@ -489,3 +489,10 @@
         type: romm
         url: https://retro.{{ domain }}
         fields: ["platforms", "totalRoms", "saves", "states"]
+  - Ntfy:
+      weight: 57
+      icon: ntfy.png
+      server: docker-node01
+      container: ntfy
+      href: https://ntfy.{{ domain }}
+      showStats: true
