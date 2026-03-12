@@ -7,9 +7,10 @@ services:
       - TZ={{ timezone }}
       - APP_BASE_URL=https://papra.{{ domain }}
       - AUTH_SECRET={{ papra_auth_secret }}
+      - DOCUMENT_STORAGE_MAX_UPLOAD_SIZE=100000000 # 100MB
     user: 1000:1000
     volumes:
-      - ./app-data:/app/app-data
+      - /mnt/media/disk-1/papra/app-data:/app/app-data
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
