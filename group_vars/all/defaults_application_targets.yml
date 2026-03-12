@@ -1,0 +1,21 @@
+application_deployment_targets:
+  # ALL NODES
+  traefik:            "jp-awk-node01.scorch13.com,jp-awk-node02.scorch13.com,jp-awk-node03.scorch13.com,jp-awk-node04.scorch13.com"
+  glances:            "jp-awk-node01.scorch13.com,jp-awk-node02.scorch13.com,jp-awk-node03.scorch13.com,jp-awk-node04.scorch13.com"
+  # TECHNITITUM DNS
+  technititum-dns:    "jp-awk-node01.scorch13.com,jp-awk-node02.scorch13.com"
+  # NODE01
+  ntfy:               "jp-awk-node01.scorch13.com"
+  ntfy-github:        "jp-awk-node01.scorch13.com"
+  speedtest-tracker:  "jp-awk-node01.scorch13.com"
+  # NODE02
+  gethomepage:        "jp-awk-node02.scorch13.com"
+  vaultwarden:        "jp-awk-node02.scorch13.com"
+  # NODE03
+  bento-pdf:          "jp-awk-node03.scorch13.com"
+  immich:             "jp-awk-node03.scorch13.com"
+  nextcloud:          "jp-awk-node03.scorch13.com"
+  romm:               "jp-awk-node03.scorch13.com"
+  # NODE04
+  media-stack:        "jp-awk-node04.scorch13.com"
+  papra:              "jp-awk-node04.scorch13.com"

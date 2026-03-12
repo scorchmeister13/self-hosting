@@ -74,6 +74,32 @@ The `docker-deploy` role follows this flow:
 
 Some applications need extra files or configuration beyond the standard `docker-compose.yaml`. The playbook handles this with conditional subtask files.
 
+#### Which nodes get the deployment? (`defaults_application_targets.yml`)
+
+You do **not** need `--limit` for normal runs. Which hosts are used is decided by **`group_vars/all/defaults_application_targets.yml`**.
+
+That file defines **`application_deployment_targets`**: each **application name** (the string you type at the prompt) maps to **where** the play should run.
+
+| Mapping value | Meaning |
+|---------------|--------|
+| **Comma-separated hostnames** | Deploy to each listed host only (names must match your inventory). Example: `jp-awk-node01.scorch13.com,jp-awk-node02.scorch13.com` runs on node01 and node02. |
+| **Single hostname** | Deploy to that one host. |
+| **All nodes** | List every node explicitly as comma-separated hostnames |
+
+**How the playbook uses it**
+
+1. You enter the app name (e.g. `traefik`, `gethomepage`).
+2. The playbook looks up `application_deployment_targets[application_target]`.
+3. **Comma-separated values** are split; each hostname is added to a dynamic group (`target_hosts`), and the `docker-deploy` role runs on those hosts.
+
+**Adding a new app**
+
+1. Add `files/docker-compose/<app>/docker-compose.yaml` (and any extra task files the role needs).
+2. Add a line to `group_vars/all/defaults_application_targets.yml`, e.g.  
+   `myapp: "jp-awk-node03.scorch13.com"`  
+   or a comma-separated list for multiple nodes.
+3. Run `ansible-playbook setup-docker-application.yml -i inventory.ini ...` and enter `myapp` at the prompt.
+
 **Example: Immich deployment**
 
 Immich needs a `.env` file with database credentials and API keys. The playbook includes `02_immich.yml` which runs only when `application_target == "immich"`:
@@ -142,10 +168,10 @@ timezone: "America/New_York"
 ansible-playbook -i inventory.ini setup-node.yml --limit node01.example.com
 
 # Deploy an app to a specific node
-ansible-playbook -i inventory.ini setup-docker-application.yml --limit node01.example.com
+ansible-playbook -i inventory.ini setup-docker-application.yml
 
 # When using encrypted variables (Ansible Vault), add --ask-vault-pass
-ansible-playbook -i inventory.ini setup-docker-application.yml --limit node01.example.com --ask-vault-pass
+ansible-playbook -i inventory.ini setup-docker-application.yml --ask-vault-pass
 
 # Check running containers
 ansible all -i inventory.ini -m shell -a "docker ps" --become

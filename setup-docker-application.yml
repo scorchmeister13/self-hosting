@@ -1,10 +1,28 @@
-- name: Deploy Docker
-  hosts: all
-  gather_facts: true
-  become: true
+- name: Get application target
+  hosts: localhost
+  gather_facts: false
+  become: false
   vars_prompt:
     - name: application_target
       prompt: Enter the application to install
       private: false
-  roles:
-    - docker-deploy
+  tasks:
+    - name: Create dynamic ansible group
+      ansible.builtin.add_host:
+        name: "{{ item }}"
+        groups: target_hosts
+      loop: "{{ application_deployment_targets[application_target] | split(',') }}"
+    - name: Set fact
+      ansible.builtin.set_fact:
+        docker_to_deploy: "{{ application_target }}"
+  
+- name: Deploy Docker
+  hosts: target_hosts
+  gather_facts: true
+  become: true
+  tasks:
+    - name: Deploy Docker Application
+      ansible.builtin.include_role:
+        name: docker-deploy
+      vars:
+        application_target: "{{ hostvars['localhost']['docker_to_deploy'] }}"
