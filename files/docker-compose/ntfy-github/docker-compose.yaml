@@ -1,0 +1,26 @@
+services:
+  github-ntfy:
+    image: breizhhardware/github-ntfy:latest
+    container_name: github-ntfy
+    restart: unless-stopped
+    environment:
+      - USERNAME=admin
+      - PASSWORD={{ ntfy_github_password }}
+      - NTFY_URL=https://ntfy.scorch13.com/docker-release
+      - GHNTFY_TIMEOUT=timeout # Default is 3600 (1 hour)
+    volumes:
+      - ./data:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.github-ntfy.entrypoints=websecure"
+      - "traefik.http.routers.github-ntfy.rule=Host(`ntfy-github.{{ domain }}`)"
+      - "traefik.http.routers.github-ntfy.tls=true"
+      - "traefik.http.routers.github-ntfy.tls.certresolver=letsencrypt"
+      - "traefik.http.services.github-ntfy.loadbalancer.server.port=80"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true

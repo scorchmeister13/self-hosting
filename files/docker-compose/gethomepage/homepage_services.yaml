@@ -107,6 +107,7 @@
       widget:
         type: gluetun
         url: https://gluetun.{{ domain }}
+        key: {{ gluetun_api_key }}
   - Radarr:
       weight: 3
       icon: radarr.png
