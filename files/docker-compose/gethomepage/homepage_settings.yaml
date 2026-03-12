@@ -34,6 +34,13 @@ layout:
       style: row
       columns: 4
       useEqualHeights: true
+  - Hosts:
+      icon: si-serverfault.svg
+      style: row
+      columns: 1
+      NAS01:
+        style: row
+        columns: 4
   - Virtual-Machines:
       icon: si-serverless.svg
       style: row

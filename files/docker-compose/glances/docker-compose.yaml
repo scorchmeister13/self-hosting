@@ -9,6 +9,8 @@ services:
     pid: "host"
     read_only: true
     privileged: false
+    security_opt:
+      - apparmor:unconfined
     cap_add:
       - SYS_ADMIN
     devices:
@@ -25,7 +27,7 @@ services:
       # TRAEFIK
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
-      - "traefik.http.routers.glances.rule=Host(`glances-{{ inventory_hostname_short.split('-')[-1] }}.{{ domain }}`)"
+      - "traefik.http.routers.glances.rule=Host(`glances.{{ inventory_hostname_short.split('-')[-1] }}.{{ domain }}`)"
       - "traefik.http.routers.glances.entrypoints=websecure"
       - "traefik.http.routers.glances.tls=true"
       - "traefik.http.routers.glances.tls.certresolver=letsencrypt"

@@ -1,9 +1,11 @@
 application_deployment_targets:
   # ALL NODES
-  traefik:            "jp-awk-node01.scorch13.com,jp-awk-node02.scorch13.com,jp-awk-node03.scorch13.com,jp-awk-node04.scorch13.com"
-  glances:            "jp-awk-node01.scorch13.com,jp-awk-node02.scorch13.com,jp-awk-node03.scorch13.com,jp-awk-node04.scorch13.com"
+  traefik:            "jp-awk-nas01.scorch13.com,jp-awk-node01.scorch13.com,jp-awk-node02.scorch13.com,jp-awk-node03.scorch13.com,jp-awk-node04.scorch13.com"
+  glances:            "jp-awk-nas01.scorch13.com,jp-awk-node01.scorch13.com,jp-awk-node02.scorch13.com,jp-awk-node03.scorch13.com,jp-awk-node04.scorch13.com"
   # TECHNITITUM DNS
   technititum-dns:    "jp-awk-node01.scorch13.com,jp-awk-node02.scorch13.com"
+  # NAS01
+  scrutiny:           "jp-awk-nas01.scorch13.com"
   # NODE01
   ntfy:               "jp-awk-node01.scorch13.com"
   ntfy-github:        "jp-awk-node01.scorch13.com"

@@ -193,6 +193,108 @@
       href: https://youtube.{{ domain }}
       showStats: true
 
+- Hosts:
+  - NAS01:
+    - Traefik:
+        weight: 0
+        icon: si-traefikproxy.svg
+        server: docker-nas01
+        container: traefik-traefik-1
+        href: https://traefik.nas01.{{ domain }}
+        widget:
+          type: traefik
+          url: https://traefik.nas01.{{ domain }}
+          username: admin
+          password: {{ traefik_pass }}
+    - CPU:
+        weight: 1
+        icon: si-glance.svg
+        server: docker-nas01
+        container: glances-glances-1
+        href: https://glances.nas01.{{ domain }}
+        widget:
+          type: glances
+          url: https://glances.nas01.{{ domain }}:443
+          version: 4
+          metric: cpu
+    - Memory:
+        weight: 2
+        icon: si-glance.svg
+        server: docker-nas01
+        container: glances-glances-1
+        href: https://glances.nas01.{{ domain }}
+        widget:
+          type: glances
+          url: https://glances.nas01.{{ domain }}:443
+          version: 4
+          metric: memory
+    - Disk_nvme0n1:
+        weight: 3
+        icon: si-glance.svg
+        server: docker-nas01
+        container: glances-glances-1
+        href: https://glances.nas01.{{ domain }}
+        widget:
+          type: glances
+          url: https://glances.nas01.{{ domain }}:443
+          version: 4
+          metric: disk:nvme0n1
+    - Disk_nvme1n1:
+        weight: 4
+        icon: si-glance.svg
+        server: docker-nas01
+        container: glances-glances-1
+        href: https://glances.nas01.{{ domain }}
+        widget:
+          type: glances
+          url: https://glances.nas01.{{ domain }}:443
+          version: 4
+          metric: disk:nvme1n1
+    - Disk_nvme2n1:
+        weight: 5
+        icon: si-glance.svg
+        server: docker-nas01
+        container: glances-glances-1
+        href: https://glances.nas01.{{ domain }}
+        widget:
+          type: glances
+          url: https://glances.nas01.{{ domain }}:443
+          version: 4
+          metric: disk:nvme2n1
+    - Disk_sda:
+        weight: 6
+        icon: si-glance.svg
+        server: docker-nas01
+        container: glances-glances-1
+        href: https://glances.nas01.{{ domain }}
+        widget:
+          type: glances
+          url: https://glances.nas01.{{ domain }}:443
+          version: 4
+          metric: disk:sda
+    - Disk_sdb:
+        weight: 7
+        icon: si-glance.svg
+        server: docker-nas01
+        container: glances-glances-1
+        href: https://glances.nas01.{{ domain }}
+        widget:
+          type: glances
+          url: https://glances.nas01.{{ domain }}:443
+          version: 4
+          metric: disk:sdb
+    - Disk_sdc:
+        weight: 8
+        icon: si-glance.svg
+        server: docker-nas01
+        container: glances-glances-1
+        href: https://glances.nas01.{{ domain }}
+        widget:
+          type: glances
+          url: https://glances.nas01.{{ domain }}:443
+          version: 4
+          metric: disk:sdc
+
 - Virtual-Machines:
   - Node01:
     - Traefik:
@@ -200,10 +302,10 @@
         icon: si-traefikproxy.svg
         server: docker-node01
         container: traefik-traefik-1
-        href: https://traefik-node01.{{ domain }}
+        href: https://traefik.node01.{{ domain }}
         widget:
           type: traefik
-          url: https://traefik-node01.{{ domain }}
+          url: https://traefik.node01.{{ domain }}
           username: admin
           password: {{ traefik_pass }}
     - CPU:
@@ -211,10 +313,10 @@
         icon: si-glance.svg
         server: docker-node01
         container: glances-glances-1
-        href: https://glances-node01.{{ domain }}
+        href: https://glances.node01.{{ domain }}
         widget:
           type: glances
-          url: https://glances-node01.{{ domain }}:443
+          url: https://glances.node01.{{ domain }}:443
           version: 4
           metric: cpu
     - Memory:
@@ -222,10 +324,10 @@
         icon: si-glance.svg
         server: docker-node01
         container: glances-glances-1
-        href: https://glances-node01.{{ domain }}
+        href: https://glances.node01.{{ domain }}
         widget:
           type: glances
-          url: https://glances-node01.{{ domain }}:443
+          url: https://glances.node01.{{ domain }}:443
           version: 4
           metric: memory
     - OS_Disk:
@@ -233,10 +335,10 @@
         icon: si-glance.svg
         server: docker-node01
         container: glances-glances-1
-        href: https://glances-node01.{{ domain }}
+        href: https://glances.node01.{{ domain }}
         widget:
           type: glances
-          url: https://glances-node01.{{ domain }}:443
+          url: https://glances.node01.{{ domain }}:443
           version: 4
           metric: fs:/rootfs
 
@@ -246,10 +348,10 @@
         icon: si-traefikproxy.svg
         server: docker-node02
         container: traefik-traefik-1
-        href: https://traefik-node02.{{ domain }}
+        href: https://traefik.node02.{{ domain }}
         widget:
           type: traefik
-          url: https://traefik-node02.{{ domain }}
+          url: https://traefik.node02.{{ domain }}
           username: admin
           password: {{ traefik_pass }}
     - CPU:
@@ -257,10 +359,10 @@
         icon: si-glance.svg
         server: docker-node02
         container: glances-glances-1
-        href: https://glances-node02.{{ domain }}
+        href: https://glances.node02.{{ domain }}
         widget:
           type: glances
-          url: https://glances-node02.{{ domain }}:443
+          url: https://glances.node02.{{ domain }}:443
           version: 4
           metric: cpu
     - Memory:
@@ -268,10 +370,10 @@
         icon: si-glance.svg
         server: docker-node02
         container: glances-glances-1
-        href: https://glances-node02.{{ domain }}
+        href: https://glances.node02.{{ domain }}
         widget:
           type: glances
-          url: https://glances-node02.{{ domain }}:443
+          url: https://glances.node02.{{ domain }}:443
           version: 4
           metric: memory
     - OS_Disk:
@@ -279,10 +381,10 @@
         icon: si-glance.svg
         server: docker-node02
         container: glances-glances-1
-        href: https://glances-node02.{{ domain }}
+        href: https://glances.node02.{{ domain }}
         widget:
           type: glances
-          url: https://glances-node02.{{ domain }}:443
+          url: https://glances.node02.{{ domain }}:443
           version: 4
           metric: fs:/rootfs
 
@@ -292,10 +394,10 @@
         icon: si-traefikproxy.svg
         server: docker-node03
         container: traefik-traefik-1
-        href: https://traefik-node03.{{ domain }}
+        href: https://traefik.node03.{{ domain }}
         widget:
           type: traefik
-          url: https://traefik-node03.{{ domain }}
+          url: https://traefik.node03.{{ domain }}
           username: admin
           password: {{ traefik_pass }}
     - CPU:
@@ -303,10 +405,10 @@
         icon: si-glance.svg
         server: docker-node03
         container: glances-glances-1
-        href: https://glances-node03.{{ domain }}
+        href: https://glances.node03.{{ domain }}
         widget:
           type: glances
-          url: https://glances-node03.{{ domain }}:443
+          url: https://glances.node03.{{ domain }}:443
           version: 4
           metric: cpu
     - Memory:
@@ -314,10 +416,10 @@
         icon: si-glance.svg
         server: docker-node03
         container: glances-glances-1
-        href: https://glances-node03.{{ domain }}
+        href: https://glances.node03.{{ domain }}
         widget:
           type: glances
-          url: https://glances-node03.{{ domain }}:443
+          url: https://glances.node03.{{ domain }}:443
           version: 4
           metric: memory
     - OS_Disk:
@@ -325,10 +427,10 @@
         icon: si-glance.svg
         server: docker-node03
         container: glances-glances-1
-        href: https://glances-node03.{{ domain }}
+        href: https://glances.node03.{{ domain }}
         widget:
           type: glances
-          url: https://glances-node03.{{ domain }}:443
+          url: https://glances.node03.{{ domain }}:443
           version: 4
           metric: fs:/rootfs
     - Immich_Disk_0:
@@ -336,10 +438,10 @@
         icon: si-glance.svg
         server: docker-node03
         container: glances-glances-1
-        href: https://glances-node03.{{ domain }}
+        href: https://glances.node03.{{ domain }}
         widget:
           type: glances
-          url: https://glances-node03.{{ domain }}:443
+          url: https://glances.node03.{{ domain }}:443
           version: 4
           metric: fs:/rootfs/mnt/immich/disk-0
     - Services_Disk_0:
@@ -347,10 +449,10 @@
         icon: si-glance.svg
         server: docker-node03
         container: glances-glances-1
-        href: https://glances-node03.{{ domain }}
+        href: https://glances.node03.{{ domain }}
         widget:
           type: glances
-          url: https://glances-node03.{{ domain }}:443
+          url: https://glances.node03.{{ domain }}:443
           version: 4
           metric: fs:/rootfs/mnt/services/disk-0
 
@@ -360,10 +462,10 @@
         icon: si-traefikproxy.svg
         server: docker-node04
         container: traefik-traefik-1
-        href: https://traefik-node04.{{ domain }}
+        href: https://traefik.node04.{{ domain }}
         widget:
           type: traefik
-          url: https://traefik-node04.{{ domain }}
+          url: https://traefik.node04.{{ domain }}
           username: admin
           password: {{ traefik_pass }}
     - CPU:
@@ -371,10 +473,10 @@
         icon: si-glance.svg
         server: docker-node04
         container: glances-glances-1
-        href: https://glances-node04.{{ domain }}
+        href: https://glances.node04.{{ domain }}
         widget:
           type: glances
-          url: https://glances-node04.{{ domain }}:443
+          url: https://glances.node04.{{ domain }}:443
           version: 4
           metric: cpu
     - Memory:
@@ -382,10 +484,10 @@
         icon: si-glance.svg
         server: docker-node04
         container: glances-glances-1
-        href: https://glances-node04.{{ domain }}
+        href: https://glances.node04.{{ domain }}
         widget:
           type: glances
-          url: https://glances-node04.{{ domain }}:443
+          url: https://glances.node04.{{ domain }}:443
           version: 4
           metric: memory
     - OS_Disk:
@@ -393,10 +495,10 @@
         icon: si-glance.svg
         server: docker-node04
         container: glances-glances-1
-        href: https://glances-node04.{{ domain }}
+        href: https://glances.node04.{{ domain }}
         widget:
           type: glances
-          url: https://glances-node04.{{ domain }}:443
+          url: https://glances.node04.{{ domain }}:443
           version: 4
           metric: fs:/rootfs
     - Media_Disk_0:
@@ -404,10 +506,10 @@
         icon: si-glance.svg
         server: docker-node04
         container: glances-glances-1
-        href: https://glances-node04.{{ domain }}
+        href: https://glances.node04.{{ domain }}
         widget:
           type: glances
-          url: https://glances-node04.{{ domain }}:443
+          url: https://glances.node04.{{ domain }}:443
           version: 4
           metric: fs:/rootfs/mnt/media/disk-0
     - Media_Disk_1:
@@ -415,10 +517,10 @@
         icon: si-glance.svg
         server: docker-node04
         container: glances-glances-1
-        href: https://glances-node04.{{ domain }}
+        href: https://glances.node04.{{ domain }}
         widget:
           type: glances
-          url: https://glances-node04.{{ domain }}:443
+          url: https://glances.node04.{{ domain }}:443
           version: 4
           metric: fs:/rootfs/mnt/media/disk-1
 
