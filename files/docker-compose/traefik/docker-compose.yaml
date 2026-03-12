@@ -19,9 +19,9 @@ services:
       - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
       - "--entrypoints.websecure.address=:443"
       # 🔹 Increase proxy timeouts
-      - "--entrypoints.websecure.transport.respondingTimeouts.readTimeout=600s"
-      - "--entrypoints.websecure.transport.respondingTimeouts.writeTimeout=600s"
-      - "--entrypoints.websecure.transport.respondingTimeouts.idleTimeout=600s"
+      - "--entrypoints.websecure.transport.respondingTimeouts.readTimeout=2400s"
+      - "--entrypoints.websecure.transport.respondingTimeouts.writeTimeout=2400s"
+      - "--entrypoints.websecure.transport.respondingTimeouts.idleTimeout=2400s"
       # CERTIFICATE RESOLVER      
       - "--certificatesresolvers.letsencrypt.acme.email={{ default_email }}"
       - "--certificatesresolvers.letsencrypt.acme.storage=/acme/acme.json"
