@@ -27,6 +27,8 @@ services:
       - WIREGUARD_PUBLIC_KEY={{ gluetun_wireguard_public_key }}
       - WIREGUARD_PRIVATE_KEY={{ gluetun_wireguard_private_key }}
       - WIREGUARD_ENDPOINT_IP={{ gluetun_wireguard_endpoint_ip }}
+      # PORT UPDATE FOR QBITTORENT
+      - VPN_PORT_FORWARDING_UP_COMMAND=/bin/sh -c 'wget -O- --retry-connrefused --post-data "json={\"listen_port\":\"{{ '{{' }}PORTS{{ '}}' }}\"}" http://127.0.0.1:8081/api/v2/app/setPreferences 2>&1'
     # ports:
     #   - 8888:8888/tcp # HTTP proxy
     #   - 8388:8388/tcp # Shadowsocks
