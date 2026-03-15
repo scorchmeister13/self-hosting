@@ -599,3 +599,10 @@
       container: ntfy
       href: https://ntfy.{{ domain }}
       showStats: true
+  - Ntfy-GitHub:
+      weight: 58
+      icon: ntfy.png
+      server: docker-node01
+      container: github-ntfy
+      href: https://ntfy-github.{{ domain }}
+      showStats: true
