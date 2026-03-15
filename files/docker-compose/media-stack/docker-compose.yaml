@@ -136,7 +136,7 @@ services:
   # 🔹🔹 JELLYFIN  🔹🔹
   # Media player
   jellyfin:
-    image: lscr.io/linuxserver/jellyfin:latest
+    image: lscr.io/linuxserver/jellyfin:10.11.6
     container_name: jellyfin
     network_mode: "service:gluetun"
     environment:
@@ -177,7 +177,7 @@ services:
   # 🔹🔹 QUI  🔹🔹
   # UI for Qbittorrent
   qui:
-    image: ghcr.io/autobrr/qui:latest
+    image: ghcr.io/autobrr/qui:v1.14.1
     container_name: qui
     network_mode: "service:gluetun"
     restart: unless-stopped
@@ -191,7 +191,7 @@ services:
    # 🔹🔹 QBITTORRENT  🔹🔹
   # Torrent client
   qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:latest
+    image: lscr.io/linuxserver/qbittorrent:5.1.4
     container_name: qbittorrent
     network_mode: "service:gluetun"
     restart: unless-stopped
@@ -207,7 +207,7 @@ services:
   # 🔹🔹 PROWLARR  🔹🔹
   # With Prowlarr, the user gets Indexer Sync and seamless integration support with various PVR apps. In addition, with Prowlarr, the user can manage all Torrent trackers and Usenet Indexers from one place while providing support for automation with the search for and download content, irrespective of the content type.
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:latest
+    image: lscr.io/linuxserver/prowlarr:2.3.0
     container_name: prowlarr
     network_mode: "service:gluetun"
     restart: unless-stopped
@@ -221,7 +221,7 @@ services:
   # 🔹🔹 SONARR  🔹🔹
   # Sonarr is a PVR for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new episodes of your favorite shows and will grab, sort and rename them.
   sonarr:
-    image: lscr.io/linuxserver/sonarr:latest
+    image: lscr.io/linuxserver/sonarr:4.0.16
     container_name: sonarr
     network_mode: "service:gluetun"
     restart: unless-stopped
@@ -237,7 +237,7 @@ services:
   # 🔹🔹 RADARR  🔹🔹
   # Radarr is similar to Sonarr but grabs movies instead of TV shows.
   radarr:
-    image: lscr.io/linuxserver/radarr:latest
+    image: lscr.io/linuxserver/radarr:6.0.4
     container_name: radarr
     network_mode: "service:gluetun"
     restart: unless-stopped
@@ -253,7 +253,7 @@ services:
   # 🔹🔹 LIDARR  🔹🔹
   # Lidarr is a music collection manager for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new albums and will grab, sort and rename them.
   lidarr:
-    image: lscr.io/linuxserver/lidarr:latest
+    image: lscr.io/linuxserver/lidarr:3.1.0
     container_name: lidarr
     network_mode: "service:gluetun"
     restart: unless-stopped
@@ -269,7 +269,7 @@ services:
   # 🔹🔹 DISPATCHARR  🔹🔹
   # Dispatcharr is a tool for managing IPTV streams.
   dispatcharr:
-    image: ghcr.io/dispatcharr/dispatcharr:latest
+    image: ghcr.io/dispatcharr/dispatcharr:0.20.2-20260315220015
     container_name: dispatcharr
     network_mode: "service:gluetun"
     restart: unless-stopped
@@ -284,7 +284,7 @@ services:
   # 🔹🔹 BAZARR  🔹🔹
   # Bazarr is a companion application to Sonarr and Radarr that manages and downloads subtitles based on your requirements.
   bazarr:
-    image: lscr.io/linuxserver/bazarr:latest
+    image: lscr.io/linuxserver/bazarr:1.5.6
     container_name: bazarr
     network_mode: "service:gluetun"
     restart: unless-stopped
@@ -304,7 +304,7 @@ services:
   # 🔗 https://github.com/davidnewhall/unpackerr
   # 🔗 https://golift.io/unpackerr
   unpackerr:
-    image: golift/unpackerr:latest
+    image: golift/unpackerr:0.15
     container_name: unpackerr
     network_mode: "service:gluetun"
     environment:
@@ -363,7 +363,7 @@ services:
   # 🔹🔹 PINCHFLAT  🔹🔹
   # Pinchflat is for tracking/downloading youtube videos
   pinchflat:
-    image: ghcr.io/kieraneglin/pinchflat:latest
+    image: ghcr.io/kieraneglin/pinchflat:v2025.6.6
     container_name: pinchflat
     network_mode: "service:gluetun"
     restart: always

@@ -14,7 +14,7 @@ services:
       - proxy
 
   nextcloud:
-    image: nextcloud:31.0.14
+    image: nextcloud:33.0.0
     restart: always
     # ports:
     #   - 8080:80

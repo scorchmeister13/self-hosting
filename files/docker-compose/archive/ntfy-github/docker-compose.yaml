@@ -1,6 +1,6 @@
 services:
   github-ntfy:
-    image: breizhhardware/github-ntfy:latest
+    image: breizhhardware/github-ntfy:v2.0.2
     container_name: github-ntfy
     restart: unless-stopped
     environment:
