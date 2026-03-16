@@ -1,3 +1,11 @@
+- name: Copy bookmarks.yaml file
+  ansible.builtin.template:
+    src: "files/docker-compose/{{ application_target }}/bookmarks.yaml"
+    dest: "/opt/stacks/{{ application_target }}/config/bookmarks.yaml"
+    mode: '0644'
+    owner: root
+    group: root
+
 - name: Copy services.yaml file
   ansible.builtin.template:
     src: "files/docker-compose/{{ application_target }}/homepage_services.yaml"

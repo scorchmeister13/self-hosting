@@ -5,71 +5,40 @@
 
 - Information:
   - Calendar:
-    - Calendar:
-        weight: 0
-        widget:
-          type: calendar
-          firstDayInWeek: monday
-          view: monthly
-          maxEvents: 10
-          showTime: true
-          timezone: {{ timezone }}
-          integrations:
-            - type: radarr
-              service_group: Media
-              service_name: Radarr
-              color: orange
-            - type: sonarr
-              service_group: Media
-              service_name: Sonarr
-              color: teal
-  - Infrastructure:
-    - DNS-01:
-        weight: 0
-        icon: si-nextdns.svg
-        server: docker-node01
-        container: dns-server
-        href: https://dns-node01.{{ domain }}
-        widget:
-          type: technitium
-          url: https://dns-node01.{{ domain }}
-          username: admin
-          key: {{ dns_api_key }}
-          range: LastDay
-    - DNS-02:
-        weight: 1
-        icon: si-nextdns.svg
-        server: docker-node02
-        container: dns-server
-        href: https://dns-node02.{{ domain }}
-        widget:
-          type: technitium
-          url: https://dns-node02.{{ domain }}
-          username: admin
-          key: {{ dns_api_key }}
-          range: LastDay
-    - JP-AWK-NAS01:
-        weight: 1
-        icon: si-proxmox.svg
-        href: https://jp-awk-nas01.{{ domain }}:8006
-        widget:
-          type: proxmox
-          url: https://jp-awk-nas01.{{ domain }}:8006
-          username: read-only@pam!gethomepage
-          password: {{ jp_awk_nas01_token }}
-          node: jp-awk-nas01
-  - Speedtest:
-    - Speedtest:
-        weight: 0
-        icon: si-speedtest.svg
-        server: docker-node01
-        container: speedtest
-        href: https://speedtest.{{ domain }}
-        widget:
-          type: speedtest
-          url: https://speedtest.{{ domain }}
-          version: 1
-          bitratePrecision: 3
+      weight: 0
+      widget:
+        type: calendar
+        firstDayInWeek: monday
+        view: monthly
+        maxEvents: 10
+        showTime: true
+        timezone: {{ timezone }}
+        integrations:
+          - type: radarr
+            service_group: Media
+            service_name: Radarr
+            color: orange
+          - type: sonarr
+            service_group: Media
+            service_name: Sonarr
+            color: teal
+          - type: lidarr
+            service_group: Media
+            service_name: Lidarr
+            color: purple
+  - USD/JPY:
+      weight: 1
+      widget:
+        type: iframe
+        name: USDJPY
+        src: https://s.tradingview.com/widgetembed/?symbol=FX:USDJPY&interval=60&theme=dark
+        height: 300
+  - Forecast:
+      weight: 6
+      widget:
+        type: iframe
+        src: https://embed.windy.com/embed2.html?lat=35.6762&lon=139.6503&zoom=5&level=surface&overlay=rain
+        height: 300
 
 - Media:
   - Jellyfin:
@@ -294,6 +263,53 @@
           url: https://glances.nas01.{{ domain }}:443
           version: 4
           metric: disk:sdc
+
+- Speedtest:
+  - Speedtest:
+      weight: 0
+      widget:
+        type: speedtest
+        url: https://speedtest.{{ domain }}
+        version: 1
+        bitratePrecision: 3
+
+- DNS:
+  - DNS-01:
+      weight: 0
+      icon: si-nextdns.svg
+      server: docker-node01
+      container: dns-server
+      href: https://dns-node01.{{ domain }}
+      widget:
+        type: technitium
+        url: https://dns-node01.{{ domain }}
+        username: admin
+        key: {{ dns_api_key }}
+        range: LastDay
+  - DNS-02:
+      weight: 1
+      icon: si-nextdns.svg
+      server: docker-node02
+      container: dns-server
+      href: https://dns-node02.{{ domain }}
+      widget:
+        type: technitium
+        url: https://dns-node02.{{ domain }}
+        username: admin
+        key: {{ dns_api_key }}
+        range: LastDay
+
+- Proxmox:
+  - JP-AWK-NAS01:
+      weight: 0
+      icon: si-proxmox.svg
+      href: https://jp-awk-nas01.{{ domain }}:8006
+      widget:
+        type: proxmox
+        url: https://jp-awk-nas01.{{ domain }}:8006
+        username: read-only@pam!gethomepage
+        password: {{ jp_awk_nas01_token }}
+        node: jp-awk-nas01
 
 - Virtual-Machines:
   - Node01:

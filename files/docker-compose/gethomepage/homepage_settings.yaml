@@ -13,28 +13,38 @@ cardBlur: md
 hideVersion: false
 statusStyle: dot
 disableCollapse: true
+fullWidth: true
 layout:
   - Information:
+      tab: Information & Services
       icon: si-googlecalendar.svg
       style: row
       columns: 2
-      Calendar:
-      Infrastructure:
-        style: column
-        rows: 3
-      Speedtest:
-        style: column
-        rows: 1
   - Media:
+      tab: Information & Services
       icon: si-vlcmediaplayer.svg
       style: row
       columns: 4
   - Services:
+      tab: Information & Services
       icon: si-docker.svg
       style: row
       columns: 4
       useEqualHeights: true
+  - Speedtest:
+      tab: Infrastructure
+      style: row
+      columns: 1
+  - DNS:
+      tab: Infrastructure
+      style: row
+      columns: 2
+  - Proxmox:
+      tab: Infrastructure
+      style: row
+      columns: 2
   - Hosts:
+      tab: Infrastructure
       icon: si-serverfault.svg
       style: row
       columns: 1
@@ -42,6 +52,7 @@ layout:
         style: row
         columns: 4
   - Virtual-Machines:
+      tab: Infrastructure
       icon: si-serverless.svg
       style: row
       columns: 4
