@@ -1,0 +1,30 @@
+services:
+  filebrowser:
+    container_name: filebrowser
+    user: "0:0"
+    image: hurlenko/filebrowser:v2.62.1
+    restart: unless-stopped
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ={{ timezone }}
+      - FB_PORT=5052
+      - FB_USERNAME=admin
+    volumes:
+      - ./filebrowser/config:/config
+      - /mnt/:/data/mnt
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.filebrowser.entrypoints=websecure"
+      - "traefik.http.routers.filebrowser.rule=Host(`files.{{ inventory_hostname_short.split('-')[-1] }}.{{ domain }}`)"
+      - "traefik.http.routers.filebrowser.tls=true"
+      - "traefik.http.routers.filebrowser.tls.certresolver=letsencrypt"
+      - "traefik.http.services.filebrowser.loadbalancer.server.port=5052"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
