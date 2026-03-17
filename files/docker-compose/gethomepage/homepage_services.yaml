@@ -615,3 +615,10 @@
       container: ntfy
       href: https://ntfy.{{ domain }}
       showStats: true
+  - NoteMark:
+      weight: 58
+      icon: note-mark.png
+      server: docker-node04
+      container: notemark-note-mark-1
+      href: https://notes.{{ domain }}
+      showStats: true

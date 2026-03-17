@@ -21,3 +21,4 @@ application_deployment_targets:
   # NODE04
   media-stack:        "jp-awk-node04.scorch13.com"
   papra:              "jp-awk-node04.scorch13.com"
+  notemark:           "jp-awk-node04.scorch13.com"

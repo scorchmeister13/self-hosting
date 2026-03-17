@@ -1,0 +1,23 @@
+services:
+  note-mark:
+    image: ghcr.io/enchant97/note-mark-aio:0.19.1
+    restart: unless-stopped
+    volumes:
+      - ./data:/data
+    environment:
+      JWT_SECRET: "{{ notemark_jwt_secret }}"
+      PUBLIC_URL: "http://notes.{{ domain }}"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.notemark.rule=Host(`notes.{{ domain }}`)"
+      - "traefik.http.routers.notemark.entrypoints=websecure"
+      - "traefik.http.routers.notemark.tls=true"
+      - "traefik.http.routers.notemark.tls.certresolver=letsencrypt"
+      - "traefik.http.services.notemark.loadbalancer.server.port=8080"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
