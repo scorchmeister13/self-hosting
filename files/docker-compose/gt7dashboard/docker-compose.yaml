@@ -1,0 +1,33 @@
+services:
+  gt7dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    container_name: gt7dashboard
+    user: "1002"
+    environment:
+      - BOKEH_ALLOW_WS_ORIGIN={{ ansible_host }}:5006,gt7.scorch13.com
+      - BOKEH_RESOURCES=cdn
+      - GT7_PLAYSTATION_IP=192.168.1.46
+      - TZ={{ timezone }}
+    ports:
+      # - "5006:5006/tcp"
+      - "33740:33740/udp"
+    volumes:
+      - "./data:/usr/src/app/data"
+    labels:
+      # TRAEFIK
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.gt7dashboard.rule=Host(`gt7.{{ domain }}`)"
+      - "traefik.http.routers.gt7dashboard.entrypoints=websecure"
+      - "traefik.http.routers.gt7dashboard.tls=true"
+      - "traefik.http.routers.gt7dashboard.tls.certresolver=letsencrypt"
+      - "traefik.http.services.gt7dashboard.loadbalancer.server.port=5006"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true

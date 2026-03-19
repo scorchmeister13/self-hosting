@@ -1,0 +1,39 @@
+- name: Ensure gt7dashboard folder exists
+  ansible.builtin.file:
+    path: /opt/stacks/gt7dashboard
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+
+- name: Copy gt7dashboard Dockerfile
+  ansible.builtin.template:
+    src: "files/docker-compose/{{ application_target }}/Dockerfile"
+    dest: "/opt/stacks/{{ application_target }}/Dockerfile"
+    mode: '0644'
+    owner: root
+    group: root
+
+- name: Copy requirements.txt
+  ansible.builtin.template:
+    src: "files/docker-compose/{{ application_target }}/requirements.txt"
+    dest: "/opt/stacks/{{ application_target }}/requirements.txt"
+    mode: '0644'
+    owner: root
+    group: root
+
+- name: Copy main.py
+  ansible.builtin.template:
+    src: "files/docker-compose/{{ application_target }}/main.py"
+    dest: "/opt/stacks/{{ application_target }}/main.py"
+    mode: '0644'
+    owner: root
+    group: root
+
+- name: Copy gt7dashboard package folder
+  ansible.builtin.copy:
+    src: "files/docker-compose/{{ application_target }}/gt7dashboard"
+    dest: "/opt/stacks/{{ application_target }}/"
+    owner: root
+    group: root
+    mode: '0755'

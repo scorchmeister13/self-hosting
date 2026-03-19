@@ -18,6 +18,7 @@ application_deployment_targets:
   immich:             "jp-awk-node03.scorch13.com"
   nextcloud:          "jp-awk-node03.scorch13.com"
   romm:               "jp-awk-node03.scorch13.com"
+  gt7dashboard:       "jp-awk-node03.scorch13.com"
   # NODE04
   media-stack:        "jp-awk-node04.scorch13.com"
   papra:              "jp-awk-node04.scorch13.com"

@@ -622,3 +622,10 @@
       container: notemark-note-mark-1
       href: https://notes.{{ domain }}
       showStats: true
+  - GT7-Dashboard:
+      weight: 59
+      icon:  mdi-racing-helmet.mdi
+      server: docker-node03
+      container: gt7dashboard
+      href: https://gt7.scorch13.com
+      showStats: true

@@ -17,6 +17,10 @@
   ansible.builtin.include_tasks: "04_romm.yml"
   when: application_target == "romm"
 
+- name: 05_gt7dashboard.yml
+  ansible.builtin.include_tasks: "05_gt7dashboard.yml"
+  when: application_target == "gt7dashboard"
+
 - name: XX_docker_deploy.yml
   ansible.builtin.include_tasks: "xx_docker_deploy.yml"
 
