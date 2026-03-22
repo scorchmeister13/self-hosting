@@ -1,0 +1,21 @@
+services:
+  trip:
+    image: ghcr.io/itskovacs/trip:1.43.0
+    volumes:
+      - ./trip:/app/storage
+    command: ["fastapi", "run", "/app/trip/main.py", "--host", "0.0.0.0"]
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.trip.rule=Host(`trip.{{ domain }}`)"
+      - "traefik.http.routers.trip.entrypoints=websecure"
+      - "traefik.http.routers.trip.tls=true"
+      - "traefik.http.routers.trip.tls.certresolver=letsencrypt"
+      - "traefik.http.services.trip.loadbalancer.server.port=8080"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
