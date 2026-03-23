@@ -177,7 +177,7 @@ services:
   # 🔹🔹 QUI  🔹🔹
   # UI for Qbittorrent
   qui:
-    image: ghcr.io/autobrr/qui:v1.14.1
+    image: ghcr.io/autobrr/qui:v1.15.0
     container_name: qui
     network_mode: "service:gluetun"
     restart: unless-stopped
