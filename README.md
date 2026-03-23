@@ -4,6 +4,10 @@ Ansible-based setup for self-hosting services on Debian nodes with Docker and Tr
 
 ![Homepage Dashboard](images/homepage-01.png)
 
+## ⚠️ Disclaimer
+
+The playbooks, example inventory, variables (`group_vars`, `host_vars`), Docker Compose templates, application deployment targets, and other configuration in this repository are defined for the maintainer’s own setup. **Anyone reusing this repo should review and change** hosts, domains, secrets, `defaults_*.yml`, `defaults_application_targets.yml`, and app-specific files so they match their own environment and policies.
+
 ## Repository Structure
 
 ```
@@ -26,6 +30,29 @@ Ansible-based setup for self-hosting services on Debian nodes with Docker and Tr
 ├── setup-step.yml                # Step CA setup playbook
 └── setup-docker-application.yml  # Application deployment playbook
 ```
+
+## Applications
+
+Active stacks live under [`files/docker-compose/`](files/docker-compose/). Entries under [`archive/`](files/docker-compose/archive/) are retired examples and are omitted here.
+
+| Application | Description |
+|-------------|-------------|
+| [bento-pdf](files/docker-compose/bento-pdf/docker-compose.yaml) | Web-based PDF tools (merge, split, convert, and similar operations). |
+| [filebrowser](files/docker-compose/filebrowser/docker-compose.yaml) | Web UI to browse and manage files on mounted host paths |
+| [gethomepage](files/docker-compose/gethomepage/docker-compose.yaml) | Application dashboard (Homepage) with Docker and service widgets |
+| [glances](files/docker-compose/glances/docker-compose.yaml) | System monitoring with a web interface (CPU, memory, disks, Docker, and plugins) |
+| [gt7dashboard](files/docker-compose/gt7dashboard/docker-compose.yaml) | Gran Turismo 7 telemetry dashboard |
+| [immich](files/docker-compose/immich/docker-compose.yaml) | Self-hosted photo and video library |
+| [media-stack](files/docker-compose/media-stack/docker-compose.yaml) | Media automation behind a VPN client (Gluetun): Jellyfin, *arr apps, qBittorrent, Seerr, and related helpers |
+| [nextcloud](files/docker-compose/nextcloud/docker-compose.yaml) | Files, contacts, and collaboration |
+| [notemark](files/docker-compose/notemark/docker-compose.yaml) | Self-hosted notes |
+| [ntfy](files/docker-compose/ntfy/docker-compose.yaml) | Push notification server for scripts and services |
+| [papra](files/docker-compose/papra/docker-compose.yaml) | Minimal document storage and archival |
+| [romm](files/docker-compose/romm/docker-compose.yaml) | ROM and game library manager for emulation |
+| [speedtest-tracker](files/docker-compose/speedtest-tracker/docker-compose.yaml) | Scheduled Ookla speed tests with history and charts |
+| [technitium-dns](files/docker-compose/technitium-dns/docker-compose.yaml) | DNS server with web console |
+| [traefik](files/docker-compose/traefik/docker-compose.yaml) | Reverse proxy and automatic HTTPS |
+| [vaultwarden](files/docker-compose/vaultwarden/docker-compose.yaml) | Bitwarden-compatible password manager server |
 
 ## Quick Start
 
