@@ -141,8 +141,15 @@
         type: bazarr
         url: https://bazarr.{{ domain }}
         key: {{ bazarr_api_key }}
-  - qBittorrent:
+  - qUI:
       weight: 9
+      icon: qui.png
+      server: docker-node04
+      container: qui
+      href: https://qui.{{ domain }}
+      showStats: true
+  - qBittorrent:
+      weight: 10
       icon: qbittorrent.png
       server: docker-node04
       container: qbittorrent
@@ -155,7 +162,7 @@
         enableLeechProgress: true
         enableLeechSize: true
   - Pinchflat:
-      weight: 10
+      weight: 11
       icon: pinchflat.png
       server: docker-node04
       container: pinchflat
@@ -566,13 +573,6 @@
       container: gethomepage-homepage-1
       href: https://home.{{ domain }}
       showStats: true
-  - qUI:
-      weight: 52
-      icon: qui.png
-      server: docker-node04
-      container: qui
-      href: https://qui.{{ domain }}
-      showStats: true
   - Papra:
       weight: 53
       icon: papra.png
@@ -624,7 +624,7 @@
       showStats: true
   - GT7-Dashboard:
       weight: 59
-      icon:  mdi-racing-helmet.mdi
+      icon:  mdi-racing-helmet.svg
       server: docker-node03
       container: gt7dashboard
       href: https://gt7.scorch13.com
