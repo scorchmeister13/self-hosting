@@ -20,8 +20,10 @@
     cache: 60
 
 - search:
-    provider: duckduckgo
+    provider: custom
+    url: https://searxng.{{ domain }}/search?q=
     target: _blank
+    showSearchSuggestions: true
 
 - datetime:
     text_size: xl
