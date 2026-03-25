@@ -6,12 +6,6 @@
   become: false
   delegate_to: localhost
 
-- name: Docker Deploy | Ensure folder exists
-  ansible.builtin.file:
-    path: /opt/stacks/{{ application_target }}/
-    state: directory
-    mode: '0755'
-
 - name: Docker Deploy | Copying docker-compose file to {{ inventory_hostname }}
   ansible.builtin.template:
     src: "files/docker-compose/{{ application_target }}/docker-compose.yaml"

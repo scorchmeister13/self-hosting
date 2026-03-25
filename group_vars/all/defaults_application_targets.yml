@@ -10,7 +10,6 @@ application_deployment_targets:
   ntfy:               "jp-awk-node01.scorch13.com"
   ntfy-github:        "jp-awk-node01.scorch13.com"
   speedtest-tracker:  "jp-awk-node01.scorch13.com"
-  komodo:             "jp-awk-node01.scorch13.com"
   # NODE02
   gethomepage:        "jp-awk-node02.scorch13.com"
   vaultwarden:        "jp-awk-node02.scorch13.com"
