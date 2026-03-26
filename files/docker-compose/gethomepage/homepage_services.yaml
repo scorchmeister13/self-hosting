@@ -625,7 +625,7 @@
   - GT7-Dashboard:
       weight: 59
       icon:  mdi-racing-helmet.svg
-      server: docker-node03
+      server: docker-node04
       container: gt7dashboard
       href: https://gt7.scorch13.com
       showStats: true
@@ -636,3 +636,14 @@
       container: searxng
       href: https://searxng.{{ domain }}
       showStats: true
+  - Grafana:
+      weight: 61
+      icon: grafana.png
+      server: docker-node03
+      container: grafana
+      href: https://grafana.{{ domain }}
+      widget:
+        type: grafana
+        url: https://grafana.{{ domain }}
+        username: {{ grafana_username }}
+        password: {{ grafana_password }}
