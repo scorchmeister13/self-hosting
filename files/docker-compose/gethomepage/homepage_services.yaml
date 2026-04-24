@@ -629,7 +629,7 @@
       container: gt7dashboard
       href: https://gt7.scorch13.com
       showStats: true
-  - SearxNG:
+  - SearXNG:
       weight: 60
       icon: searxng.png
       server: docker-node02

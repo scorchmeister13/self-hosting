@@ -160,7 +160,7 @@ services:
   # 🔹🔹 JELLYSEERR  🔹🔹
   # One-stop-shop for downloading movies, shows, books instead of logging in to each individual app (Sonarr, Radarr, etc)
   seerr:
-    image: ghcr.io/seerr-team/seerr:v3.1.0
+    image: ghcr.io/seerr-team/seerr:v3.2.0
     network_mode: "service:gluetun"
     restart: unless-stopped
     init: true
@@ -177,7 +177,7 @@ services:
   # 🔹🔹 QUI  🔹🔹
   # UI for Qbittorrent
   qui:
-    image: ghcr.io/autobrr/qui:v1.15.0
+    image: ghcr.io/autobrr/qui:v1.17.0
     container_name: qui
     network_mode: "service:gluetun"
     restart: unless-stopped
