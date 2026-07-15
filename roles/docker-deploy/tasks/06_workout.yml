@@ -1,0 +1,6 @@
+- name: Copy .env file
+  ansible.builtin.template:
+    src: "files/docker-compose/{{ application_target }}/.env"
+    dest: "/opt/stacks/{{ application_target }}/.env"
+    mode: '0644'
+    owner: root

@@ -27,5 +27,9 @@
   ansible.builtin.include_tasks: "05_gt7dashboard.yml"
   when: application_target == "gt7dashboard"
 
+- name: 06_workout.yml
+  ansible.builtin.include_tasks: "06_workout.yml"
+  when: application_target == "workout"
+
 - name: XX_docker_deploy.yml
   ansible.builtin.include_tasks: "xx_docker_deploy.yml"

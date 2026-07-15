@@ -14,6 +14,7 @@ application_deployment_targets:
   gethomepage:        "jp-awk-node02.scorch13.com"
   vaultwarden:        "jp-awk-node02.scorch13.com"
   searxng:            "jp-awk-node02.scorch13.com"
+  workout:            "jp-awk-node02.scorch13.com"
   # NODE03
   bento-pdf:          "jp-awk-node03.scorch13.com"
   immich:             "jp-awk-node03.scorch13.com"
