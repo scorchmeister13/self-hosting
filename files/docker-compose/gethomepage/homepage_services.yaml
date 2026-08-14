@@ -636,14 +636,3 @@
       container: searxng
       href: https://searxng.{{ domain }}
       showStats: true
-  - Grafana:
-      weight: 61
-      icon: grafana.png
-      server: docker-node03
-      container: grafana
-      href: https://grafana.{{ domain }}
-      widget:
-        type: grafana
-        url: https://grafana.{{ domain }}
-        username: {{ grafana_username }}
-        password: {{ grafana_password }}
