@@ -77,6 +77,7 @@
         type: gluetun
         url: https://gluetun.{{ domain }}
         key: {{ gluetun_api_key }}
+        version: 2
   - Radarr:
       weight: 3
       icon: radarr.png
@@ -169,6 +170,9 @@
       href: https://youtube.{{ domain }}
       showStats: true
 
+##########################
+### INFRASTRUCTURE TAB ###
+##########################
 - Hosts:
   - NAS01:
     - Traefik:
@@ -547,92 +551,106 @@
           version: 4
           metric: fs:/rootfs/mnt/media/disk-1
 
+######################
+### SERVICES BLOCK ###
+######################
 - Services:
-  - Immich:
-      weight: 0
-      icon: immich.png
-      server: docker-node03
-      container: immich_server
-      href: https://immich.{{ domain }}
-      widget:
-        type: immich
-        url: https://immich.{{ domain }}
-        key: {{ immich_api_key }}
-        version: 2
-  - Vaultwarden:
-      weight: 50
-      icon: vaultwarden.png
-      server: docker-node02
-      container: vaultwarden-vaultwarden-1
-      href: https://vault.{{ domain }}
-      showStats: true
-  - GetHomePage:
-      weight: 51
-      icon: homepage.png
-      server: docker-node02
-      container: gethomepage-homepage-1
-      href: https://home.{{ domain }}
-      showStats: true
-  - Papra:
-      weight: 53
-      icon: papra.png
-      server: docker-node04
-      container: papra
-      href: https://papra.{{ domain }}
-      showStats: true
-  - Nextcloud:
-      weight: 54
-      icon: nextcloud.png
-      server: docker-node03
-      container: nextcloud-nextcloud-1
-      href: https://nextcloud.{{ domain }}
-      widget:
-        type: nextcloud
-        url: https://nextcloud.{{ domain }}
-        username: {{ nextcloud_username }}
-        password: {{ nextcloud_password }}
-  - BentoPDF:
-      weight: 55
-      icon: bentopdf.png
-      server: docker-node03
-      container: bentopdf
-      href: https://bento-pdf.{{ domain }}
-      showStats: true
-  - Romm:
-      weight: 56
-      icon: romm.png
-      server: docker-node03
-      container: romm
-      href: https://retro.{{ domain }}
-      widget:
-        type: romm
-        url: https://retro.{{ domain }}
-        fields: ["platforms", "totalRoms", "saves", "states"]
-  - Ntfy:
-      weight: 57
-      icon: ntfy.png
-      server: docker-node01
-      container: ntfy
-      href: https://ntfy.{{ domain }}
-      showStats: true
-  - NoteMark:
-      weight: 58
-      icon: note-mark.png
-      server: docker-node04
-      container: notemark-note-mark-1
-      href: https://notes.{{ domain }}
-      showStats: true
-  - GT7-Dashboard:
-      weight: 59
-      icon:  mdi-racing-helmet.svg
-      server: docker-node04
-      container: gt7dashboard
-      href: https://gt7.scorch13.com
-      showStats: true
-  - SearXNG:
-      weight: 60
-      icon: searxng.png
-      server: docker-node02
-      container: searxng
-      href: https://searxng.{{ domain }}
-      showStats: true
+  - Node01 Apps:
+    - Ntfy:
+        weight: 0
+        icon: ntfy.png
+        server: docker-node01
+        container: ntfy
+        href: https://ntfy.{{ domain }}
+        showStats: true
+    - Speedtest-Tracker:
+        weight: 1
+        icon: speedtest-tracker.png
+        server: docker-node01
+        container: speedtest
+        href: https://speedtest.{{ domain }}
+        showStats: true
+  - Node02 Apps:
+    - GetHomePage:
+        weight: 0
+        icon: homepage.png
+        server: docker-node02
+        container: gethomepage-homepage-1
+        href: https://home.{{ domain }}
+        showStats: true
+    - Vaultwarden:
+        weight: 1
+        icon: vaultwarden.png
+        server: docker-node02
+        container: vaultwarden-vaultwarden-1
+        href: https://vault.{{ domain }}
+        showStats: true
+    - SearXNG:
+        weight: 2
+        icon: searxng.png
+        server: docker-node02
+        container: searxng
+        href: https://searxng.{{ domain }}
+        showStats: true
+  - Node03 Apps:
+    - Immich:
+        weight: 0
+        icon: immich.png
+        server: docker-node03
+        container: immich_server
+        href: https://immich.{{ domain }}
+        widget:
+          type: immich
+          url: https://immich.{{ domain }}
+          key: {{ immich_api_key }}
+          version: 2
+    - Nextcloud:
+        weight: 1
+        icon: nextcloud.png
+        server: docker-node03
+        container: nextcloud-nextcloud-1
+        href: https://nextcloud.{{ domain }}
+        widget:
+          type: nextcloud
+          url: https://nextcloud.{{ domain }}
+          username: {{ nextcloud_username }}
+          password: {{ nextcloud_password }}
+    - Romm:
+        weight: 2
+        icon: romm.png
+        server: docker-node03
+        container: romm
+        href: https://retro.{{ domain }}
+        widget:
+          type: romm
+          url: https://retro.{{ domain }}
+          fields: ["platforms", "totalRoms", "saves", "states"]
+    - BentoPDF:
+        weight: 3
+        icon: bentopdf.png
+        server: docker-node03
+        container: bentopdf
+        href: https://bento-pdf.{{ domain }}
+        showStats: true
+  - Node04 Apps:
+    - Papra:
+        weight: 53
+        icon: papra.png
+        server: docker-node04
+        container: papra
+        href: https://papra.{{ domain }}
+        showStats: true
+    - NoteMark:
+        weight: 58
+        icon: note-mark.png
+        server: docker-node04
+        container: notemark-note-mark-1
+        href: https://notes.{{ domain }}
+        showStats: true
+    - GT7-Dashboard:
+        weight: 59
+        icon:  mdi-racing-helmet.svg
+        server: docker-node04
+        container: gt7dashboard
+        href: https://gt7.scorch13.com
+        showStats: true

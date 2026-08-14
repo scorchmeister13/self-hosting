@@ -31,6 +31,14 @@ layout:
       style: row
       columns: 4
       useEqualHeights: true
+      Node01 Apps:
+        style: column
+      Node02 Apps:
+        style: column
+      Node03 Apps:
+        style: column
+      Node04 Apps:
+        style: column
   - Speedtest:
       tab: Infrastructure
       style: row
