@@ -633,22 +633,18 @@
         href: https://bento-pdf.{{ domain }}
         showStats: true
   - Node04 Apps:
+    - Media-Stack:
+        weight: 0
+        icon: jellyfin.png
     - Papra:
-        weight: 53
+        weight: 1
         icon: papra.png
         server: docker-node04
         container: papra
         href: https://papra.{{ domain }}
         showStats: true
-    - NoteMark:
-        weight: 58
-        icon: note-mark.png
-        server: docker-node04
-        container: notemark-note-mark-1
-        href: https://notes.{{ domain }}
-        showStats: true
     - GT7-Dashboard:
-        weight: 59
+        weight: 2
         icon:  mdi-racing-helmet.svg
         server: docker-node04
         container: gt7dashboard
