@@ -47,6 +47,7 @@
       server: docker-node04
       container: jellyfin
       href: https://jellyfin.{{ domain }}
+      siteMonitor: https://jellyfin.{{ domain }}
       widget:
         type: jellyfin
         url: https://jellyfin.{{ domain }}
@@ -63,6 +64,7 @@
       server: docker-node04
       container: seerr
       href: https://media.{{ domain }}
+      siteMonitor: https://media.{{ domain }}
       widget:
         type: jellyseerr
         url: https://media.{{ domain }}
@@ -84,6 +86,7 @@
       server: docker-node04
       container: radarr
       href: https://radarr.{{ domain }}
+      siteMonitor: https://radarr.{{ domain }}
       widget:
         type: radarr
         url: https://radarr.{{ domain }}
@@ -95,6 +98,7 @@
       server: docker-node04
       container: sonarr
       href: https://sonarr.{{ domain }}
+      siteMonitor: https://sonarr.{{ domain }}
       widget:
         type: sonarr
         url: https://sonarr.{{ domain }}
@@ -106,6 +110,7 @@
       server: docker-node04
       container: lidarr
       href: https://lidarr.{{ domain }}
+      siteMonitor: https://lidarr.{{ domain }}
       widget:
         type: lidarr
         url: https://lidarr.{{ domain }}
@@ -116,6 +121,7 @@
       server: docker-node04
       container: dispatcharr
       href: https://dispatcharr.{{ domain }}
+      siteMonitor: https://dispatcharr.{{ domain }}
       widget:
         type: dispatcharr
         url: https://dispatcharr.{{ domain }}
@@ -128,6 +134,7 @@
       server: docker-node04
       container: prowlarr
       href: https://prowlarr.{{ domain }}
+      siteMonitor: https://prowlarr.{{ domain }}
       widget:
         type: prowlarr
         url: https://prowlarr.{{ domain }}
@@ -138,6 +145,7 @@
       server: docker-node04
       container: bazarr
       href: https://bazarr.{{ domain }}
+      siteMonitor: https://bazarr.{{ domain }}
       widget:
         type: bazarr
         url: https://bazarr.{{ domain }}
@@ -148,6 +156,7 @@
       server: docker-node04
       container: qui
       href: https://qui.{{ domain }}
+      siteMonitor: https://qui.{{ domain }}
       showStats: true
   - qBittorrent:
       weight: 10
@@ -155,6 +164,7 @@
       server: docker-node04
       container: qbittorrent
       href: https://qbittorrent.{{ domain }}
+      siteMonitor: https://qbittorrent.{{ domain }}
       widget:
         type: qbittorrent
         url: https://qbittorrent.{{ domain }}
@@ -168,6 +178,7 @@
       server: docker-node04
       container: pinchflat
       href: https://youtube.{{ domain }}
+      siteMonitor: https://youtube.{{ domain }}
       showStats: true
 
 ##########################
@@ -284,31 +295,6 @@
         version: 1
         bitratePrecision: 3
 
-- DNS:
-  - DNS-01:
-      weight: 0
-      icon: si-nextdns.svg
-      server: docker-node01
-      container: dns-server
-      href: https://dns-node01.{{ domain }}
-      widget:
-        type: technitium
-        url: https://dns-node01.{{ domain }}
-        username: admin
-        key: {{ dns_api_key }}
-        range: LastDay
-  - DNS-02:
-      weight: 1
-      icon: si-nextdns.svg
-      server: docker-node02
-      container: dns-server
-      href: https://dns-node02.{{ domain }}
-      widget:
-        type: technitium
-        url: https://dns-node02.{{ domain }}
-        username: admin
-        key: {{ dns_api_key }}
-        range: LastDay
 
 - Proxmox:
   - JP-AWK-NAS01:
@@ -556,41 +542,72 @@
 ######################
 - Services:
   - Node01 Apps:
-    - Ntfy:
+    - DNS-01:
         weight: 0
+        icon: si-nextdns.svg
+        server: docker-node01
+        container: dns-server
+        href: https://dns-node01.{{ domain }}
+        siteMonitor: https://dns-node01.{{ domain }}
+        widget:
+          type: technitium
+          url: https://dns-node01.{{ domain }}
+          username: admin
+          key: {{ dns_api_key }}
+          range: LastDay
+    - Ntfy:
+        weight: 1
         icon: ntfy.png
         server: docker-node01
         container: ntfy
         href: https://ntfy.{{ domain }}
+        siteMonitor: https://ntfy.{{ domain }}
         showStats: true
     - Speedtest-Tracker:
-        weight: 1
+        weight: 2
         icon: speedtest-tracker.png
         server: docker-node01
         container: speedtest
         href: https://speedtest.{{ domain }}
+        siteMonitor: https://speedtest.{{ domain }}
         showStats: true
   - Node02 Apps:
-    - GetHomePage:
+    - DNS-02:
         weight: 0
+        icon: si-nextdns.svg
+        server: docker-node02
+        container: dns-server
+        href: https://dns-node02.{{ domain }}
+        siteMonitor: https://dns-node02.{{ domain }}
+        widget:
+          type: technitium
+          url: https://dns-node02.{{ domain }}
+          username: admin
+          key: {{ dns_api_key }}
+          range: LastDay
+    - GetHomePage:
+        weight: 1
         icon: homepage.png
         server: docker-node02
         container: gethomepage-homepage-1
         href: https://home.{{ domain }}
+        siteMonitor: https://home.{{ domain }}
         showStats: true
     - Vaultwarden:
-        weight: 1
+        weight: 2
         icon: vaultwarden.png
         server: docker-node02
         container: vaultwarden-vaultwarden-1
         href: https://vault.{{ domain }}
+        siteMonitor: https://vault.{{ domain }}
         showStats: true
     - SearXNG:
-        weight: 2
+        weight: 3
         icon: searxng.png
         server: docker-node02
         container: searxng
         href: https://searxng.{{ domain }}
+        siteMonitor: https://searxng.{{ domain }}
         showStats: true
   - Node03 Apps:
     - Immich:
@@ -599,6 +616,7 @@
         server: docker-node03
         container: immich_server
         href: https://immich.{{ domain }}
+        siteMonitor: https://immich.{{ domain }}
         widget:
           type: immich
           url: https://immich.{{ domain }}
@@ -610,6 +628,7 @@
         server: docker-node03
         container: nextcloud-nextcloud-1
         href: https://nextcloud.{{ domain }}
+        siteMonitor: https://nextcloud.{{ domain }}
         widget:
           type: nextcloud
           url: https://nextcloud.{{ domain }}
@@ -621,6 +640,7 @@
         server: docker-node03
         container: romm
         href: https://retro.{{ domain }}
+        siteMonitor: https://retro.{{ domain }}
         widget:
           type: romm
           url: https://retro.{{ domain }}
@@ -631,6 +651,7 @@
         server: docker-node03
         container: bentopdf
         href: https://bento-pdf.{{ domain }}
+        siteMonitor: https://bento-pdf.{{ domain }}
         showStats: true
   - Node04 Apps:
     - Media-Stack:
@@ -642,6 +663,7 @@
         server: docker-node04
         container: papra
         href: https://papra.{{ domain }}
+        siteMonitor: https://papra.{{ domain }}
         showStats: true
     - GT7-Dashboard:
         weight: 2
@@ -649,4 +671,5 @@
         server: docker-node04
         container: gt7dashboard
         href: https://gt7.scorch13.com
+        siteMonitor: https://gt7.scorch13.com
         showStats: true
