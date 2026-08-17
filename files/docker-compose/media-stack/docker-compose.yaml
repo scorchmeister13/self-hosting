@@ -177,7 +177,7 @@ services:
   # 🔹🔹 QUI  🔹🔹
   # UI for Qbittorrent
   qui:
-    image: ghcr.io/autobrr/qui:v1.18.0
+    image: ghcr.io/autobrr/qui:v1.26.0
     container_name: qui
     network_mode: "service:gluetun"
     restart: unless-stopped
@@ -191,7 +191,7 @@ services:
    # 🔹🔹 QBITTORRENT  🔹🔹
   # Torrent client
   qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:5.1.4
+    image: lscr.io/linuxserver/qbittorrent:5.2.3
     container_name: qbittorrent
     network_mode: "service:gluetun"
     restart: unless-stopped
@@ -207,7 +207,7 @@ services:
   # 🔹🔹 PROWLARR  🔹🔹
   # With Prowlarr, the user gets Indexer Sync and seamless integration support with various PVR apps. In addition, with Prowlarr, the user can manage all Torrent trackers and Usenet Indexers from one place while providing support for automation with the search for and download content, irrespective of the content type.
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:2.3.0
+    image: lscr.io/linuxserver/prowlarr:2.5.2
     container_name: prowlarr
     network_mode: "service:gluetun"
     restart: unless-stopped
@@ -221,7 +221,7 @@ services:
   # 🔹🔹 SONARR  🔹🔹
   # Sonarr is a PVR for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new episodes of your favorite shows and will grab, sort and rename them.
   sonarr:
-    image: lscr.io/linuxserver/sonarr:4.0.16
+    image: lscr.io/linuxserver/sonarr:4.0.19
     container_name: sonarr
     network_mode: "service:gluetun"
     restart: unless-stopped
@@ -237,7 +237,7 @@ services:
   # 🔹🔹 RADARR  🔹🔹
   # Radarr is similar to Sonarr but grabs movies instead of TV shows.
   radarr:
-    image: lscr.io/linuxserver/radarr:6.0.4
+    image: lscr.io/linuxserver/radarr:6.3.0
     container_name: radarr
     network_mode: "service:gluetun"
     restart: unless-stopped
@@ -284,7 +284,7 @@ services:
   # 🔹🔹 BAZARR  🔹🔹
   # Bazarr is a companion application to Sonarr and Radarr that manages and downloads subtitles based on your requirements.
   bazarr:
-    image: lscr.io/linuxserver/bazarr:1.5.6
+    image: lscr.io/linuxserver/bazarr:1.6.0
     container_name: bazarr
     network_mode: "service:gluetun"
     restart: unless-stopped
