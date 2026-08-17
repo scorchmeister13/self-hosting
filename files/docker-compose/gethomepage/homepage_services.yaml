@@ -286,21 +286,12 @@
           version: 4
           metric: disk:sdc
 
-- Speedtest:
-  - Speedtest:
-      weight: 0
-      widget:
-        type: speedtest
-        url: https://speedtest.{{ domain }}
-        version: 1
-        bitratePrecision: 3
-
-
 - Proxmox:
   - JP-AWK-NAS01:
       weight: 0
       icon: si-proxmox.svg
       href: https://jp-awk-nas01.{{ domain }}:8006
+      siteMonitor: https://jp-awk-nas01.{{ domain }}:8006
       widget:
         type: proxmox
         url: https://jp-awk-nas01.{{ domain }}:8006
@@ -570,7 +561,11 @@
         container: speedtest
         href: https://speedtest.{{ domain }}
         siteMonitor: https://speedtest.{{ domain }}
-        showStats: true
+        widget:
+          type: speedtest
+          url: https://speedtest.{{ domain }}
+          version: 1
+          bitratePrecision: 3
   - Node02 Apps:
     - DNS-02:
         weight: 0
