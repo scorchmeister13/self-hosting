@@ -11,7 +11,7 @@ theme: dark
 color: stone
 cardBlur: md
 hideVersion: false
-statusStyle: dot
+statusStyle: basic
 disableCollapse: true
 fullWidth: true
 layout:
