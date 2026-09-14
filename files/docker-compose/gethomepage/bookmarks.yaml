@@ -6,6 +6,12 @@
   - Scorch13:
     - abbr: GH
       href: https://github.com/scorchmeister13
+  - Selfh.st:
+    - abbr: SH
+      href: https://selfh.st/apps/
+  - Awesome Selfhost:
+    - abbr: ASH
+      href: https://github.com/hotheadhacker/awesome-selfhost-docker
 
 - Icons:
   - Material Design Icons:
