@@ -1,0 +1,40 @@
+services:
+  homeassistant:
+    container_name: homeassistant
+    image: ghcr.io/home-assistant/home-assistant:stable
+    restart: unless-stopped
+    stop_grace_period: 60s
+    privileged: true
+    # Host networking is required for mDNS, SSDP, and other local discovery.
+    # It cannot also join the proxy network, so Traefik reaches it through homeassistant-proxy.
+    network_mode: host
+    environment:
+      - TZ={{ timezone }}
+    volumes:
+      - ./config:/config
+      - /etc/localtime:/etc/localtime:ro
+      # - /run/dbus:/run/dbus:ro
+
+  homeassistant-proxy:
+    container_name: homeassistant-proxy
+    image: alpine/socat:1.8.1.1
+    restart: unless-stopped
+    depends_on:
+      - homeassistant
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command: TCP-LISTEN:8123,fork,reuseaddr TCP:host.docker.internal:8123
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.homeassistant.rule=Host(`home.{{ domain }}`)"
+      - "traefik.http.routers.homeassistant.entrypoints=websecure"
+      - "traefik.http.routers.homeassistant.tls=true"
+      - "traefik.http.routers.homeassistant.tls.certresolver=letsencrypt"
+      - "traefik.http.services.homeassistant.loadbalancer.server.port=8123"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true

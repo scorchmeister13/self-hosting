@@ -42,6 +42,7 @@ Active stacks live under [`files/docker-compose/`](files/docker-compose/). Entri
 | [gethomepage](files/docker-compose/gethomepage/docker-compose.yaml) | Application dashboard (Homepage) with Docker and service widgets |
 | [glances](files/docker-compose/glances/docker-compose.yaml) | System monitoring with a web interface (CPU, memory, disks, Docker, and plugins) |
 | [gt7dashboard](files/docker-compose/gt7dashboard/docker-compose.yaml) | Gran Turismo 7 telemetry dashboard |
+| [home-assistant](files/docker-compose/home-assistant/docker-compose.yaml) | Home automation, reached through Traefik at `ha.<domain>` |
 | [immich](files/docker-compose/immich/docker-compose.yaml) | Self-hosted photo and video library |
 | [media-stack](files/docker-compose/media-stack/docker-compose.yaml) | Media automation behind a VPN client (Gluetun): Jellyfin, *arr apps, qBittorrent, Seerr, and related helpers |
 | [nextcloud](files/docker-compose/nextcloud/docker-compose.yaml) | Files, contacts, and collaboration |

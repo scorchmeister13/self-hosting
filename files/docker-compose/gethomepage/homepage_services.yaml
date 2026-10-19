@@ -566,6 +566,14 @@
           url: https://speedtest.{{ domain }}
           version: 1
           bitratePrecision: 3
+    - Home Assistant:
+        weight: 3
+        icon: si-homeassistant.svg
+        server: docker-node01
+        container: homeassistant
+        href: https://home.{{ domain }}
+        siteMonitor: https://home.{{ domain }}
+        showStats: true
   - Node02 Apps:
     - DNS-02:
         weight: 0
@@ -585,8 +593,8 @@
         icon: homepage.png
         server: docker-node02
         container: gethomepage-homepage-1
-        href: https://home.{{ domain }}
-        siteMonitor: https://home.{{ domain }}
+        href: https://dashboard.{{ domain }}
+        siteMonitor: https://dashboard.{{ domain }}
         showStats: true
     - Vaultwarden:
         weight: 2

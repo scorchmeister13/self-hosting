@@ -1,0 +1,9 @@
+# Seeded on first deploy only. Later edits on the host are left in place.
+# Proxy trust lives in .storage/http. Since 2026.8 an http: block is imported
+# once as an unconfirmed trial and reverted after five minutes.
+
+homeassistant:
+  external_url: "https://home.{{ domain }}"
+  internal_url: "http://{{ ansible_host }}:8123"
+
+default_config:

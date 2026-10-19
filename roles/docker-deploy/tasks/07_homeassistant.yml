@@ -1,0 +1,33 @@
+- name: Ensure Home Assistant config directory exists
+  ansible.builtin.file:
+    path: /opt/stacks/{{ application_target }}/config
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+
+- name: Seed Home Assistant configuration.yaml when missing
+  ansible.builtin.template:
+    src: "files/docker-compose/{{ application_target }}/configuration.yaml.j2"
+    dest: "/opt/stacks/{{ application_target }}/config/configuration.yaml"
+    mode: '0644'
+    owner: root
+    group: root
+    force: false
+
+- name: Ensure Home Assistant storage directory exists
+  ansible.builtin.file:
+    path: /opt/stacks/{{ application_target }}/config/.storage
+    state: directory
+    mode: '0700'
+    owner: root
+    group: root
+
+- name: Seed Home Assistant HTTP proxy trust when missing
+  ansible.builtin.template:
+    src: "files/docker-compose/{{ application_target }}/http.storage.j2"
+    dest: "/opt/stacks/{{ application_target }}/config/.storage/http"
+    mode: '0600'
+    owner: root
+    group: root
+    force: false
